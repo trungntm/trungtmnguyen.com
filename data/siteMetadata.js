@@ -1,8 +1,8 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'trungtmnguyen',
+  title: 'Chuyện coder',
   author: 'Nguyen Ta Minh Trung',
-  headerTitle: 'trungtmnguyen',
+  headerTitle: 'Chuyện coder',
   description: 'Between 🪑 and ⌨️',
   language: 'en-us',
   theme: 'system', // system, dark or light
