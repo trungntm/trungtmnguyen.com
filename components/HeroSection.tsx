@@ -49,6 +49,9 @@ const HeroSection = () => {
               <h1 className="mb-16 text-5xl font-bold tracking-tight md:text-6xl xl:text-7xl">
                 <span className="text-primary">Nguyễn Tạ Minh Trung</span>
               </h1>
+              <h5 className="mb-16 text-xl font-bold tracking-tight md:text-2xl xl:text-3xl">
+                Senior software engineer
+              </h5>
               <Link
                 className="text-primary inline-block rounded px-12 pb-3.5 pt-4 text-sm font-medium uppercase leading-normal transition duration-150 ease-in-out hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:hover:bg-neutral-700 dark:hover:bg-opacity-60"
                 data-te-ripple-color="light"
@@ -62,6 +65,7 @@ const HeroSection = () => {
               <Image
                 width={440}
                 height={660}
+                priority={true}
                 src="/static/images/pages/hero.jpg"
                 className="w-full rounded-lg shadow-lg dark:shadow-black/20"
                 alt=""
