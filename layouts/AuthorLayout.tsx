@@ -27,6 +27,7 @@ export default function AuthorLayout({ children, content }: Props) {
                 alt="avatar"
                 width={192}
                 height={192}
+                priority={true}
                 className="h-48 w-48 rounded-full"
               />
             )}
