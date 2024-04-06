@@ -4228,6 +4228,7 @@ __metadata:
     prettier-plugin-tailwindcss: ^0.5.11
     react: 18.2.0
     react-dom: 18.2.0
+    react-vertical-timeline-component: ^3.6.0
     reading-time: 1.5.0
     rehype-autolink-headings: ^6.1.0
     rehype-citation: ^1.0.2
@@ -4248,6 +4249,13 @@ __metadata:
   version: 2.4.63
   resolution: "citeproc@npm:2.4.63"
   checksum: 15a22d857cabca6e28b79d52cff094949031145b3ff223ec17cb1b7f1be68b9ad63e8fcaa8621685f10c3c09daf72be58f9e9d20ef322e70e2b60dfbade27dc7
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.2.6":
+  version: 2.5.1
+  resolution: "classnames@npm:2.5.1"
+  checksum: da424a8a6f3a96a2e87d01a432ba19315503294ac7e025f9fece656db6b6a0f7b5003bb1fbb51cbb0d9624d964f1b9bb35a51c73af9b2434c7b292c42231c1e5
   languageName: node
   linkType: hard
 
@@ -9463,7 +9471,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -9545,10 +9553,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-intersection-observer@npm:^8.26.2":
+  version: 8.34.0
+  resolution: "react-intersection-observer@npm:8.34.0"
+  peerDependencies:
+    react: ^15.0.0 || ^16.0.0 || ^17.0.0|| ^18.0.0
+  checksum: 7713fecfd1512c7f5a60f9f0bf15403b8f8bbd4110bcafaeaea6de36a0e0eb60368c3638f99e9c97b75ad8fc787ea48c241dcb5c694f821d7f2976f709082cc5
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
+  languageName: node
+  linkType: hard
+
+"react-vertical-timeline-component@npm:^3.6.0":
+  version: 3.6.0
+  resolution: "react-vertical-timeline-component@npm:3.6.0"
+  dependencies:
+    classnames: ^2.2.6
+    prop-types: ^15.7.2
+    react-intersection-observer: ^8.26.2
+  checksum: eb1d922826404fa0f41546977537510dd3b1b2036c2a42fbe58e7f5fd610053ac6fb34317516315d67a8392511839e990e59ad2433ff63fbe5c5b975b9edfbfc
   languageName: node
   linkType: hard
 

@@ -1,7 +1,7 @@
-import {genPageMetadata} from '../seo'
-import {allResumes, Resumes} from 'contentlayer/generated'
-import {coreContent} from 'pliny/utils/contentlayer'
-import {MDXLayoutRenderer} from 'pliny/mdx-components'
+import { genPageMetadata } from '../seo'
+import { allResumes, Resumes } from 'contentlayer/generated'
+import { coreContent } from 'pliny/utils/contentlayer'
+import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import ResumeLayout from '@/layouts/ResumeLayout'
 
 export const metadata = genPageMetadata({ title: 'Resume' })
