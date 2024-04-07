@@ -6,12 +6,12 @@ const siteMetadata = {
   description: 'Between 🪑 and ⌨️',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://chuyencoder-ui.vercel.app/',
+  siteRepo: 'https://github.com/trungntm/chuyencoder-ui',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
   mastodon: 'https://mastodon.social/@mastodonuser',
-  email: 'trungntm.mdx.97@gmail.com',
+  email: 'trungntm.97@gmail.com',
   github: 'https://github.com',
   twitter: 'https://twitter.com/Twitter',
   facebook: 'https://facebook.com',
@@ -32,7 +32,7 @@ const siteMetadata = {
       // Remember to add 'us.umami.is' in `next.config.js` as a permitted domain for the CSP
     },
     // plausibleAnalytics: {
-    //   plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
+    //   plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blogs.vercel.app
     // },
     // simpleAnalytics: {},
     // posthogAnalytics: {
