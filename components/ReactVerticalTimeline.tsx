@@ -33,9 +33,9 @@ const ReactVerticalTimeline = () => {
           date="2019 - Oct 2022"
           iconStyle={{ background: '#fff', color: '#fff' }}
         >
-          <h3 className="vertical-timeline-element-title text-primary-500">Junior developer</h3>
-          <h4 className="vertical-timeline-element-subtitle">
-            <span> Marketlive - Kibo Commerce - KMS Technology, Inc</span>
+          <h3 className="vertical-timeline-element-title py-1">Software Engineer</h3>
+          <h4 className="vertical-timeline-element-subtitle py-1">
+            Kibo Commerce - KMS Technology
           </h4>
           <ul>
             <li>An E-Commerce platform which is provided B2C and B2B commerce business</li>
@@ -56,8 +56,8 @@ const ReactVerticalTimeline = () => {
           date="Jun 2021 - Apr 2022"
           iconStyle={{ background: '#fff', color: '#fff' }}
         >
-          <h3 className="vertical-timeline-element-title">Software Engineer</h3>
-          <h4 className="vertical-timeline-element-subtitle">PingIdentity - KMS Technology, Inc</h4>
+          <h3 className="vertical-timeline-element-title py-1">Software Engineer</h3>
+          <h4 className="vertical-timeline-element-subtitle py-1">PingIdentity - KMS Technology</h4>
           <ul>
             <li>
               Identity security platform provided Single Sign-On service and access management.
@@ -85,8 +85,8 @@ const ReactVerticalTimeline = () => {
           date="Oct 2022 - present"
           iconStyle={{ background: '#fff', color: '#fff' }}
         >
-          <h3 className="vertical-timeline-element-title">Senior Software Engineer</h3>
-          <h4 className="vertical-timeline-element-subtitle">GoFan - KMS Technology, Inc</h4>
+          <h3 className="vertical-timeline-element-title py-1">Senior Software Engineer</h3>
+          <h4 className="vertical-timeline-element-subtitle py-1">GoFan - KMS Technology, Inc</h4>
           <ul>
             <li>
               An E-Commerce system with main products are tickets of sports competitors at American
