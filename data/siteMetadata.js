@@ -12,13 +12,9 @@ const siteMetadata = {
   socialBanner: '/static/images/twitter-card.png',
   mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'trungntm.97@gmail.com',
-  github: 'https://github.com',
-  twitter: 'https://twitter.com/Twitter',
-  facebook: 'https://facebook.com',
-  youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com',
-  threads: 'https://www.threads.net',
-  instagram: 'https://www.instagram.com',
+  github: 'https://github.com/trungntm',
+  facebook: 'https://www.facebook.com/trungtmnguyen',
+  linkedin: 'https://www.linkedin.com/in/trung-nguyen-590720192/',
   locale: 'en-US',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
