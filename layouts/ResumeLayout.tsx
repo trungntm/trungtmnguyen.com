@@ -45,7 +45,7 @@ export default function ResumeLayout({ children, content }: Props) {
             {children}
           </div>
         </div>
-        <div className={'pt-2'}>
+        <div className={'p-2'}>
           <ReactVerticalTimeline />
         </div>
       </div>
