@@ -75,7 +75,7 @@ function createSearchIndex(allBlogs) {
   }
 }
 
-export const Blog = defineDocumentType(() => ({
+export const Blogs = defineDocumentType(() => ({
   name: 'Blog',
   filePathPattern: 'blog/**/*.mdx',
   contentType: 'mdx',
@@ -148,7 +148,7 @@ export const Resumes = defineDocumentType(() => ({
 
 export default makeSource({
   contentDirPath: 'data',
-  documentTypes: [Blog, Authors, Resumes],
+  documentTypes: [Blogs, Authors, Resumes],
   mdx: {
     cwd: process.cwd(),
     remarkPlugins: [
