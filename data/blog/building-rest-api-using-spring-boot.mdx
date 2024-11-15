@@ -7,10 +7,13 @@ images: ['/static/images/canada/mountains.jpg', '/static/images/canada/toronto.j
 summary: 'Build a simple Rest API using Spring boot'
 authors: [trungntm]
 ---
+
 # Introduction
+
 Developers are no longer unfamiliar with the Restful API. Using the HTTP protocol, we may effortlessly communicate with other applications by using Restful API.... So, let's start a new Rest API with Spring boot.
 
 Wait.... Before starting, we have to setup environments as a Java backend developers 👨🏻‍💻:
+
 1. Java - [SDK Manager](https://sdkman.io/) is recommended
 2. Maven or Gradle
 3. Code IDE - [IntelliJ](https://www.jetbrains.com/) is recommended
@@ -18,14 +21,16 @@ Wait.... Before starting, we have to setup environments as a Java backend develo
 Okay! The few things above are enough to get start... Let's go 🚀
 
 # Getting started
+
 - In this article, I am going to using Maven for dependencies management, postgresql as database.
 - Going to [Spring Initializr](https://start.spring.io/) and generating a new Spring project with following the dependencies:
-    - Spring Web
-    - Lombok
-    - postgresql
-    - Spring JPA
+  - Spring Web
+  - Lombok
+  - postgresql
+  - Spring JPA
 
 ![Spring Initializr](/static/images/blogs/building-rest-api-using-spring-boot/spring-initializr.png)
+
 - Opening the downloaded project with your IDE
 
 Alternative, if you are using `IntelliJ Ultimate IDE`, it's easy to create a Spring boot project on your machine
@@ -35,6 +40,7 @@ Next,
 Then, create
 
 ## Database setup
+
 - `Postgresql` can be downloaded via internet and install directly on your machine
 - Alternatively, `Docker` is also a good option for every developers. A `docker-compose.yml` file is needed and we can easily start and use `postgresql` on your local by command `docker-compose up`
 
@@ -57,6 +63,7 @@ services:
 ## Okay, then, time to coding ... 👨‍💻
 
 # Architecture
+
 1. **Controller**: a controller is a class responsible for handling incoming HTTP requests and returning an appropriate HTTP response
 2. **Service**: a service is a type of class or component that encapsulates business logic or application functionality that can be reused across different parts of an application.
 3. **Repository**: a repository is a mechanism or component responsible for handling the storage, retrieval, and management of domain objects or entities.
@@ -120,13 +127,16 @@ public class PersonController {
 ## Creating a service
 
 - `PersonService` is an interface which defines all business methods relevant of `Person` entity
+
 ```
 public interface PersonService {
     List<Person> getAllPersons();
     Person getPersonById(Long id);
 }
 ```
+
 - `PersonServiceImpl` is an implementation, where implements the business logic for all methods. It is identified by `@Service` annotation
+
 ```
 @Service
 @RequiredArgsConstructor
@@ -148,6 +158,7 @@ public class PersonServiceImpl implements PersonService {
 ## Creating a repository
 
 - `PersonRepository` is a interface, which extends from `JpaRepository` - an interface provided by the Spring Data JPA framework, which simplifies the implementation of data access layers in Spring applications.
+
 ```
 public interface PersonRepository extends JpaRepository<Person, Long> {
     Optional<Person> findById(long id);
@@ -156,7 +167,9 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 ```
 
 ## The final step
+
 - Update your `application.properties` file as below:
+
 ```
 spring.application.name=spring-boot-rest-api
 spring.datasource.driver-class-name=org.postgresql.Driver
@@ -168,7 +181,9 @@ spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=create-drop
 
 ```
+
 - Now, this is time for data preparation before see the magic from APIs.
+
 ```
 @SpringBootApplication
 public class SpringBootRestApiApplication implements CommandLineRunner {
