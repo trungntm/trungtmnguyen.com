@@ -1,0 +1,283 @@
+---
+title: Java 8 key features
+date: '2024-11-16'
+tags: ['Java', 'Java8']
+draft: false
+summary: 'Java 8 key features'
+authors: [trungntm]
+---
+
+# Introduction
+
+<strong>Java 8 </strong> was release on 18th March 2014. That’s a long time ago but still many projects
+are running on Java 8. It’s because it was a major release with a lot of new features.
+
+## Major Java 8 Features Introduced
+
+- Lambda expressions & functional interface
+- Stream API
+- Default and Static Methods in Interfaces
+- Optional Class
+- Date and Time API (java.time)
+- Streams Parallel Processing
+- Method References
+- Collectors in Streams
+- Nashorn JavaScript Engine
+- Base64 Encoding and Decoding
+
+# 1. Lambda expressions & functional interface
+
+- Lambda expressions provide a way to define inline anonymous functions.
+
+## Example:
+
+```
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+names.forEach(name -> System.out.println(name));
+```
+
+- Functional interface: Lambda expressions implement single abstract methods of functional interfaces.
+
+## Example:
+
+```
+@FunctionalInterface
+interface Calculation
+{
+    void double(int x);
+}
+
+class Test
+{
+    public static void main(String args[])
+    {
+
+        Calculation result = (int x) -> System.out.println(2*x);
+
+        // This calls above lambda expression and prints 10.
+        result.double(5);
+    }
+}
+```
+
+## Output:
+
+```
+10
+```
+
+# 2. Stream API
+
+- The Streams API provides a functional approach to processing collections of data (like filtering, mapping, reducing).
+
+## Example:
+
+```
+import java.util.Arrays;
+import java.util.List;
+
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+
+// Filter names that start with 'A' and print them
+names.stream()
+     .filter(name -> name.startsWith("A"))
+     .forEach(System.out::println);
+```
+
+## Output:
+
+```
+Alice
+```
+
+# 3. Default and Static Methods in Interfaces
+
+- Interfaces can now have methods with default implementations using the `default` keyword. You can also add `static` methods in interfaces.
+
+## Example:
+
+```
+interface MyInterface {
+    default void defaultMethod() {
+        System.out.println("Default method");
+    }
+
+    static void staticMethod() {
+        System.out.println("Static method");
+    }
+}
+
+class MyClass implements MyInterface {}
+
+MyClass obj = new MyClass();
+obj.defaultMethod(); // Calls default method
+MyInterface.staticMethod(); // Calls static method
+```
+
+## Output:
+
+```
+Default method
+Static method
+```
+
+# 4. Optional Class
+
+- The `Optional` class helps to avoid `NullPointerException` by providing a container for values that may or may not be null.
+
+## Example:
+
+```
+import java.util.Optional;
+
+Optional<String> name = Optional.ofNullable(null);
+System.out.println(name.orElse("Default Name")); // Prints "Default Name"
+```
+
+## Output:
+
+```
+Default Name
+```
+
+# 5. Date and Time API (java.time)
+
+- A new `Date and Time API` was introduced in the `java.time` package, which is immutable and thread-safe.
+
+## Example:
+
+```
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.LocalDateTime;
+
+LocalDate date = LocalDate.now();
+LocalTime time = LocalTime.now();
+LocalDateTime dateTime = LocalDateTime.now();
+
+System.out.println(date); // Prints current date
+System.out.println(time); // Prints current time
+System.out.println(dateTime); // Prints current date and time
+```
+
+## Output:
+
+```
+2024-11-17
+01:08:14.093
+2024-11-17T01:08:14.093
+```
+
+# 6. Streams Parallel Processing
+
+- Streams can be processed in parallel to utilize multiple CPU cores and improve performance.
+
+## Example:
+
+```
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+numbers.parallelStream()
+       .forEach(System.out::println); // Processes elements in parallel
+
+```
+
+## Output:
+
+```
+3
+4
+5
+1
+2
+```
+
+# 7. Method References
+
+- Method references provide a shorthand for referring to methods of existing classes or objects.
+
+## Example:
+
+```
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+
+// Using Lambda
+names.forEach(name -> System.out.println(name));
+
+// Using Method Reference
+names.forEach(System.out::println);
+```
+
+## Output:
+
+```
+--- Using Lambda
+Alice
+Bob
+Charlie
+--- Using Method Reference
+Alice
+Bob
+Charlie
+```
+
+# 8. Collectors in Streams
+
+- Java 8 introduced `Collectors` for accumulating elements of a stream into collections like `lists`, `maps`, or custom types.
+
+## Example:
+
+```
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+List<String> filteredNames = names.stream()
+        .filter(name -> name.startsWith("A"))
+        .collect(Collectors.toList());
+
+System.out.println(filteredNames);
+```
+
+## Output:
+
+```
+[Alice]
+```
+
+# 9. Nashorn JavaScript Engine
+
+- The Nashorn engine allows you to execute JavaScript code within a Java application.
+
+## Example:
+
+```
+ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+engine.eval("print('Hello from JavaScript!')");
+```
+
+## Output:
+
+```
+Hello from JavaScript!
+```
+
+# 10. Base64 Encoding and Decoding
+
+- Java 8 introduced `java.util.Base64` for encoding and decoding Base64 data.
+
+## Example:
+
+```
+import java.util.Base64;
+
+String original = "Hello, Java 8!";
+String encoded = Base64.getEncoder().encodeToString(original.getBytes());
+String decoded = new String(Base64.getDecoder().decode(encoded));
+
+System.out.println(encoded); // Encoded string
+System.out.println(decoded); // Original string
+```
+
+## Output:
+
+```
+SGVsbG8sIEphdmEgOCE=
+Hello, Java 8!
+```
