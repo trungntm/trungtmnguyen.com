@@ -36,6 +36,14 @@ List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
 names.forEach(name -> System.out.println(name));
 ```
 
+## Output:
+
+```
+Alice
+Bob
+Charlie
+```
+
 - Functional interface: Lambda expressions implement single abstract methods of functional interfaces.
 
 ## Example:
@@ -51,7 +59,6 @@ class Test
 {
     public static void main(String args[])
     {
-
         Calculation result = (int x) -> System.out.println(2*x);
 
         // This calls above lambda expression and prints 10.
@@ -178,7 +185,6 @@ System.out.println(dateTime); // Prints current date and time
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
 numbers.parallelStream()
        .forEach(System.out::println); // Processes elements in parallel
-
 ```
 
 ## Output:
