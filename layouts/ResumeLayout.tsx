@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
-import type { Authors, Resumes } from 'contentlayer/generated'
+import type { Resumes } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
-import ReactVerticalTimeline from '@/components/ReactVerticalTimeline'
+import ReactVerticalTimeline from '@/components/ReactVerticalTimeline/ReactVerticalTimeline'
 
 interface Props {
   children: ReactNode
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function ResumeLayout({ children, content }: Props) {
-  const { name, avatar, occupation, company, email, twitter, linkedin, github } = content
+  const { name, avatar, occupation, company, phone, email, twitter, linkedin, github } = content
 
   return (
     <>
@@ -35,6 +35,8 @@ export default function ResumeLayout({ children, content }: Props) {
             <h3 className="pb-2 pt-4 text-2xl font-bold leading-8 tracking-tight">{name}</h3>
             <div className="text-gray-500 dark:text-gray-400">{occupation}</div>
             <div className="text-gray-500 dark:text-gray-400">{company}</div>
+            <div className="text-gray-500 dark:text-gray-400">{email}</div>
+            <div className="text-gray-500 dark:text-gray-400">{phone}</div>
             <div className="flex space-x-3 pt-6">
               <SocialIcon kind="mail" href={`mailto:${email}`} />
               <SocialIcon kind="github" href={github} />
