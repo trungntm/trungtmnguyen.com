@@ -1,16 +1,17 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Chuyện coder',
+  title: 'trungtmnguyen',
   author: 'Nguyen Ta Minh Trung',
-  headerTitle: 'Chuyện coder',
+  headerTitle: 'trungtmnguyen',
   description: 'Between 🪑 and ⌨️',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://chuyencoder-ui.vercel.app/',
+  siteUrl: 'https://trungtmnguyen.com/',
   siteRepo: 'https://github.com/trungntm/chuyencoder-ui',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
   mastodon: 'https://mastodon.social/@mastodonuser',
+  phone: '+84 384 648 350',
   email: 'trungntm.97@gmail.com',
   github: 'https://github.com/trungntm',
   facebook: 'https://www.facebook.com/trungtmnguyen',
