@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import type { Resumes } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
-import ReactVerticalTimeline from '@/components/ReactVerticalTimeline/ReactVerticalTimeline'
+import ReactVerticalTimeline from '@/components/ReactVerticalTimeline'
 
 interface Props {
   children: ReactNode
@@ -48,6 +48,8 @@ export default function ResumeLayout({ children, content }: Props) {
             {children}
           </div>
         </div>
+
+        {/* Work Experience */}
         <div className={'p-2'}>
           <ReactVerticalTimeline />
         </div>
