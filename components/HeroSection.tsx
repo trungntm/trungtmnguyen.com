@@ -55,7 +55,7 @@ const HeroSection = () => {
               <Link
                 className="text-primary inline-block rounded px-12 pb-3.5 pt-4 text-sm font-medium uppercase leading-normal transition duration-150 ease-in-out hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:hover:bg-neutral-700 dark:hover:bg-opacity-60"
                 data-te-ripple-color="light"
-                href="/about"
+                href="/resume"
                 role="button"
               >
                 About me &rarr;
