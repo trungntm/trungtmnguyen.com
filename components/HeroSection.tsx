@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from '@/components/Image'
+import { BlinkCursor } from '@/components/cursor'
 
 const HeroSection = () => {
   return (
@@ -26,10 +27,11 @@ const HeroSection = () => {
                   I love building{' '}
                   <strong>scalable, efficient, and user-friendly applications</strong> while
                   exploring new technologies.
+                  <BlinkCursor />
                 </h4>
               </div>
               <Link
-                className="text-primary inline-block rounded px-12 pb-3.5 pt-4 text-sm font-medium uppercase leading-normal transition duration-150 ease-in-out hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:hover:bg-neutral-700 dark:hover:bg-opacity-60"
+                className="text-primary inline-block rounded bg-gray-100 px-12 pb-3.5 pt-4 text-sm font-medium uppercase leading-normal transition duration-150 ease-in-out hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:bg-gray-700 dark:hover:bg-neutral-700 dark:hover:bg-opacity-60"
                 data-te-ripple-color="light"
                 href="/about"
                 role="button"
