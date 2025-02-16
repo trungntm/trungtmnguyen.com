@@ -13,6 +13,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@emotion/styled": "^11.14.0",
     "@headlessui/react": "2.2.0",
     "@heroicons/react": "^2.1.5",
     "@next/bundle-analyzer": "15.0.2",
