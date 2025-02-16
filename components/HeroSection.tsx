@@ -15,7 +15,7 @@ const HeroSection = () => {
                 </span>
               </h1>
               <div className="mb-16 tracking-tight md:text-lg xl:text-lg">
-                <h4 className={'pt-2'}>🚀 Passionate Software Developer | Tech Enthusiast</h4>
+                <h4 className={'pt-2'}>🚀 Passionate Software Engineer | Tech Enthusiast</h4>
                 <h4 className={'pt-2'}>
                   💻 Main Stacks: <strong>Java Spring Boot</strong> | <strong>React.js</strong>
                 </h4>

@@ -9,7 +9,7 @@ const siteMetadata = {
   siteUrl: 'https://trungtmnguyen.com/',
   siteRepo: 'https://github.com/trungntm/chuyencoder-ui',
   siteLogo: '/static/images/logo.png',
-  socialBanner: '/static/images/twitter-card.png',
+  socialBanner: '/static/images/pages/avatar.png',
   mastodon: 'https://mastodon.social/@mastodonuser',
   phone: '+84 384 648 350',
   email: 'trungntm.97@gmail.com',
