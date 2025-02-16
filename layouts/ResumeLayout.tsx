@@ -2,7 +2,6 @@ import { ReactNode } from 'react'
 import type { Resumes } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
-import ReactVerticalTimeline from '@/components/ReactVerticalTimeline'
 
 interface Props {
   children: ReactNode
@@ -47,11 +46,6 @@ export default function ResumeLayout({ children, content }: Props) {
           <div className="prose max-w-none pb-8 pt-8 dark:prose-invert xl:col-span-2">
             {children}
           </div>
-        </div>
-
-        {/* Work Experience */}
-        <div className={'p-2'}>
-          <ReactVerticalTimeline />
         </div>
       </div>
     </>
