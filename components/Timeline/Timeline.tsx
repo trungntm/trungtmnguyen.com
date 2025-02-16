@@ -1,7 +1,7 @@
 'use client'
-import KMSLogo from '@/components/logo/kms'
 import { ReactElement, useState } from 'react'
 import { TimelineElement } from '@/components/Timeline/TimelineElement'
+import ImageLogo from '@/components/logo'
 
 export interface TimelineItem {
   company: string
@@ -30,7 +30,7 @@ const timelineData: TimelineItem[] = [
       'Becoming a Senior Software Engineer at Jan 2022.',
     ],
     links: [],
-    logo: <KMSLogo />,
+    logo: <ImageLogo src={'/static/logo/kms.png'} alt={'KMS logo'} />,
     projects: [
       {
         company: 'KMS Technology',
@@ -49,7 +49,7 @@ const timelineData: TimelineItem[] = [
           'Team size: 8 members',
         ],
         links: [],
-        logo: <KMSLogo />,
+        logo: <ImageLogo src={'/static/logo/Kibo.png'} alt={'Kibo logo'} />,
       },
       {
         company: 'KMS Technology',
@@ -64,7 +64,7 @@ const timelineData: TimelineItem[] = [
           'Team size: 8 members.',
         ],
         links: [],
-        logo: <KMSLogo />,
+        logo: <ImageLogo src={'/static/logo/PingIdentity.png'} alt={'PingIdentity logo'} />,
       },
       {
         company: 'KMS Technology',
@@ -81,7 +81,7 @@ const timelineData: TimelineItem[] = [
           'Team size: 10',
         ],
         links: [],
-        logo: <KMSLogo />,
+        logo: <ImageLogo src={'/static/logo/GoFan.png'} alt={'GoFan logo'} />,
       },
       {
         company: 'KMS Technology',
@@ -99,7 +99,7 @@ const timelineData: TimelineItem[] = [
           'Team size: 10',
         ],
         links: [],
-        logo: <KMSLogo />,
+        logo: <ImageLogo src={'/static/logo/LNI.png'} alt={'LNIKibo.png logo'} />,
       },
     ],
   },
@@ -113,7 +113,7 @@ export default function Timeline() {
           <div key={index} className="relative rounded-lg p-6 pb-0 pt-1 dark:bg-gray-900">
             <div className="absolute -left-12 top-4 h-12 w-11">{item.logo}</div>
             <p className="text-xs dark:text-gray-500">{item.duration}</p>
-            <h3 className="text-xl font-semibold dark:text-white">{item.company}</h3>
+            <h3 className="mt-2 text-xl font-semibold dark:text-gray-100">{item.company}</h3>
             <p className="text-sm dark:text-gray-400">{item.role}</p>
             <ul className="list-outside list-disc pl-4 dark:text-gray-600">
               {item.description.map((desc, index) => (

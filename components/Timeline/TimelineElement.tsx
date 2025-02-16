@@ -31,7 +31,7 @@ export const TimelineElement = ({ item, itemIndex }: TimelineElementProps): Reac
           >
             <div className="absolute -left-16 top-4 h-12 w-11">{item.logo}</div>
             <p className="text-xs text-gray-500">{item.duration}</p>
-            <h3 className="text-sm font-semibold dark:text-white">{item.project}</h3>
+            <h3 className="text-sm font-semibold dark:text-gray-100">{item.project}</h3>
             <p className="text-sm text-gray-400">{item.role}</p>
             <button
               onClick={() => setOpenIndex(openIndex === itemIndex ? null : itemIndex)}
