@@ -1,5 +1,5 @@
 'use client'
-import { ReactElement, useState } from 'react'
+import { ReactElement } from 'react'
 import { TimelineElement } from '@/components/Timeline/TimelineElement'
 import ImageLogo from '@/components/logo'
 
@@ -48,7 +48,7 @@ const timelineData: TimelineItem[] = [
           'Team size: 10',
         ],
         links: [],
-        logo: <ImageLogo src={'/static/logo/LNI.png'} alt={'LNIKibo.png logo'} />,
+        logo: <ImageLogo src={'/static/logo/LNI.png'} alt={'LNI logo'} />,
       },
       {
         company: 'KMS Technology',
