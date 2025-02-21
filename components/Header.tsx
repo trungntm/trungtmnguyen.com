@@ -5,10 +5,11 @@ import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 import ImageLogo from '@/components/logo'
+import { UnderlineHoverLink } from '@/components/UnderlineHoverLink'
 
 const Header = () => {
   return (
-    <header className="flex items-center justify-between py-10">
+    <header className="sticky top-0 flex items-center justify-between bg-white py-10 dark:bg-gray-950">
       <div>
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">
@@ -29,13 +30,14 @@ const Header = () => {
         {headerNavLinks
           .filter((link) => link.href !== '/' && link.active)
           .map((link) => (
-            <Link
+            <UnderlineHoverLink
               key={link.title}
               href={link.href}
-              className="hidden font-medium text-gray-900 dark:text-gray-100 sm:block"
+              label={link.title}
+              classname={'hidden font-medium text-gray-900 dark:text-gray-100 sm:block'}
             >
               {link.title}
-            </Link>
+            </UnderlineHoverLink>
           ))}
         <SearchButton />
         <ThemeSwitch />
