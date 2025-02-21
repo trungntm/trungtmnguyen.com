@@ -4,6 +4,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import HeroSection from '@/components/HeroSection'
+import { UnderlineHoverLink } from '@/components/UnderlineHoverLink'
 
 const MAX_DISPLAY = 5
 
@@ -24,7 +25,7 @@ export default function Home({ posts }) {
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
-          {posts.slice(0, MAX_DISPLAY).map((post) => {
+          {posts.slice(0, MAX_DISPLAY).map((post, index) => {
             const { slug, date, title, summary, tags } = post
             return (
               <li key={slug} className="py-12">
@@ -57,15 +58,13 @@ export default function Home({ posts }) {
                           {summary}
                         </div>
                       </div>
-                      <div className="text-base font-medium leading-6">
-                        <Link
-                          href={`/blog/${slug}`}
-                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                          aria-label={`Read more: "${title}"`}
-                        >
-                          Read more &rarr;
-                        </Link>
-                      </div>
+                      <UnderlineHoverLink
+                        key={`${slug}-${index}`}
+                        href={`/blog/${slug}`}
+                        label={`Read more: ${title}`}
+                      >
+                        Read more &rarr;
+                      </UnderlineHoverLink>
                     </div>
                   </div>
                 </article>
@@ -76,13 +75,9 @@ export default function Home({ posts }) {
       </div>
       {posts.length > MAX_DISPLAY && (
         <div className="flex justify-end text-base font-medium leading-6">
-          <Link
-            href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="All posts"
-          >
+          <UnderlineHoverLink href={'/blog'} label={'All posts'}>
             All Posts &rarr;
-          </Link>
+          </UnderlineHoverLink>
         </div>
       )}
       {siteMetadata.newsletter?.provider && (
