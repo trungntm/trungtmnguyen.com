@@ -89,8 +89,8 @@ const timelineData: TimelineItem[] = [
         duration: 'Jun 2019 – Oct 2022',
         description: [
           'Developing & Maintaining the E-commerce platform using Java, Spring framework, Apache tiles.',
-          'Developing new features for https://francescas.com/, https://www.ghbass.com/, https://www.donnakaran.com/',
-          'Implement Affirm checkout for AMR (https://www.ghbass.com/, https://www.donnakaran.com/, https://www.andrewmarc.com/)',
+          `Developing new features for <a target="_blank" href="https://francescas.com/">francescas.com</a>, <a target="_blank" href="https://www.ghbass.com/">ghbas.com</a>, <a target="_blank" href="https://www.donnakaran.com/">donnakaran.com</a>, <a target="_blank" href="https://www.andrewmarc.com/">andrewmarc.com</a>, <a target="_blank" href="https://www.karllagerfeldparis.com/">karllagerfeldparis.com</a>`,
+          'Implement Affirm checkout for AMR (<a target="_blank" href="https://www.ghbass.com/">ghbas.com</a>, <a target="_blank" href="https://www.donnakaran.com/">donnakaran.com</a>, <a target="_blank" href="https://www.andrewmarc.com/">andrewmarc.com</a>, <a target="_blank" href="https://www.karllagerfeldparis.com/">karllagerfeldparis.com</a>)',
           'Collaborating with on-shore teams to create the highest quality values for the clients.',
           'Be in-charge of performance during PEAK season, ensure the system is stable, high throughput and can handle the high traffic.',
           'Being Technical lead - heads up all technical issues.',
@@ -110,7 +110,7 @@ export default function Timeline() {
     <div className="mx-auto max-w-3xl p-6">
       <div className="space-y-8 border-l-2 border-gray-200 pl-6 dark:border-gray-500">
         {timelineData.map((item, index) => (
-          <div key={index} className="relative rounded-lg p-6 pb-0 pt-1 dark:bg-gray-900">
+          <div key={index} className="relative rounded-lg p-2 pb-0 pt-1 dark:bg-gray-900">
             <div className="absolute -left-12 top-4 h-12 w-11">{item.logo}</div>
             <p className="text-xs dark:text-gray-500">{item.duration}</p>
             <h3 className="mt-2 text-xl font-semibold dark:text-gray-100">{item.company}</h3>
