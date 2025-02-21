@@ -42,10 +42,13 @@ export const TimelineElement = ({ item, itemIndex }: TimelineElementProps): Reac
               </p>
             </button>
             {openIndex === itemIndex && (
-              <ul className="mt-1 list-outside list-disc pb-2 pl-4 dark:text-gray-600">
+              <ul className="mt-1 list-outside list-disc pb-2 pl-4 pr-2 dark:text-gray-600">
                 {item.description.map((desc, index) => (
                   <li key={index}>
-                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">{desc}</p>
+                    <p
+                      className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                      dangerouslySetInnerHTML={{ __html: desc }}
+                    ></p>
                   </li>
                 ))}
               </ul>
