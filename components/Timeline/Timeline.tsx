@@ -110,8 +110,8 @@ export default function Timeline() {
     <div className="mx-auto max-w-3xl p-6">
       <div className="space-y-8 border-l-2 border-gray-200 pl-6 dark:border-gray-500">
         {timelineData.map((item, index) => (
-          <div key={index} className="relative rounded-lg p-2 pb-0 pt-1 dark:bg-gray-900">
-            <div className="absolute -left-12 top-4 h-12 w-11">{item.logo}</div>
+          <div key={index} className="relative rounded-lg p-2 pt-1 pb-0 dark:bg-gray-900">
+            <div className="absolute top-4 -left-12 h-12 w-11">{item.logo}</div>
             <p className="text-xs dark:text-gray-500">{item.duration}</p>
             <h3 className="mt-2 text-xl font-semibold dark:text-gray-100">{item.company}</h3>
             <p className="text-sm dark:text-gray-400">{item.role}</p>

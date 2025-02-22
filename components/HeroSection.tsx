@@ -6,7 +6,7 @@ const HeroSection = () => {
   return (
     <section className="mb-40">
       <div className="px-6 py-12 text-center md:px-12 lg:my-12 lg:text-left">
-        <div className="w-100 mx-auto sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl">
+        <div className="mx-auto w-100 sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div className="mt-12 lg:mt-0">
               <h1 className="mb-16 text-xl font-bold tracking-tight md:text-3xl xl:text-3xl">
@@ -31,7 +31,7 @@ const HeroSection = () => {
                 </h4>
               </div>
               <Link
-                className="text-primary inline-block rounded bg-gray-100 px-12 pb-3.5 pt-4 text-sm font-medium uppercase leading-normal transition duration-150 ease-in-out hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:bg-gray-700 dark:hover:bg-neutral-700 dark:hover:bg-opacity-60"
+                className="text-primary hover:bg-opacity-10 hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:hover:bg-opacity-60 inline-block rounded bg-gray-100 px-12 pt-4 pb-3.5 text-sm leading-normal font-medium uppercase transition duration-150 ease-in-out hover:bg-neutral-500 focus:ring-0 focus:outline-none dark:bg-gray-700 dark:hover:bg-neutral-700"
                 data-te-ripple-color="light"
                 href="/about"
                 role="button"
