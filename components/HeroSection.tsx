@@ -31,7 +31,7 @@ const HeroSection = () => {
                 </h4>
               </div>
               <Link
-                className="text-primary hover:bg-opacity-10 hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:hover:bg-opacity-60 inline-block rounded bg-gray-100 px-12 pt-4 pb-3.5 text-sm leading-normal font-medium uppercase transition duration-150 ease-in-out hover:bg-gray-500 focus:ring-0 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-700"
+                className="text-primary hover:bg-opacity-10 hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:hover:bg-opacity-60 inline-block rounded bg-gray-100 px-12 pt-4 pb-3.5 text-sm leading-normal font-medium uppercase transition duration-150 ease-in-out hover:bg-gray-200 focus:ring-0 focus:outline-none dark:bg-gray-600 dark:hover:bg-gray-700"
                 data-te-ripple-color="light"
                 href="/about"
                 role="button"
