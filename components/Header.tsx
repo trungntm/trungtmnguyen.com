@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
@@ -7,47 +7,76 @@ import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 import ImageLogo from '@/components/logo'
+import { useEffect } from 'react'
 import { UnderlineHoverLink } from '@/components/UnderlineHoverLink'
 
 const Header = () => {
+  useEffect(() => {
+    const header = document.getElementById('nav')
+    const handleScroll = () => {
+      if (window.scrollY > 120) {
+        header?.classList.add('py-4')
+        header?.classList.remove('py-10')
+      } else {
+        header?.classList.add('py-10')
+        header?.classList.remove('py-4')
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
   return (
-    <header
-      className={`flex items-center justify-between bg-white py-10 transition-all duration-300 dark:bg-gray-950`}
-    >
-      <div>
-        <Link href="/" aria-label={siteMetadata.headerTitle}>
-          <div className="flex items-center justify-between">
-            <div className="mr-3">
-              <ImageLogo src={'/static/images/logo.png'} />
-            </div>
-            {typeof siteMetadata.headerTitle === 'string' ? (
-              <div className="hidden h-6 text-2xl font-semibold sm:block">
-                {siteMetadata.headerTitle}
+    <div className={'mx-auto max-w-3xl sm:px-6 xl:max-w-5xl xl:px-0'}>
+      <header
+        className={`fixed z-50 w-full max-w-3xl bg-white px-4 dark:bg-gray-950 sm:pl-6 sm:pr-16 md:px-8 xl:max-w-5xl xl:px-0`}
+      >
+        <div
+          id={'nav'}
+          className={'flex items-center justify-between py-10 transition-all duration-300'}
+        >
+          <div>
+            <Link href="/" aria-label={siteMetadata.headerTitle}>
+              <div className="flex items-center justify-between">
+                <div className="mr-3">
+                  <ImageLogo src={'/static/images/logo.png'} />
+                </div>
+                {typeof siteMetadata.headerTitle === 'string' ? (
+                  <div className="hidden h-6 text-2xl font-semibold sm:block">
+                    {siteMetadata.headerTitle}
+                  </div>
+                ) : (
+                  siteMetadata.headerTitle
+                )}
               </div>
-            ) : (
-              siteMetadata.headerTitle
-            )}
+            </Link>
           </div>
-        </Link>
-      </div>
-      <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
-        {headerNavLinks
-          .filter((link) => link.href !== '/' && link.active)
-          .map((link) => (
-            <UnderlineHoverLink
-              key={link.title}
-              href={link.href}
-              label={link.title}
-              classname={'hidden font-medium text-gray-900 dark:text-gray-100 sm:block'}
-            >
-              {link.title}
-            </UnderlineHoverLink>
-          ))}
-        <SearchButton />
-        <ThemeSwitch />
-        <MobileNav />
-      </div>
-    </header>
+          <div className="flex items-center justify-between space-x-2.5">
+            <div className={'flex items-center space-x-4 pr-2 sm:space-x-6 lg:space-x-4 lg:pr-8'}>
+              {headerNavLinks
+                .filter((link) => link.href !== '/' && link.active)
+                .map((link) => (
+                  <UnderlineHoverLink
+                    key={link.title}
+                    href={link.href}
+                    label={link.title}
+                    classname={'hidden font-medium text-gray-900 dark:text-gray-100 sm:block'}
+                  >
+                    {link.title}
+                  </UnderlineHoverLink>
+                ))}
+            </div>
+            <div className={'flex items-center space-x-4 pr-2 sm:space-x-6 lg:space-x-4'}>
+              <SearchButton />
+              <ThemeSwitch />
+              <MobileNav />
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
   )
 }
 
