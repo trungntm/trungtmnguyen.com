@@ -39,12 +39,13 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           </button>
         )}
         {prevPage && (
-          <Link
+          <UnderlineHoverLink
             href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
-            rel="prev"
+            label={'prev'}
+            rel={'prev'}
           >
             Previous
-          </Link>
+          </UnderlineHoverLink>
         )}
         <span>
           {currentPage} of {totalPages}
@@ -55,9 +56,13 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           </button>
         )}
         {nextPage && (
-          <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
+          <UnderlineHoverLink
+            href={`/${basePath}/page/${currentPage + 1}`}
+            label={'next'}
+            rel={'next'}
+          >
             Next
-          </Link>
+          </UnderlineHoverLink>
         )}
       </nav>
     </div>
