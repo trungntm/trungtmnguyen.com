@@ -10,6 +10,8 @@ import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
+import Image from '@/components/Image'
+import { UnderlineHoverLink } from '@/components/UnderlineHoverLink'
 
 interface PaginationProps {
   totalPages: number
@@ -23,7 +25,7 @@ interface ListLayoutProps {
 }
 
 function Pagination({ totalPages, currentPage }: PaginationProps) {
-  const pathname = usePathname()
+  const pathname = usePathname() ?? ''
   const basePath = pathname.split('/')[1]
   const prevPage = currentPage - 1 > 0
   const nextPage = currentPage + 1 <= totalPages
@@ -68,7 +70,7 @@ export default function ListLayoutWithTags({
   initialDisplayPosts = [],
   pagination,
 }: ListLayoutProps) {
-  const pathname = usePathname()
+  const pathname = usePathname() ?? ''
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
@@ -122,29 +124,45 @@ export default function ListLayoutWithTags({
           <div>
             <ul>
               {displayPosts.map((post) => {
-                const { path, date, title, summary, tags } = post
+                const { path, date, title, summary, tags, thumbnail = '' } = post
                 return (
                   <li key={path} className="py-5">
                     <article className="flex flex-col space-y-2 xl:space-y-0">
-                      <dl>
-                        <dt className="sr-only">Published on</dt>
-                        <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                          <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                        </dd>
-                      </dl>
-                      <div className="space-y-3">
-                        <div>
+                      <div className="flex flex-col gap-2 md:flex-row md:gap-8">
+                        <Link
+                          className={
+                            'relative block h-auto shrink-0 border pb-3 pl-0 pr-3 pt-0 hover:shadow-lg hover:shadow-gray-400 dark:hover:shadow-cyan-400 md:h-48 md:w-48'
+                          }
+                          href={`/blog/${slug}`}
+                        >
+                          <Image
+                            width={0}
+                            height={0}
+                            key={`${thumbnail}-${slug}`}
+                            src={thumbnail}
+                            alt={`Thumbnail: ${title}`}
+                            sizes={'w-46 h-36 md:w-48 md:h-48'}
+                            className={'h-full w-full'}
+                          />
+                        </Link>
+                        <div className={'pl-2 xl:col-span-3'}>
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
                             <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
                               {title}
                             </Link>
                           </h2>
-                          <div className="flex flex-wrap">
+                          <dl>
+                            <dt className="sr-only">Published on</dt>
+                            <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                              <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                            </dd>
+                          </dl>
+                          <div className="flex flex-wrap py-2">
                             {tags?.map((tag) => <Tag key={tag} text={tag} />)}
                           </div>
-                        </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
+                          <div className="prose max-w-none py-2 text-gray-500 dark:text-gray-400">
+                            {summary}
+                          </div>
                         </div>
                       </div>
                     </article>

@@ -27,14 +27,13 @@ export default function Home({ posts }) {
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post, index) => {
             const { slug, date, title, summary, tags, thumbnail = '' } = post
-            console.log(thumbnail)
             return (
               <li key={slug} className="py-12">
                 <article>
-                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:space-y-0">
+                  <div className="flex flex-col gap-2 md:flex-row md:gap-8">
                     <Link
                       className={
-                        'm-2 rounded-lg border border-gray-200 bg-white hover:shadow-lg hover:shadow-gray-400 dark:hover:shadow-cyan-400'
+                        'relative block h-auto shrink-0 border pb-3 pl-0 pr-3 pt-0 hover:shadow-lg hover:shadow-gray-400 dark:hover:shadow-cyan-400 md:h-60 md:w-60'
                       }
                       href={`/blog/${slug}`}
                     >
@@ -44,38 +43,33 @@ export default function Home({ posts }) {
                         key={`${thumbnail}-${slug}`}
                         src={thumbnail}
                         alt={`Thumbnail: ${title}`}
-                        sizes={'auto'}
-                        className={'h-full w-full object-contain'}
+                        sizes={'w-46 h-36 md:w-60 md:h-60'}
+                        className={'h-full w-full'}
                       />
                     </Link>
-                    <div className="space-y-5 pl-1 xl:col-span-3">
-                      <div className="space-y-6">
-                        <div>
-                          <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                            <Link
-                              href={`/blog/${slug}`}
-                              className="text-gray-900 dark:text-gray-100"
-                            >
-                              {title}
-                            </Link>
-                          </h2>
+                    <div className="space-y-4 md:space-y-6">
+                      <div className="space-y-4 md:space-y-6">
+                        <h2 className="text-2xl font-bold leading-8 tracking-tight">
+                          <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
+                            {title}
+                          </Link>
+                        </h2>
+                        <dl>
                           <dl>
-                            <dl>
-                              <dt className="sr-only">Published on</dt>
-                              <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                                <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                              </dd>
-                            </dl>
+                            <dt className="sr-only">Published on</dt>
+                            <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                              <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                            </dd>
                           </dl>
-                          <div className="flex flex-wrap">
-                            {tags.map((tag) => (
-                              <Tag key={tag} text={tag} />
-                            ))}
-                          </div>
+                        </dl>
+                        <div className="flex flex-wrap">
+                          {tags.map((tag) => (
+                            <Tag key={tag} text={tag} />
+                          ))}
                         </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
-                        </div>
+                      </div>
+                      <div className="prose max-w-none text-gray-500 dark:text-gray-400">
+                        {summary}
                       </div>
                       <UnderlineHoverLink
                         key={`${slug}-${index}`}
