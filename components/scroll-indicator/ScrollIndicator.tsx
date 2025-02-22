@@ -6,7 +6,7 @@ interface ScrollIndicatorProps {
   backgroundColor?: string
 }
 
-export const ScrollIndicator = ({ backgroundColor = '#ec4899' }: ScrollIndicatorProps) => {
+export const ScrollIndicator = ({ backgroundColor = '#2DB7B9' }: ScrollIndicatorProps) => {
   const { scrollYProgress } = useScroll()
 
   return (
@@ -20,6 +20,7 @@ export const ScrollIndicator = ({ backgroundColor = '#ec4899' }: ScrollIndicator
         right: 0,
         height: 5,
         originX: 0,
+        zIndex: 100,
         backgroundColor: backgroundColor,
       }}
     />
