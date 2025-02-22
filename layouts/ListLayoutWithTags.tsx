@@ -131,9 +131,9 @@ export default function ListLayoutWithTags({
                       <div className="flex flex-col gap-2 md:flex-row md:gap-8">
                         <Link
                           className={
-                            'relative block h-auto shrink-0 border pb-3 pl-0 pr-3 pt-0 hover:shadow-lg hover:shadow-gray-400 dark:hover:shadow-cyan-400 md:h-48 md:w-48'
+                            'relative block h-auto shrink-0 border p-0 hover:shadow-lg hover:shadow-gray-400 dark:hover:shadow-cyan-400 md:h-48 md:w-48'
                           }
-                          href={`/blog/${slug}`}
+                          href={`/${path}`}
                         >
                           <Image
                             width={0}
