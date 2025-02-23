@@ -129,12 +129,6 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'  # Ensure correct Node.js version
-          cache: yarn
-
       - name: Restore Yarn Dependencies Cache
         uses: actions/cache@v4
         with:
