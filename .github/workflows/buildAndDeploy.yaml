@@ -124,9 +124,6 @@ jobs:
           node-version: '22'  # Ensure correct Node.js version
           cache: yarn
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
       - name: Deploy Project Artifacts to Vercel
         run: |
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
