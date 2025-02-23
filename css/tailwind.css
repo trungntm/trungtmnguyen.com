@@ -319,6 +319,7 @@
   a,
   button {
     outline-color: var(--color-primary-500);
+    cursor: pointer;
   }
 
   a:focus-visible,
