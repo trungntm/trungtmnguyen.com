@@ -135,7 +135,7 @@ export default function ListLayoutWithTags({
                       <div className="flex flex-col gap-2 md:flex-row md:gap-8">
                         <Link
                           className={
-                            'relative block h-auto shrink-0 border p-0 hover:shadow-lg hover:shadow-gray-400 md:h-48 md:w-48 dark:hover:shadow-cyan-400'
+                            'neon-border relative block h-auto shrink-0 border p-0 md:h-48 md:w-48'
                           }
                           href={`/${path}`}
                         >
@@ -146,7 +146,7 @@ export default function ListLayoutWithTags({
                             src={thumbnail}
                             alt={`Thumbnail: ${title}`}
                             sizes={'w-46 h-36 md:w-48 md:h-48'}
-                            className={'h-full w-full'}
+                            className={'h-full w-full border'}
                           />
                         </Link>
                         <div className={'pl-2 xl:col-span-3'}>

@@ -386,3 +386,23 @@ input:-webkit-autofill:focus {
   display: inline-block;
   vertical-align: middle;
 }
+
+.neon-border {
+  border: 5px solid transparent;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.neon-border::before {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: -0.5rem;
+  bottom: -0.5rem;
+  background: linear-gradient(100deg, magenta, cyan);
+  z-index: -1;
+  filter: blur(0.5rem);
+}
