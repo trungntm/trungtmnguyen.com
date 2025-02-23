@@ -8,3 +8,5 @@ yarn.lock
 .vercel/
 .vscode/
 .contentlayer/
+
+app/tag-data.json
