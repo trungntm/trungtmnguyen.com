@@ -15,8 +15,8 @@ export default function Home({ posts }) {
         <div className="space-y-1 md:space-y-5">
           <HeroSection />
         </div>
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
+          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
             Latest
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
@@ -33,7 +33,7 @@ export default function Home({ posts }) {
                   <div className="flex flex-col gap-2 md:flex-row md:gap-8">
                     <Link
                       className={
-                        'relative block h-auto shrink-0 border p-0 hover:shadow-lg hover:shadow-gray-400 dark:hover:shadow-cyan-400 md:h-60 md:w-60'
+                        'relative block h-auto shrink-0 border p-0 hover:shadow-lg hover:shadow-gray-400 md:h-60 md:w-60 dark:hover:shadow-cyan-400'
                       }
                       href={`/blog/${slug}`}
                     >
@@ -49,7 +49,7 @@ export default function Home({ posts }) {
                     </Link>
                     <div className="space-y-4 md:space-y-6">
                       <div className="space-y-4 md:space-y-6">
-                        <h2 className="text-2xl font-bold leading-8 tracking-tight">
+                        <h2 className="text-2xl leading-8 font-bold tracking-tight">
                           <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
                             {title}
                           </Link>
@@ -57,7 +57,7 @@ export default function Home({ posts }) {
                         <dl>
                           <dl>
                             <dt className="sr-only">Published on</dt>
-                            <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                            <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
                               <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
                             </dd>
                           </dl>
@@ -87,7 +87,7 @@ export default function Home({ posts }) {
         </ul>
       </div>
       {posts.length > MAX_DISPLAY && (
-        <div className="flex justify-end text-base font-medium leading-6">
+        <div className="flex justify-end text-base leading-6 font-medium">
           <UnderlineHoverLink href={'/blog'} label={'All posts'}>
             All Posts &rarr;
           </UnderlineHoverLink>

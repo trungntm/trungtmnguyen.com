@@ -1,3 +1,3 @@
 {
-  "*.{tsx,ts}": ["yarn run lint", "yarn run format"]
+  "*.{tsx,ts,js,mjs}": ["yarn run lint", "yarn run format"]
 }

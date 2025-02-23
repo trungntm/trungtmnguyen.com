@@ -23,13 +23,13 @@ export const TimelineElement = ({ item, itemIndex }: TimelineElementProps): Reac
   return (
     <>
       <div className="space-y-8 border-l-2 border-gray-200 pl-4 dark:border-gray-500">
-        <div className="mx-auto max-w-3xl pb-2 pl-6 pt-2">
+        <div className="mx-auto max-w-3xl pt-2 pb-2 pl-6">
           <div
-            className={`relative rounded-lg pl-6 pt-2 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${
+            className={`relative rounded-lg pt-2 pl-6 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${
               openIndex === itemIndex ? 'bg-gray-100 dark:bg-gray-700' : 'dark:bg-gray-800'
             }`}
           >
-            <div className="absolute -left-16 top-4 h-12 w-11">{item.logo}</div>
+            <div className="absolute top-4 -left-16 h-12 w-11">{item.logo}</div>
             <p className="text-xs text-gray-500">{item.duration}</p>
             <h3 className="text-sm font-semibold dark:text-gray-100">{item.project}</h3>
             <p className="text-sm text-gray-400">{item.role}</p>
@@ -42,7 +42,7 @@ export const TimelineElement = ({ item, itemIndex }: TimelineElementProps): Reac
               </p>
             </button>
             {openIndex === itemIndex && (
-              <ul className="mt-1 list-outside list-disc pb-2 pl-4 pr-2 dark:text-gray-600">
+              <ul className="mt-1 list-outside list-disc pr-2 pb-2 pl-4 dark:text-gray-600">
                 {item.description.map((desc, index) => (
                   <li key={index}>
                     <p

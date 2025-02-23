@@ -14,7 +14,7 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: [],
+    ignores: ['node_modules', '.contentlayer', '.vscode', '.idea', '.vercel', 'eslint.config.mjs'],
   },
   js.configs.recommended,
   ...compat.extends(
@@ -67,7 +67,9 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
-      '@typescript-eslint/no-unsafe-declaration-merging': 'off'
+      '@typescript-eslint/no-unsafe-declaration-merging': 'off',
+      'import/no-anonymous-default-export': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
     },
   },
 ]
