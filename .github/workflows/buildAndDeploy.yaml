@@ -82,6 +82,17 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Cache Yarn Dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.yarn
+            .yarn/cache
+            node_modules
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-
+
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --target=${{ needs.setup.outputs.env }}
 
@@ -123,6 +134,17 @@ jobs:
         with:
           node-version: '22'  # Ensure correct Node.js version
           cache: yarn
+
+      - name: Restore Yarn Dependencies Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.yarn
+            .yarn/cache
+            node_modules
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-
 
       - name: Deploy Project Artifacts to Vercel
         run: |
