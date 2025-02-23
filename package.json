@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@next/eslint-plugin-next": "^15.1.7",
     "@svgr/webpack": "^8.0.1",
     "@types/mdx": "^2.0.12",
     "@types/react": "^18.2.73",
@@ -64,6 +65,7 @@
     "eslint": "^9.21.0",
     "eslint-config-next": "15.1.7",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "globals": "^16.0.0",
     "husky": "^9.1.7",

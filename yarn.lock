@@ -3259,7 +3259,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:15.1.7":
+"@next/eslint-plugin-next@npm:15.1.7, @next/eslint-plugin-next@npm:^15.1.7":
   version: 15.1.7
   resolution: "@next/eslint-plugin-next@npm:15.1.7"
   dependencies:
@@ -6972,6 +6972,13 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9
   checksum: 0cc861398fa26ada61ed5703eef5b335495fcb96253263dcd5e399488ff019a2636372021baacc040e3560d1a34bfcd5d5ad9f1754f44cd0509c956f7df94050
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-next@npm:^0.0.0":
+  version: 0.0.0
+  resolution: "eslint-plugin-next@npm:0.0.0"
+  checksum: c083aa1c42df347d7940b07916493c0be6f30c5df9c87200827f71c574958d3e1362e1042fd15f9164e63b673cb7ca94491ea3e8318fc1dcbe4f686e9d9166d5
   languageName: node
   linkType: hard
 
@@ -13558,6 +13565,7 @@ __metadata:
     "@headlessui/react": 2.2.0
     "@heroicons/react": ^2.1.5
     "@next/bundle-analyzer": 15.1.7
+    "@next/eslint-plugin-next": ^15.1.7
     "@svgr/webpack": ^8.0.1
     "@tailwindcss/aspect-ratio": ^0.4.2
     "@tailwindcss/container-queries": ^0.1.1
@@ -13575,6 +13583,7 @@ __metadata:
     eslint: ^9.21.0
     eslint-config-next: 15.1.7
     eslint-config-prettier: ^8.8.0
+    eslint-plugin-next: ^0.0.0
     eslint-plugin-prettier: ^5.0.0
     framer-motion: ^12.4.3
     github-slugger: ^2.0.0
