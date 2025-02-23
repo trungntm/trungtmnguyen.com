@@ -18,6 +18,7 @@ export default [
   },
   js.configs.recommended,
   ...compat.extends(
+    'plugin:@next/next/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jsx-a11y/recommended',
@@ -67,9 +68,6 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
-      '@typescript-eslint/no-unsafe-declaration-merging': 'off',
-      'import/no-anonymous-default-export': 'off',
-      '@typescript-eslint/no-require-imports': 'off',
     },
   },
 ]
