@@ -93,7 +93,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vercel-build-output
-          path: .vercel/output
+          path: |
+            .vercel/output
+            .next
+            .contentlayer
           include-hidden-files: true
 
   deploy:
@@ -108,7 +111,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vercel-build-output
-          path: .vercel/output
 
       - name: List Build Output Files
         run: ls -R
