@@ -32,9 +32,7 @@ export default function Home({ posts }) {
                 <article>
                   <div className="flex flex-col gap-2 md:flex-row md:gap-8">
                     <Link
-                      className={
-                        'relative block h-auto shrink-0 border p-0 hover:shadow-lg hover:shadow-gray-400 md:h-60 md:w-60 dark:hover:shadow-cyan-400'
-                      }
+                      className={'neon-border relative block h-auto shrink-0 p-0 md:h-60 md:w-60'}
                       href={`/blog/${slug}`}
                     >
                       <Image
@@ -44,7 +42,7 @@ export default function Home({ posts }) {
                         src={thumbnail}
                         alt={`Thumbnail: ${title}`}
                         sizes={'w-46 h-36 md:w-60 md:h-60'}
-                        className={'h-full w-full'}
+                        className={'h-full w-full border'}
                       />
                     </Link>
                     <div className="space-y-4 md:space-y-6">

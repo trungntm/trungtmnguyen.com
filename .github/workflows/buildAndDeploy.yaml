@@ -16,7 +16,7 @@ on:
         required: true
         type: choice
         default: preview
-        options: [ preview, production ]
+        options: [preview, production]
 jobs:
   setup:
     name: Setup
@@ -76,7 +76,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'  # Ensure correct Node.js version
+          node-version: '22' # Ensure correct Node.js version
           cache: yarn
 
       - name: Cache Yarn Dependencies

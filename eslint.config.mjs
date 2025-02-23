@@ -14,7 +14,15 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ['node_modules', '.contentlayer', '.vscode', '.idea', '.vercel', 'eslint.config.mjs'],
+    ignores: [
+      'node_modules',
+      '.contentlayer',
+      '.vscode',
+      '.idea',
+      '.vercel',
+      'eslint.config.mjs',
+      'app/tag-data.json',
+    ],
   },
   js.configs.recommended,
   ...compat.extends(
