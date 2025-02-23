@@ -90,6 +90,8 @@ jobs:
             .vercel/output
             .next
             .contentlayer
+            public
+            static
           include-hidden-files: true
 
   deploy:
