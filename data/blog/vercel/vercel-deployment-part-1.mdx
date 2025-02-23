@@ -1,0 +1,148 @@
+---
+title: Deploy React to Vercel using Github Action
+date: '2024-04-07'
+tags: ['Vercel', 'React', 'CI/CD', 'Github Action']
+draft: false
+thumbnail: '/static/images/blogs/building-rest-api-using-spring-boot/thumbnail/spring-boot.jpg'
+images:
+  [
+    '/static/images/blogs/building-rest-api-using-spring-boot/thumbnail/spring-boot.jpg',
+    '/static/images/canada/toronto.jpg',
+  ]
+summary: 'Vercel is a developer cloud platform for web applications. It provides automatic deployments with strong build tools to help create products faster. So, how to deploy the React app to vercel using Github actions.'
+authors: [trungntm]
+---
+
+# What is Vercel ?
+
+[Vercel](https://vercel.com) is a developer cloud platform for frontend frameworks and static sites.
+
+It provides automatic deployments, serverless functions, edge caching, and an easy-to-use CI/CD workflow. Vercel supports instant rollbacks, custom domains, and performance optimizations, making it ideal for hosting React, Next.js, and other frontend applications.
+
+For advanced usecase, you may have an additional build step need to be run when pushing the code to github. Instead of levarage Vercel automatic trigger the deployment, you can use Vercel with GitHub Actions as your CD/CD provider to deploy your React app.
+
+# Prerequisites
+Before deploying your React app to Vercel, please ensure you have:
+ - [x] A Github repository with your React project
+ - [x] A Vercel account
+ - [x] `Node.js` and `Yarn` installed (as you are using `Yarn`)
+
+# Get started
+
+## 1. Setup a Vercel Project
+- Login to Vercel: Go to [Vercel](https://vercel.com) and sign in with Github
+- Import Your Repository: Click **Add new** the choose **Project**
+![Add new Vercel project](/static/images/blogs/vercel/vercel-deployment-part-1/add-new-vercel-project.png)
+
+- An **Import Git Repository** page will be appear. For now, you just need to choose your React project and click **Import**. You will need do one more thing to deploy your React app at the first time.
+![Import Github project to Vercel](/static/images/blogs/vercel/vercel-deployment-part-1/import-github-project-to-vercel.png)
+
+- After that, **New Project** page with Github React information will show. Then, final step is click **Deploy**
+![New project CRA with Vercel](/static/images/blogs/vercel/vercel-deployment-part-1/new-project-cra-vercel.png)
+
+- Congrats! Your first deployment is ready now. Let's go to Dashboard page to see it
+![First deployment success](/static/images/blogs/vercel/vercel-deployment-part-1/first-deployment-success.png)
+
+## 2. Get Vercel API Credentials
+
+### 2.1. Get Vercel Token
+This will be important step. You will need to get **Vercel Token**, **Vercel Org ID** and **Vercel Project ID** for usage later.
+
+In order to get **Vercel Token**, let's visit the **My Account** page by click **Account Settings**, then, choose the **Token** item in left menu.
+At here, you have to enter the **TOKEN_NAME**, **SCOPE** and **EXPIRATION**.
+
+**Don't forget to store your new token to other place, because it just show at the first time**.
+
+### 2.2. Get Vercel Org ID
+Then, let's go to Dashboard -> Settings. Your **Vercel Org ID** is your **Team ID**.
+
+### 2.3. Get Vercel Project ID
+Finally, let's get **Vercel Project ID** by access to your project -> Settings. The **Project ID** will be located here.
+
+### Alternative
+We also retrieve the **Vercel Org ID** and **Vercel Project ID** by the below steps:
+
+- Install [Vercel CLI](https://vercel.com/docs/cli) and login to Vercel via command:
+```
+[shell]
+vercel login
+```
+- Inside your repository, link your repo with Vercel project:
+```
+vercel link
+```
+
+A folder `.vercel` will be generated in root directory, then, get your **Vercel Org ID** and **Vercel Project ID** in `project.json` file.
+
+Yah, you're done this step!
+
+## 3. Configure GitHub Secrets
+With **Vercel Token**, **Vercel Org ID** and **Vercel Project ID** from the above, we will have to configure them within GitHub Secrets
+- Go to your GitHub repository
+- Navigate to **Settings -> Secrets and variables -> Actions**.
+- Add the following secrets:
+  * VERCEL_TOKEN (your Vercel access token).
+  * VERCEL_ORG_ID (your Vercel Org ID).
+  * Vercel_PROJECT_ID (Your Vercel Project ID).
+![Github Secrets](/static/images/blogs/vercel/vercel-deployment-part-1/github-secrets.png)
+
+## 4. Set Up GitHub Actions Workflow
+Go to your repository, let's create a workflow file inside `.github/workflows/deploy-preview.yaml`
+
+Following the code snippet below to deploy the **Preview** environment:
+
+```
+name: Vercel Preview Deployment
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+on:
+  push:
+    branches-ignore:
+      - master
+jobs:
+  Deploy-Preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+```
+
+**Commit** and **Push** your changes with `deploy-preview.yaml`, GitHub Actions will automatic trigger the build and deploy to the **Preview** environment
+![Github Secrets](/static/images/blogs/vercel/vercel-deployment-part-1/deploy-preview-action.png)
+
+Almost done! Let's do the same for Production environments with a separate Action:
+
+```
+name: Vercel Production Deployment
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+on:
+  push:
+    branches:
+      - master
+jobs:
+  Deploy-Production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+```
+
+## 5. Deploying Your Vercel Application with GitHub Actions
+Your vercel application is configured with GitHub Actions.
