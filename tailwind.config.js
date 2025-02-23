@@ -10,6 +10,7 @@ module.exports = {
               color: theme('colors.primary.500'),
               '&:hover': {
                 color: `${theme('colors.primary.600')}`,
+                cursor: 'pointer',
               },
               code: { color: theme('colors.primary.400') },
             },
@@ -31,6 +32,7 @@ module.exports = {
               color: theme('colors.primary.500'),
               '&:hover': {
                 color: `${theme('colors.primary.400')}`,
+                cursor: 'pointer',
               },
               code: { color: theme('colors.primary.400') },
             },
