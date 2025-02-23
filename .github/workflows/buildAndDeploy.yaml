@@ -18,15 +18,103 @@ on:
         default: preview
         options: [ preview, production ]
 jobs:
-  Deploy-Preview:
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
+    outputs:
+      env: ${{ steps.check-target-deployment.outputs.env }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Check target deployment
+        id: check-target-deployment
+        run: |
+          echo "${{ github.event_name }}"
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "env=${{ github.event.inputs.env }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            echo "env=production" >> $GITHUB_OUTPUT
+          else
+            echo "env=preview" >> $GITHUB_OUTPUT
+          fi
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel pull --yes --environment=${{ steps.check-target-deployment.outputs.env }} \
+            --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: List Vercel Environment Files
+        run: ls -la .vercel
+
+      - name: Upload Vercel Environment Files as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vercel-environment-files
+          path: .vercel/
+          include-hidden-files: true
+
+  build:
+    name: Build Vercel ${{ needs.setup.outputs.env  }} environment
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Download Vercel Environment Files
+        uses: actions/download-artifact@v4
+        with:
+          name: vercel-environment-files
+          path: .vercel/
+
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --target=${{ needs.setup.outputs.env }}
+
+      - name: List Build Output Files
+        run: |
+          ls -la .vercel/output
+          ls -la .next/static
+          ls -la .contentlayer
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: vercel-build-output
+          path: |
+            .vercel/output
+            .next/static
+            .contentlayer
+          include-hidden-files: true
+
+  deploy:
+    name: Deploy to Vercel ${{ needs.setup.outputs.env || 'preview' }} environment
+    runs-on: ubuntu-latest
+    needs: [setup, build]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: vercel-build-output
+          path: |
+            .vercel/output
+            .next/static
+            .contentlayer
+      - name: List Build Output Files
+        run: ls -la .vercel/output
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
+            --target=${{ needs.setup.outputs.env || 'preview' }}
