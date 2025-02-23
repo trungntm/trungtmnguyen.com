@@ -73,14 +73,20 @@ jobs:
           name: vercel-environment-files
           path: .vercel/
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22  # Ensure correct Node.js version
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --target=${{ needs.setup.outputs.env }}
 
       - name: List Build Output Files
         run: |
           ls -la .vercel/output
-          ls -la .next/static
-          ls -la .contentlayer
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
@@ -88,10 +94,6 @@ jobs:
           name: vercel-build-output
           path: |
             .vercel/output
-            .next
-            .contentlayer
-            public
-            static
           include-hidden-files: true
 
   deploy:
