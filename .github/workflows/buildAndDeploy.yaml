@@ -107,6 +107,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vercel-build-output
+          path: .vercel/output
+
       - name: List Build Output Files
         run: ls -R
 
