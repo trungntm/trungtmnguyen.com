@@ -1,15 +1,14 @@
 ---
-title: Deploy React to Vercel using Github Action
-date: '2024-04-07'
+title: Deploy frontend application (React) to Vercel using Github Action - Part 1
+date: '2025-02-23'
 tags: ['Vercel', 'React', 'CI/CD', 'Github Action']
 draft: false
-thumbnail: '/static/images/blogs/building-rest-api-using-spring-boot/thumbnail/spring-boot.jpg'
+thumbnail: '/static/images/blogs/vercel/vercel-deployment-part-1/vercel-deployment.png'
 images:
   [
-    '/static/images/blogs/building-rest-api-using-spring-boot/thumbnail/spring-boot.jpg',
-    '/static/images/canada/toronto.jpg',
+    '/static/images/blogs/vercel/vercel-deployment-part-1/vercel-deployment.png',
   ]
-summary: 'Vercel is a developer cloud platform for web applications. It provides automatic deployments with strong build tools to help create products faster. So, how to deploy the React app to vercel using Github actions.'
+summary: 'Vercel is a developer cloud platform for web applications. It provides automatic deployments with strong build tools to help create products faster. So, how to deploy a frontend app (React) to Vercel using Github actions.'
 authors: [trungntm]
 ---
 
@@ -118,7 +117,7 @@ jobs:
 **Commit** and **Push** your changes with `deploy-preview.yaml`, GitHub Actions will automatic trigger the build and deploy to the **Preview** environment
 ![Github Secrets](/static/images/blogs/vercel/vercel-deployment-part-1/deploy-preview-action.png)
 
-Almost done! Let's do the same for Production environments with a separate Action:
+Almost done! Let's do the same for Production environments with a separate Action by `Deploy-Production.yaml`:
 
 ```
 name: Vercel Production Deployment
@@ -145,4 +144,11 @@ jobs:
 ```
 
 ## 5. Deploying Your Vercel Application with GitHub Actions
-Your vercel application is configured with GitHub Actions.
+Once you have a `push` action to git feature branches, GitHub Actions will trigger `Deploy-Preview` action to build and deploy your changes to `Preview` environments.
+
+If the changes has been merged into the `master` branch, the `Deploy-Production` action will be triggered and move the new changes to `Production` environment.
+
+Now, your Vercel application is now configured with GitHub Actions. It's time to test out Github Workflow.
+
+
+
