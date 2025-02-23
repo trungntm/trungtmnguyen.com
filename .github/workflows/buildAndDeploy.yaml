@@ -92,8 +92,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vercel-build-output
-          path: |
-            .vercel/output
+          path: .vercel/output
           include-hidden-files: true
 
   deploy:
