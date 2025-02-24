@@ -1,0 +1,102 @@
+---
+title: Creating SSH key on MacOS
+date: '2025-02-25'
+tags: ['Mac Setup', 'Ssh Key']
+draft: false
+thumbnail: '/static/images/blogs/creating-new-ssh-key/thumbnail/ssh-key.png'
+images:
+  [
+    '/static/images/blogs/creating-new-ssh-key/thumbnail/ssh-key.png'
+  ]
+summary: 'SSH key can be used to establish a secure connection with GitHub, GitLab, BitBucket, or access to a remote server. So, how can we create a ssh-key on your MacOS?'
+authors: [trungntm]
+---
+
+## 1. Check for existing SSH keys
+
+You should check for existing SSH keys on your MacOS
+
+Open Terminal and run the following:
+
+```
+cd ~/.ssh
+```
+
+- If you see "No such file or directory", then there aren't any existing keys. [Go to step 3](#create-a-new-key).
+- Check to see if you have a key already:
+
+```
+ls id_*
+```
+
+- If there are existing keys, you can retrieve the ssh-key via open these files and use them to wherever you want (GitHub, GitLab, BitBucket,...)
+
+## 2. Back up old SSH keys
+
+In case you've already have the key, but you would like to have a new one instead of use the old one, you should back those up.
+
+Go back to your Terminal, at `.ssh` folder:
+
+```
+mkdir key_backups
+cp id_* key_backups
+```
+
+## 3. Creating a new key
+
+3.1. Open your Terminal and enter the following:
+
+```
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+**Note**:  *If you're using a legacy system that doesn't support the ED25519 algorithm, use the below*:
+
+```
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+
+Associating the key with your email address helps you to identify the key later on.
+
+You'll see a response similar to this:
+
+```
+trung.nguyen@trungtmnguyen ~ % ssh-keygen -t ed25519 -C trungntm.97@gmail.com
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/Users/trung.nguyen/.ssh/id_ed25519):
+```
+
+3.2. Just press `Enter` to accept the default location and file name. If the .ssh directory doesn't exist, the system creates one for you.
+
+3.3. Enter, and re-enter, a passphrase when prompted.
+   The whole interaction will look similar to this:
+
+```
+trung.nguyen@trungtmnguyen ~ % ssh-keygen -t ed25519 -C fperez@email.com
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/Users/trung.nguyen/.ssh/id_ed25519):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /Users/trung.nguyen/.ssh/id_ed25519.
+Your public key has been saved in /Users/trung.nguyen/.ssh/id_ed25519.pub.
+The key fingerprint is:
+SHA256:gTVWKbn41z6JgBNu3wYjLC4abcdefghijklmnopqrstuvwxy trungntm.97@gmail.com
+The key's randomart image is:
++--[ED25519 256]--+
+|==+.    +o..     |
+|.oE.   +o..      |
+|    . ...o       |
+|     .o...       |
+|     oo+S  .     |
+|  + ..B = . .    |
+|.+.+.oo+ * o .   |
+|o++.o+  . + +    |
+|B+ o.    .   .   |
++----[SHA256]-----+
+trung.nguyen@trungtmnguyen ~ %
+```
+
+3.4. You're done. You can use new ssh-key to configure on Git system, or remote server.
+
+References:
+- https://confluence.atlassian.com/bitbucketserver/creating-ssh-keys-776639788.html
