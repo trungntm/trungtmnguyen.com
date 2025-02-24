@@ -18,13 +18,12 @@ authors: [trungntm]
 
 It provides automatic deployments, serverless functions, edge caching, and an easy-to-use CI/CD workflow. Vercel supports instant rollbacks, custom domains, and performance optimizations, making it ideal for hosting React, Next.js, and other frontend applications.
 
-For advanced usecase, you may have an additional build step need to be run when pushing the code to github. Instead of levarage Vercel automatic trigger the deployment, you can use Vercel with GitHub Actions as your CD/CD provider to deploy your React app.
+For advanced usecase, you may have an additional build steps need to be run when pushing the code to github. Instead of levarage Vercel automatic trigger the deployment, you can use Vercel with GitHub Actions as your CD/CD provider to deploy your React app.
 
 # Prerequisites
 Before deploying your React app to Vercel, please ensure you have:
  - [x] A Github repository with your React project
  - [x] A Vercel account
- - [x] `Node.js` and `Yarn` installed (as you are using `Yarn`)
 
 # Get started
 
@@ -150,5 +149,6 @@ If the changes has been merged into the `master` branch, the `Deploy-Production`
 
 Now, your Vercel application is now configured with GitHub Actions. It's time to test out Github Workflow.
 
-
+References:
+- https://vercel.com/guides/how-can-i-use-github-actions-with-vercel
 
