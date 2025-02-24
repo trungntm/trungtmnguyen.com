@@ -30,7 +30,7 @@ export default function Home({ posts }) {
             return (
               <li key={slug} className="py-12">
                 <article>
-                  <div className="flex flex-col gap-2 md:flex-row md:gap-8">
+                  <div className="flex flex-col gap-6 md:flex-row md:gap-8">
                     <Link
                       className={'neon-border relative block h-auto shrink-0 p-0 md:h-60 md:w-60'}
                       href={`/blog/${slug}`}
@@ -47,18 +47,16 @@ export default function Home({ posts }) {
                     </Link>
                     <div className="space-y-4 md:space-y-6">
                       <div className="space-y-4 md:space-y-6">
-                        <h2 className="text-2xl leading-8 font-bold tracking-tight">
+                        <h2 className="mb-2 text-2xl leading-8 font-bold tracking-tight">
                           <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
                             {title}
                           </Link>
                         </h2>
-                        <dl>
-                          <dl>
-                            <dt className="sr-only">Published on</dt>
-                            <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
-                              <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                            </dd>
-                          </dl>
+                        <dl className={'my-2'}>
+                          <dt className="sr-only">Published on</dt>
+                          <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
+                            <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                          </dd>
                         </dl>
                         <div className="flex flex-wrap">
                           {tags.map((tag) => (
