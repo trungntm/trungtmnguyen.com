@@ -1,0 +1,244 @@
+---
+title: Deploy frontend application (React) to Vercel using Github Action - Part 2
+date: '2025-02-23'
+tags: ['Vercel', 'React', 'CI/CD', 'Github Action']
+draft: false
+thumbnail: '/static/images/blogs/vercel/vercel-deployment-part-1/thumbnail/vercel-and-github-actions.png'
+images:
+  [
+    '/static/images/blogs/vercel/vercel-deployment-part-1/thumbnail/vercel-and-github-actions.png',
+  ]
+summary: 'As part 1 with Vercel and GitHub Actions, we have already known how to deploy a React app to Vercel. But, how can we separate the pipeline to multiple stages with GitHub Actions?'
+authors: [trungntm]
+---
+
+Before getting with this session, if you don't know how to create a Vercel app and use it with GitHub Action. Please refer to [Deploy frontend application (React) to Vercel using Github Action - Part 1](https://trungtmnguyen.com/blog/vercel/vercel-deployment-part-1).
+
+# Get started
+Back to your React app at [Part 1](https://trungtmnguyen.com/blog/vercel/vercel-deployment-part-1), setup a new pipeline located at `.github/workflow/buildAndDeploy.yaml` as following.
+
+
+We have 3 stages: **Setup**, **build** and **deploy** to make your Vercel application will be build and deploy independently.
+
+## Setup:
+- This stage will determine which is environment your application is going to be deployed (`preview` or `production`) by checking the `github.ref`. The environment will be stored in `$GITHUB_OUTPUT` (an public variable from GitHub to store the output from step)
+  * If `github.ref` is `refs/heads/master`, we can assign the pipeline would be used for `production` environment.
+  * Otherwise, any `github.ref` is different from `refs/heads/master`, we will assign to `preview` environment.
+- Then, we also checkout the source code from GitHub repository, pull the environment variables which belong to your target environment to prepare for the [build](#build) stage. The environment variable will be artifact to your GitHub by using [actions/upload-artifact@v4](https://github.com/actions/upload-artifact)
+```
+setup:
+  name: Setup
+  runs-on: ubuntu-latest
+  outputs:
+    env: ${{ steps.check-target-deployment.outputs.env }}
+  steps:
+    - name: Check target deployment
+      id: check-target-deployment
+      run: |
+        if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+          echo "env=production" >> $GITHUB_OUTPUT
+        else
+          echo "env=preview" >> $GITHUB_OUTPUT
+        fi
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Install Vercel CLI
+      run: npm install --global vercel@latest
+
+    - name: Pull Vercel Environment Information
+      run: |
+        vercel pull --yes --environment=${{ steps.check-target-deployment.outputs.env }} \
+          --token=${{ secrets.VERCEL_TOKEN }}
+
+    - name: List Vercel Environment Files
+      run: ls -la .vercel
+
+    - name: Upload Vercel Environment Files as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: vercel-environment-files
+        path: .vercel/
+        include-hidden-files: true
+```
+
+## Build:
+This stage will build your Vercel application by using GitHub Action. The environment (`preview` or `production`) and environment variables which are using in this stage will depend on [Setup](#setup), the environment (`preview` or `production`) and environment variables will depend on [Setup](#setup).
+- The first step, we also need to checkout the source code from Git repository.
+- Then, download the artifact which store at Setup step.
+- Run `vercel build` with your **VERCEL_TOKEN** and target environment from **$GITHUB_OUTPUT**
+- Artifact your build output to GitHub artifact
+
+```
+build:
+  name: Build Vercel ${{ needs.setup.outputs.env  }} environment
+  runs-on: ubuntu-latest
+  needs: [setup]
+  steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Install Vercel CLI
+      run: npm install --global vercel@latest
+
+    - name: Download Vercel Environment Files
+      uses: actions/download-artifact@v4
+      with:
+        name: vercel-environment-files
+        path: .vercel/
+
+    - name: Build Project Artifacts
+      run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --target=${{ needs.setup.outputs.env }}
+
+    - name: List Build Output Files
+      run: ls -la .vercel/output
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: vercel-build-output
+        path: .vercel/output
+        include-hidden-files: true
+```
+
+## Deploy
+At [build](#build) stage, we've already built and uploaded your output to artifact, and we also use the output from **$GITHUB_OUTPUT** at [setup](#setup) stage, then, this stage will be also depended on them. Now, let's see how **deploy** stage works with it.
+
+```
+deploy:
+  name: Deploy to Vercel ${{ needs.setup.outputs.env || 'preview' }} environment
+  runs-on: ubuntu-latest
+  needs: [setup, build]
+  steps:
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: vercel-build-output
+        path: .vercel/output
+
+    - name: List Build Output Files
+      run: ls -la .vercel/output
+
+    - name: Install Vercel CLI
+      run: npm install --global vercel@latest
+
+    - name: Deploy Project Artifacts to Vercel
+      run: |
+        vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
+          --target=${{ needs.setup.outputs.env || 'preview' }}
+```
+
+## You're done
+The following is `buildAndDeploy.yaml` file by using 3 above stages. Additionally, I've limited the target branches which GitHub Action can be trigger if there are any push actions to `develop` and `master`. You can change to any branches you need.
+
+```
+name: Build and deploy to Vercel
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    outputs:
+      env: ${{ steps.check-target-deployment.outputs.env }}
+    steps:
+      - name: Check target deployment
+        id: check-target-deployment
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            echo "env=production" >> $GITHUB_OUTPUT
+          else
+            echo "env=preview" >> $GITHUB_OUTPUT
+          fi
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: |
+          vercel pull --yes --environment=${{ steps.check-target-deployment.outputs.env }} \
+            --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: List Vercel Environment Files
+        run: ls -la .vercel
+
+      - name: Upload Vercel Environment Files as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vercel-environment-files
+          path: .vercel/
+          include-hidden-files: true
+
+  build:
+    name: Build Vercel ${{ needs.setup.outputs.env  }} environment
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Download Vercel Environment Files
+        uses: actions/download-artifact@v4
+        with:
+          name: vercel-environment-files
+          path: .vercel/
+
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --target=${{ needs.setup.outputs.env }}
+
+      - name: List Build Output Files
+        run: ls -la .vercel/output
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: vercel-build-output
+          path: .vercel/output
+          include-hidden-files: true
+
+  deploy:
+    name: Deploy to Vercel ${{ needs.setup.outputs.env || 'preview' }} environment
+    runs-on: ubuntu-latest
+    needs: [setup, build]
+    steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: vercel-build-output
+          path: .vercel/output
+
+      - name: List Build Output Files
+        run: ls -la .vercel/output
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Deploy Project Artifacts to Vercel
+        run: |
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
+            --target=${{ needs.setup.outputs.env || 'preview' }}
+```
+
+# Testing time
+
+Let's try to push a new commit to your `master` branch, GitHub Action will trigger the pipeline and deploy to Vercel production.
+![GitHub Action trigger production deployment](/static/images/blogs/vercel/vercel-deployment-part-2/github-action-vercel-deploy-production.png)
+
+This is your time. Let's try to push a new commit to `develop` and see the preview action will be triggered.
+
+# Conclusion
+
+GitHub Action is a new modern CI/CD provider which can be easy to integrate with Vercel. If your applications need a custom build and deploy steps, this part is suitable for your cases.
