@@ -1,0 +1,102 @@
+---
+title: Deploy frontend application (React) to Vercel using Github Action - Part 3
+date: '2025-02-23'
+tags: ['Vercel', 'React', 'CI/CD', 'Github Action']
+draft: false
+thumbnail: '/static/images/blogs/vercel/vercel-deployment-part-1/thumbnail/vercel-and-github-actions.png'
+images:
+  [
+    '/static/images/blogs/vercel/vercel-deployment-part-1/thumbnail/vercel-and-github-actions.png',
+  ]
+summary: 'As part 2 with Vercel and GitHub Actions, we have already known how to separate a single stage to multiple stages. But, how can we trigger the build an deploy manually?'
+authors: [trungntm]
+---
+
+Before getting with this session, if you don't know how to create a Vercel app and use it with GitHub Action. Please refer to [Deploy frontend application (React) to Vercel using Github Action - Part 1](https://trungtmnguyen.com/blog/vercel/vercel-deployment-part-1) and [Deploy frontend application (React) to Vercel using Github Action - Part 2](https://trungtmnguyen.com/blog/vercel/vercel-deployment-part-2).
+
+# Get started
+
+In [part 2](https://trungtmnguyen.com/blog/vercel/vercel-deployment-part-2), we've already have a full `buildAndDeployment.yaml` file. Let's re-use it for this session as following.
+
+- GitHub Action introduces `workflow_dispatch` to manually trigger the pipeline
+```
+workflow_dispatch:
+  inputs:
+    env:
+      description: 'Environment'
+      required: true
+      type: choice
+      default: preview
+      options: [ preview, production ]
+```
+
+- At this configuration, we have to define the `inputs` for the workflow. We only need to environment which we target to, then define `env` with a type `choice` to choose the velue from `options`. Don't forget to set `default` value is one of item in the `options`.
+- GitHub Action automatic have branch dropdown within `workflow_dispatch` selection, you can choose the `branch` you need to build and deploy and the `env` from the `inputs`
+- Next, let's update the Setup stage a little bit, focus on step `Check target deployment`
+```
+- name: Check target deployment
+  id: check-target-deployment
+  run: |
+    echo "${{ github.event_name }}"
+    if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+      echo "env=${{ github.event.inputs.env }}" >> $GITHUB_OUTPUT
+    elif [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+      echo "env=production" >> $GITHUB_OUTPUT
+    else
+      echo "env=preview" >> $GITHUB_OUTPUT
+    fi
+```
+
+- GitHub Action provide the `github.event_name` with have a lot of events from GitHub. In order to work with `workflow_dispatch`, we have to use `github.event_name` as `workflow_dispatch` and retrieve the `env` which we defined to store into the **$GITHUB_OUTPUT**
+- The following is the fully of the **Setup** stage which includes both of automatic trigger by pushing the code to `develop` and `master` branches, and manually trigger the workflow by `workflow_dispatch`:
+
+```
+setup:
+  name: Setup
+  runs-on: ubuntu-latest
+  outputs:
+    env: ${{ steps.check-target-deployment.outputs.env }}
+  steps:
+    - name: Check target deployment
+      id: check-target-deployment
+      run: |
+        echo "${{ github.event_name }}"
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          echo "env=${{ github.event.inputs.env }}" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+          echo "env=production" >> $GITHUB_OUTPUT
+        else
+          echo "env=preview" >> $GITHUB_OUTPUT
+        fi
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Install Vercel CLI
+      run: npm install --global vercel@latest
+
+    - name: Pull Vercel Environment Information
+      run: |
+        vercel pull --yes --environment=${{ steps.check-target-deployment.outputs.env }} \
+          --token=${{ secrets.VERCEL_TOKEN }}
+
+    - name: List Vercel Environment Files
+      run: ls -la .vercel
+
+    - name: Upload Vercel Environment Files as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: vercel-environment-files
+        path: .vercel/
+        include-hidden-files: true
+```
+- Adjust `buildAndDeployment.yaml` with new **Setup** stage. Pushing the changes to GitHub, release the changes to `master` and check the **Actions**. You will see the `workflow_dispatch` dropdown
+![Workflow Dispatch](/static/images/blogs/vercel/vercel-deployment-part-3/workflow-dispatch-action.png)
+
+# Testing time
+
+This is your time to testing the manually build and deploy with `workflow_dispatch` event from GitHub. Choose the `branch` and `env`, then click `Run workflow`, and alert *This workflow has a workflow_dispatch event trigger.* will be show as below:
+![Manual trigger workflow_dispatch](/static/images/blogs/vercel/vercel-deployment-part-3/vercel-workflow-dispatch-trigger.png)
+
+# Conclusion
+
+GitHub Action provide to us a lot of events which developers can use to trigger the pipeline, `workflow_dispatch` is one. Use `workflow_dispatch` to manually trigger the deployment if you would like to verify the build and deployment on any branches and environment you have.
