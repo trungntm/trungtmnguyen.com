@@ -1,5 +1,5 @@
 {
-  "name": "trungtmnguyen.com",
+  "name": "trungtmnguyen",
   "version": "1.0.1",
   "private": true,
   "scripts": {
@@ -36,8 +36,8 @@
     "next-themes": "^0.3.0",
     "pliny": "0.4.0",
     "postcss": "^8.4.24",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "reading-time": "1.5.0",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-citation": "^2.0.0",
@@ -58,7 +58,7 @@
     "@next/eslint-plugin-next": "^15.1.7",
     "@svgr/webpack": "^8.0.1",
     "@types/mdx": "^2.0.12",
-    "@types/react": "^18.2.73",
+    "@types/react": "^19.0.8",
     "@typescript-eslint/eslint-plugin": "^8.12.0",
     "@typescript-eslint/parser": "^8.12.0",
     "cross-env": "^7.0.3",
@@ -76,7 +76,15 @@
     "typescript-eslint": "^8.24.1"
   },
   "overrides": {
-    "cross-spawn": "^7.0.5"
+    "cross-spawn": "^7.0.5",
+    "ws": "^7.5.10",
+    "braces": "^3.0.3",
+    "ip": "^2.0.1",
+    "katex": "^0.16.21",
+    "nanoid": "^3.3.8",
+    "micromatch": "^4.0.8",
+    "@grpc/grpc-js": "^1.9.15",
+    "tar": "^6.2.1"
   },
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [
