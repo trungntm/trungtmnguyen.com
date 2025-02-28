@@ -1,3 +1,4 @@
 {
-  "*.{tsx,ts,js,mjs}": ["yarn run lint", "yarn run format"]
+  "*.{tsx,ts,js,jsx,mjs}": ["yarn run lint", "yarn run format"],
+  "*.+(json|css|md|mdx)": ["prettier --write"]
 }
