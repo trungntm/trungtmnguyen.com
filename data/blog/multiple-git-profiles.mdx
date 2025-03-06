@@ -21,7 +21,7 @@ Take a look at your `.ssh` directory.
 
 - I will create a new directory named `trungntm` - which will store the `ssh-key` for user trungntm
 - I also create a new one named `developer1` - which will store the `ssh-key` for user developer1
-- Next step, you need to manual move your `id_rsa` and `id_rsa.pub` into new folders. *Note: you should check correct files before moving them to ensure right files will be used*
+- Next step, you need to manual move your `id_rsa` and `id_rsa.pub` into new folders. _Note: you should check correct files before moving them to ensure right files will be used_
 - Okay, at this step, you've already have the enough files into your new folders. Let's open your `.bash_profile` and update it as below:
 
 ```
@@ -29,7 +29,8 @@ cd ~
 vi .bash_profile
 ```
 
-Update the `shell` function into your `.bash_profile`. *Don't forget to update your user directory on your machine*
+Update the `shell` function into your `.bash_profile`. _Don't forget to update your user directory on your machine_
+
 ```
 function use-ssh() {
         echo "🚀 🚀 🚀 Switching to ssh profile " $1
@@ -40,11 +41,13 @@ function use-ssh() {
 ```
 
 - Saving them, and open new Terminal and trying new `use-ssh` command:
+
 ```
 use-ssh trungntm
 ```
 
 The command will be called and update the `id_rsa` and `id_rsa.pub` to main files in `.ssh` folder will similar to this:
+
 ```
 trung.nguyen@trungtmnguyen ~ % use-ssh trungntm
 🚀 🚀 🚀 Switching to ssh profile  trungntm
@@ -52,6 +55,7 @@ Completed 🔥 ✅
 ```
 
 Let's try to switch to developer1
+
 ```
 trung.nguyen@trungtmnguyen ~ % use-ssh developer1
 🚀 🚀 🚀 Switching to ssh profile  developer1
@@ -60,4 +64,4 @@ Completed 🔥 ✅
 
 You're done. Now, you can create a multiple profiles and switch between them easily via shell command.
 
-*Happy coding!*
+_Happy coding!_
