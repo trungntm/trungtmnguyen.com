@@ -3,6 +3,7 @@ import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
 import Timeline from '@/components/Timeline'
+import { AnchorLink } from '@/components/custom-link'
 
 interface Props {
   children: ReactNode
@@ -47,7 +48,7 @@ export default function AuthorLayout({ children, content }: Props) {
           <div className="prose dark:prose-invert max-w-none pt-8 pb-8 xl:col-span-2">
             {children}
             <div className={'pt-2'}>
-              <h1>Career Path 🚀</h1>
+              <AnchorLink href={'career-path'}>Career Path 🚀</AnchorLink>
               <Timeline />
             </div>
           </div>
