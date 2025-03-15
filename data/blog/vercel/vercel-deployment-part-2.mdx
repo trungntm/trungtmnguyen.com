@@ -5,9 +5,7 @@ tags: ['Vercel', 'React', 'CI/CD', 'Github Action']
 draft: false
 thumbnail: '/static/images/blogs/vercel/vercel-deployment-part-1/thumbnail/vercel-and-github-actions.png'
 images:
-  [
-    '/static/images/blogs/vercel/vercel-deployment-part-1/thumbnail/vercel-and-github-actions.png',
-  ]
+  ['/static/images/blogs/vercel/vercel-deployment-part-1/thumbnail/vercel-and-github-actions.png']
 summary: 'As part 1 with Vercel and GitHub Actions, we have already known how to deploy a React app to Vercel. But, how can we separate the pipeline to multiple stages with GitHub Actions?'
 authors: [trungntm]
 ---
@@ -15,16 +13,18 @@ authors: [trungntm]
 Before getting with this session, if you don't know how to create a Vercel app and use it with GitHub Action. Please refer to [Deploy frontend application (React) to Vercel using Github Action - Part 1](https://trungtmnguyen.com/blog/vercel/vercel-deployment-part-1).
 
 # Get started
-Back to your React app at [Part 1](https://trungtmnguyen.com/blog/vercel/vercel-deployment-part-1), setup a new pipeline located at `.github/workflow/buildAndDeploy.yaml` as following.
 
+Back to your React app at [Part 1](https://trungtmnguyen.com/blog/vercel/vercel-deployment-part-1), setup a new pipeline located at `.github/workflow/buildAndDeploy.yaml` as following.
 
 We have 3 stages: **Setup**, **build** and **deploy** to make your Vercel application will be build and deploy independently.
 
 ## Setup:
+
 - This stage will determine which is environment your application is going to be deployed (`preview` or `production`) by checking the `github.ref`. The environment will be stored in `$GITHUB_OUTPUT` (an public variable from GitHub to store the output from step)
-  * If `github.ref` is `refs/heads/master`, we can assign the pipeline would be used for `production` environment.
-  * Otherwise, any `github.ref` is different from `refs/heads/master`, we will assign to `preview` environment.
+  - If `github.ref` is `refs/heads/master`, we can assign the pipeline would be used for `production` environment.
+  - Otherwise, any `github.ref` is different from `refs/heads/master`, we will assign to `preview` environment.
 - Then, we also checkout the source code from GitHub repository, pull the environment variables which belong to your target environment to prepare for the [build](#build) stage. The environment variable will be artifact to your GitHub by using [actions/upload-artifact@v4](https://github.com/actions/upload-artifact)
+
 ```
 setup:
   name: Setup
@@ -63,7 +63,9 @@ setup:
 ```
 
 ## Build:
+
 This stage will build your Vercel application by using GitHub Action. The environment (`preview` or `production`) and environment variables which are using in this stage will depend on [Setup](#setup), the environment (`preview` or `production`) and environment variables will depend on [Setup](#setup).
+
 - The first step, we also need to checkout the source code from Git repository.
 - Then, download the artifact which store at Setup step.
 - Run `vercel build` with your **VERCEL_TOKEN** and target environment from **$GITHUB_OUTPUT**
@@ -102,6 +104,7 @@ build:
 ```
 
 ## Deploy
+
 At [build](#build) stage, we've already built and uploaded your output to artifact, and we also use the output from **$GITHUB_OUTPUT** at [setup](#setup) stage, then, this stage will be also depended on them. Now, let's see how **deploy** stage works with it.
 
 ```
@@ -129,6 +132,7 @@ deploy:
 ```
 
 ## You're done
+
 The following is `buildAndDeploy.yaml` file by using 3 above stages. Additionally, I've limited the target branches which GitHub Action can be trigger if there are any push actions to `develop` and `master`. You can change to any branches you need.
 
 ```
