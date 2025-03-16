@@ -7,7 +7,7 @@ const siteMetadata = {
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://trungtmnguyen.com/',
-  siteRepo: 'https://github.com/trungntm/chuyencoder-ui',
+  siteRepo: 'https://github.com/trungntm/trungtmnguyen.com',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/pages/avatar.jpg',
   mastodon: 'https://mastodon.social/@mastodonuser',
