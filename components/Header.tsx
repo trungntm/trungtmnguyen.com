@@ -54,7 +54,9 @@ const Header = () => {
             </Link>
           </div>
           <div className="flex items-center justify-between space-x-2.5">
-            <div className={'flex items-center space-x-4 pr-2 sm:space-x-6 lg:space-x-4 lg:pr-8'}>
+            <div
+              className={'mt-3 flex items-center space-x-4 pr-2 sm:space-x-6 lg:space-x-4 lg:pr-8'}
+            >
               {headerNavLinks
                 .filter((link) => link.href !== '/' && link.active)
                 .map((link) => (

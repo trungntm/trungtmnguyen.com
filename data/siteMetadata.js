@@ -7,7 +7,7 @@ const siteMetadata = {
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://trungtmnguyen.com/',
-  siteRepo: 'https://github.com/trungntm/chuyencoder-ui',
+  siteRepo: 'https://github.com/trungntm/trungtmnguyen.com',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/pages/avatar.jpg',
   mastodon: 'https://mastodon.social/@mastodonuser',
@@ -42,7 +42,7 @@ const siteMetadata = {
   newsletter: {
     // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus
     // Please add your .env file and modify it according to your selection
-    // provider: 'buttondown',
+    provider: 'convertkit',
   },
   comments: {
     // If you want to use an analytics provider you have to add it to the
