@@ -3898,6 +3898,63 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vercel/analytics@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@vercel/analytics@npm:1.5.0"
+  peerDependencies:
+    "@remix-run/react": ^2
+    "@sveltejs/kit": ^1 || ^2
+    next: ">= 13"
+    react: ^18 || ^19 || ^19.0.0-rc
+    svelte: ">= 4"
+    vue: ^3
+    vue-router: ^4
+  peerDependenciesMeta:
+    "@remix-run/react":
+      optional: true
+    "@sveltejs/kit":
+      optional: true
+    next:
+      optional: true
+    react:
+      optional: true
+    svelte:
+      optional: true
+    vue:
+      optional: true
+    vue-router:
+      optional: true
+  checksum: 60991e558ce459ef0fdd3f3b4ccb657453507083ff879570c43cfe613e5a37f6fdae5146926f3cdeba48db9943a4cfd203be6c5d55de44294cf892526b603877
+  languageName: node
+  linkType: hard
+
+"@vercel/speed-insights@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@vercel/speed-insights@npm:1.2.0"
+  peerDependencies:
+    "@sveltejs/kit": ^1 || ^2
+    next: ">= 13"
+    react: ^18 || ^19 || ^19.0.0-rc
+    svelte: ">= 4"
+    vue: ^3
+    vue-router: ^4
+  peerDependenciesMeta:
+    "@sveltejs/kit":
+      optional: true
+    next:
+      optional: true
+    react:
+      optional: true
+    svelte:
+      optional: true
+    vue:
+      optional: true
+    vue-router:
+      optional: true
+  checksum: 2fe934ff1f3b816726ec393cba96c89fabc4c2c6ad6136fbc5f09d6949d175feeb8b15bed7c14b5337d14e8c1c836a47c14df3499191036499f529765d7d0103
+  languageName: node
+  linkType: hard
+
 "abbrev@npm:^3.0.0":
   version: 3.0.0
   resolution: "abbrev@npm:3.0.0"
@@ -11704,6 +11761,8 @@ __metadata:
     "@types/react": ^19.0.8
     "@typescript-eslint/eslint-plugin": ^8.12.0
     "@typescript-eslint/parser": ^8.12.0
+    "@vercel/analytics": ^1.5.0
+    "@vercel/speed-insights": ^1.2.0
     autoprefixer: ^10.4.13
     contentlayer2: 0.5.4
     cross-env: ^7.0.3
