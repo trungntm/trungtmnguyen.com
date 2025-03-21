@@ -31,7 +31,7 @@ const Header = () => {
   return (
     <div className={'mx-auto max-w-3xl sm:px-6 xl:max-w-5xl xl:px-0'}>
       <header
-        className={`fixed z-50 w-full max-w-3xl bg-white px-4 sm:pr-16 sm:pl-6 md:px-8 xl:max-w-5xl xl:px-0 dark:bg-gray-950`}
+        className={`fixed z-50 w-full max-w-3xl bg-white px-4 sm:pr-16 sm:pl-6 md:px-8 xl:max-w-5xl xl:px-0 dark:bg-gray-900`}
       >
         <div
           id={'nav'}
