@@ -11,6 +11,7 @@ import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
 import Image from '@/components/Image'
 import { UnderlineHoverLink } from '@/components/UnderlineHoverLink'
+import { ReadingTime } from '@/components/reading-time'
 
 interface PaginationProps {
   totalPages: number
@@ -128,7 +129,7 @@ export default function ListLayoutWithTags({
           <div>
             <ul>
               {displayPosts.map((post) => {
-                const { path, date, title, summary, tags, thumbnail = '' } = post
+                const { path, date, title, summary, tags, thumbnail = '', readingTime } = post
                 return (
                   <li key={path} className="py-5">
                     <article className="flex flex-col space-y-2 xl:space-y-0">
@@ -159,6 +160,7 @@ export default function ListLayoutWithTags({
                             <dt className="sr-only">Published on</dt>
                             <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
                               <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                              {readingTime && <ReadingTime text={readingTime.text} />}
                             </dd>
                           </dl>
                           <div className="flex flex-wrap py-2">

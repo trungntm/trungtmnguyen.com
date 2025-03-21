@@ -6,6 +6,7 @@ import NewsletterForm from 'pliny/ui/NewsletterForm'
 import HeroSection from '@/components/HeroSection'
 import { UnderlineHoverLink } from '@/components/UnderlineHoverLink'
 import Image from '@/components/Image'
+import { ReadingTime } from '@/components/reading-time'
 const MAX_DISPLAY = 5
 
 export default function Home({ posts }) {
@@ -26,7 +27,7 @@ export default function Home({ posts }) {
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post, index) => {
-            const { slug, date, title, summary, tags, thumbnail = '' } = post
+            const { slug, date, title, summary, tags, thumbnail = '', readingTime } = post
             return (
               <li key={slug} className="py-12">
                 <article>
@@ -56,6 +57,7 @@ export default function Home({ posts }) {
                           <dt className="sr-only">Published on</dt>
                           <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
                             <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                            {readingTime && <ReadingTime text={readingTime.text} />}
                           </dd>
                         </dl>
                         <div className="flex flex-wrap">
