@@ -1,0 +1,1 @@
+export { ReadingTime } from './ReadingTime'
