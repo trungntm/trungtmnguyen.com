@@ -1,0 +1,391 @@
+---
+title: Avoid these 9 common Spring Boot REST API Mistakes
+date: '2025-03-21'
+tags: ['Spring', 'Spring boot', 'Restful']
+draft: false
+thumbnail: '/static/images/blogs/avoid-9-spring-boot-rest-api-mistakes/image.png'
+images: ['/static/images/blogs/avoid-9-spring-boot-rest-api-mistakes/image.png']
+summary: 'Spring boot is one of the most popular java framework for REST API development. However, there are some common mistakes can be made during development. Check it out...'
+authors: [trungntm]
+---
+
+# Introduction
+
+Building **REST APIs** with **Spring Boot** is straightforward, but developers often make mistakes that can lead to performance issues, security vulnerabilities, and poor maintainability. In this blog, we’ll explore some common mistakes and how to avoid them.
+
+# 1. Using Wrong HTTP Methods
+
+## Mistake:
+
+Using incorrect HTTP methods for CRUD operations. For example, using POST instead of PUT for updating resources.
+
+Spring Boot should follow RESTfull convention to maintain clean code and consistency.
+
+### Wrong Usage:
+
+```
+@PostMapping("/users/{id}")
+public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    return ResponseEntity.ok(userService.updateUser(id, user));
+}
+```
+
+## Solution:
+
+Following **RESTful** conventions:
+
+- `GET` for retrieving data
+- `POST` for create new resources
+- `PUT` for updating resources
+- `DELETE` for removing resources
+- `PATCH` for partial updates
+
+### Correct Usage:
+
+```
+@PutMapping("/users/{id}")
+public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    return ResponseEntity.ok(userService.updateUser(id, user));
+}
+```
+
+# 2. Not Handling Exceptions Properly
+
+## Mistake:
+
+Returning generic or stack trace errors instead of meaningful error responses is difficult to debug the problems, they also are potential vulnerabilities
+
+### Wrong Usage:
+
+```
+@GetMapping("/users/{id}")
+public User getUser(@PathVariable Long id) {
+    return userService.getUserById(id); // Throws exception if user not found
+}
+```
+
+- _Issue: This can result in an unhandled exception returning a generic 500 error with a stack trace._
+
+```
+@GetMapping("/users/{id}")
+public User getUser(@PathVariable Long id) {
+    try {
+        return userService.getUser(id);
+    } catch (Exception e) {
+        return null;  // Bad practice
+    }
+}
+```
+
+- _Issue: Unclear exception will be caught_
+
+## Solution:
+
+Use `@ControllerAdvice` to handle exceptions globally and return proper HTTP status codes.
+
+### Correct Usage:
+
+```
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleNotFoundException(ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+}
+```
+
+# 3. Exposing Internal Implementation Details
+
+## Mistake:
+
+Returning entire entity objects, exposing internal database structure or the sensitive information
+
+### Wrong Usage:
+
+```
+public class User {
+    private String name;
+    private String email;
+    private String password;
+}
+
+@GetMapping("/users/{id}")
+public ResponseEntity<User> getUser(@PathVariable Long id) {
+    return ResponseEntity.ok(userService.getUserById(id));
+}
+```
+
+- _Issue: This exposes database fields that might not be relevant to API consumers and also exposes the password which is sensitive user information_
+
+## Solution:
+
+Use DTOs (Data Transfer Objects) to control the API response:
+
+### Correct Usage:
+
+```
+public class User {
+    private String name;
+    private String email;
+    private String password;
+}
+
+public class UserDTO {
+    private String name;
+    private String email;
+}
+
+@GetMapping("/users/{id}")
+public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
+    return ResponseEntity.ok(userService.getUserDTO(id));
+}
+```
+
+# 4. Ignoring Pagination and Filtering
+
+## Mistake:
+
+Returning all records without pagination or filtering. If the API is returning a huge amount of records, pagination and filtering is very important to reduce the performance issues and poor user experience
+
+### Wrong Usage:
+
+```
+@GetMapping("/users")
+public List<User> getAllUsers() {
+    return userService.getAllUsers();
+}
+```
+
+- _Issue: This can lead to poor performance and excessive memory usage when dealing with large datasets._
+
+## Solution:
+
+Use filtering and pagination. Example: `Pageable` in Spring Data JPA to paginate result by `page` and `size` from the request.
+
+### Correct Usage:
+
+```
+@GetMapping("/users")
+public ResponseEntity<Page<User>> getUsers(
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "20") int size,
+    @RequestParam(defaultValue = "id") String sortBy
+) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+    return userRepository.findAll(pageable);
+}
+```
+
+# 5. Not Validating Request Bodies
+
+## Mistake:
+
+Allowing invalid or incomplete data to be processed. This can lead to incorrect data being processed and stored, also can cause security vulnerabilities.
+
+### Wrong Usage:
+
+```
+public class User {
+    private String name;
+    private String email;
+    private String password;
+}
+
+@PostMapping("/users")
+public ResponseEntity<User> createUser(@RequestBody User user) {
+    return ResponseEntity.ok(userService.createUser(user));
+}
+```
+
+## Solution:
+
+Use validation annotations like `@Valid` and `@NotNull`.
+
+### Correct Usage:
+
+```
+public class User {
+    private String name;
+    private String email;
+    private String password;
+}
+
+public class UserRequest {
+    @NotNull
+    private String name;
+
+    @Email
+    private String email;
+    // Getters and setters
+}
+
+@PostMapping("/users")
+public ResponseEntity<User> createUser(@Valid @RequestBody UserRequest request) {
+    return ResponseEntity.ok(userService.createUser(request));
+}
+```
+
+# 6. Incorrect Response Status Codes
+
+## Mistake:
+
+Do not return the Response Status Codes correctly.
+
+### Wrong Usage:
+
+```
+@PostMapping("/users")
+public User createUser(@RequestBody User user) {
+    // Returns 200 OK for creation
+    return userService.createUser(user);
+}
+
+@GetMapping("/users/{id}")
+public User getUser(@PathVariable Long id) {
+    User user = userService.findById(id);
+    if (user == null) {
+        return new User();  // Returns empty object instead of 404
+    }
+    return user;
+}
+```
+
+## Solution:
+
+Use `ResponseStatus` or `ResponseEntity` to set the Response Status Codes when returning the data
+
+### Correct Usage:
+
+```
+@PostMapping("/users")
+@ResponseStatus(HttpStatus.CREATED)
+public User createUser(@RequestBody User user) {
+    return userService.createUser(user);
+}
+```
+
+Or
+
+```
+@PostMapping("/users")
+public ResponseEntity<User> createUser(@RequestBody User user) {
+    User createdUser = userService.createUser(user);
+    return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+}
+
+@GetMapping("/users/{id}")
+public ResponseEntity<User> getUser(@PathVariable Long id) {
+    return userService.findById(id)
+        .map(user -> ResponseEntity.ok(user))
+        .orElse(ResponseEntity.notFound().build());
+}
+```
+
+# 7. Inconsistent RESTful API Naming Convention
+
+## Mistake:
+
+Each API has own its name, do not consistency with the related API, that makes the code harder to understand and use.
+
+### Wrong Usage:
+
+```
+@RestController
+public class UserController {
+    @GetMapping("/getUsers")
+    public List<User> getUsers() { ... }
+
+    @PostMapping("/createNewUser")
+    public User createNewUser(@RequestBody User user) { ... }
+
+    @PutMapping("/updateUserDetails/{userId}")
+    public User updateUserDetails(@PathVariable Long userId) { ... }
+}
+```
+
+## Solution:
+
+Use `@RequestMapping` to unify API prefix, all related APIs will have the same prefix
+
+### Correct Usage:
+
+```
+@RestController
+@RequestMapping("/api/v1/users")
+public class UserController {
+    @GetMapping
+    public List<User> getUsers() { ... }
+
+    @PostMapping
+    public User createUser(@RequestBody User user) { ... }
+
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id) { ... }
+}
+```
+
+# 8. Ignoring Security Best Practices
+
+## Mistake:
+
+Not implementing authentication and authorization mechanisms.
+
+### Wrong Usage:
+
+```
+@GetMapping("/admin")
+public String adminAccess() {
+    return "Admin Panel";
+}
+```
+
+- _Issue: No authentication, allowing unauthorized users to access admin resources._
+
+## Solution:
+
+Use Spring Security for authentication and JWT for token-based security.
+
+### Correct Usage:
+
+```
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+        .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+    return http.build();
+}
+```
+
+# 9. Hardcoding Configuration Values
+
+## Mistake:
+
+Storing database credentials, API keys, or other configurations in source code.
+
+### Wrong Usage:
+
+```
+String dbUrl = "jdbc:mysql://localhost:3306/mydb";
+String dbUser = "root";
+String dbPassword = "password";
+```
+
+- _Issue: Hardcoded credentials pose security risks and make it difficult to change configurations._
+
+## Solution:
+
+Use `application.properties` or `application.yaml` files to store the configuration. Additionally, we also use environment variables instead.
+
+### Correct Usage:
+
+```
+spring.datasource.url=${DATABASE_URL}
+spring.datasource.username=${DATABASE_USER}
+spring.datasource.password=${DATABASE_PASSWORD}
+```
+
+# Conclusion
+
+Avoiding these common mistakes can lead to better performance, security, and maintainability for your Spring Boot REST APIs. By following best practices, such as using proper HTTP methods, handling exceptions properly, securing endpoints, and using DTOs, you can build robust and scalable APIs efficiently.
