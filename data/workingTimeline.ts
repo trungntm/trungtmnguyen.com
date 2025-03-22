@@ -1,11 +1,13 @@
 interface TimeLine {
   company: string
+  project?: string
   role: string
   duration: string
   description: string[]
-  links: string[]
-  logo: string
-  projects: Project[]
+  links: { text: string; href: string }[]
+  projects?: TimeLine[]
+  logo?: string
+  itemIndex?: number
 }
 
 const workingTimelineData: TimeLine[] = [
