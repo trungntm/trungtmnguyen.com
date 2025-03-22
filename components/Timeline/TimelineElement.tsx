@@ -1,4 +1,5 @@
 import { ReactElement, useState } from 'react'
+import ImageLogo from '../logo'
 
 export interface TimelineItem {
   company: string
@@ -29,7 +30,9 @@ export const TimelineElement = ({ item, itemIndex }: TimelineElementProps): Reac
               openIndex === itemIndex ? 'bg-gray-100 dark:bg-gray-700' : 'dark:bg-gray-800'
             }`}
           >
-            <div className="absolute top-4 -left-16 h-12 w-11">{item.logo}</div>
+            <div className="absolute top-4 -left-16 h-12 w-11">
+              <ImageLogo src={item.logo} alt={item.project} />
+            </div>
             <p className="text-xs text-gray-500">{item.duration}</p>
             <h3 className="text-sm font-semibold dark:text-gray-100">{item.project}</h3>
             <p className="text-sm text-gray-400">{item.role}</p>
