@@ -3,6 +3,7 @@ import { ReactElement } from 'react'
 import { TimelineElement } from '@/components/Timeline/TimelineElement'
 import ImageLogo from '@/components/logo'
 import useSWR from 'swr'
+import { fetcher } from '@/utils/fetcher'
 
 export interface TimelineItem {
   company: string
@@ -15,8 +16,6 @@ export interface TimelineItem {
   logo?: ReactElement
   itemIndex?: number
 }
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export default function Timeline() {
   const { data, error } = useSWR('/api/timeline', fetcher)
