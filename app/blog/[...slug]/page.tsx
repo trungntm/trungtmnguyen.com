@@ -51,10 +51,10 @@ export async function generateMetadata(props: {
 
   return {
     title: post.title,
-    description: post.summary,
+    description: `${post.title} | ${post.summary}`,
     openGraph: {
       title: post.title,
-      description: post.summary,
+      description: `${post.title} | ${post.summary}`,
       siteName: siteMetadata.title,
       locale: 'en_US',
       type: 'article',
@@ -67,7 +67,7 @@ export async function generateMetadata(props: {
     twitter: {
       card: 'summary_large_image',
       title: post.title,
-      description: post.summary,
+      description: `${post.title} | ${post.summary}`,
       images: imageList,
     },
   }
