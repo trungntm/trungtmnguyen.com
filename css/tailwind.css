@@ -411,3 +411,14 @@ input:-webkit-autofill:focus {
   z-index: -1;
   filter: blur(0.5rem);
 }
+
+/* Customize NProgress bar color and height */
+#nprogress .bar {
+  background: #00b8db !important; /* Change to your preferred color */
+  height: 4px !important;
+}
+
+/* Remove the spinner */
+#nprogress .spinner {
+  display: none !important;
+}

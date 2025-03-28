@@ -13,6 +13,7 @@ import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import { SpeedInsights as VercelSpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
+import { LinearLoading } from '@/components/loading'
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -103,6 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <VercelAnalytics />
           <SectionContainer>
             <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
+              <LinearLoading />
               <Header />
               <div className={'mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0'}>
                 <main className="relative mb-auto pt-36">{children}</main>
