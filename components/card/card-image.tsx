@@ -22,16 +22,12 @@ interface Project {
   author: ProjectAuthor
 }
 
-export const CardImage = ({post}) => {
+export const CardImage = ({ post }) => {
   return (
     <article key={post.id} className="flex max-w-xl flex-col items-start justify-between">
-     {post.imgSrc && (
+      {post.imgSrc && (
         <div className="w-full pb-4">
-          <img
-            src={post.imgSrc}
-            alt={post.title}
-            className="w-full h-48 object-cover rounded-lg"
-          />
+          <img src={post.imgSrc} alt={post.title} className="h-48 w-full rounded-lg object-cover" />
         </div>
       )}
       <div className="flex items-center gap-x-4 text-xs">
@@ -46,7 +42,7 @@ export const CardImage = ({post}) => {
         </a>
       </div>
       <div className="group relative">
-        <h3 className="mt-3 text-lg/6 font-semibold text-gray-900 dark:text-gray-400 group-hover:text-gray-600">
+        <h3 className="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600 dark:text-gray-400">
           <a href={post.href}>
             <span className="absolute inset-0" />
             {post.title}
