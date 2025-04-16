@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from '@/components/Image'
 import { BlinkCursor } from '@/components/cursor'
+import { AuroraText } from './text-animation'
 
 const HeroSection = () => {
   return (
@@ -17,16 +18,17 @@ const HeroSection = () => {
               <div className="mb-16 tracking-tight md:text-lg xl:text-lg">
                 <h4 className={'pt-2'}>🚀 Passionate Software Engineer | Tech Enthusiast</h4>
                 <h4 className={'pt-2'}>
-                  💻 Main Stacks: <strong>Java Spring Boot</strong> | <strong>React.js</strong>
+                  💻 Main Stacks: <AuroraText>Java Spring Boot</AuroraText> |{' '}
+                  <AuroraText>React.js</AuroraText>
                 </h4>
                 <h4 className={'pt-2'}>
-                  🛠️ Also Experienced In: <strong>Node.js</strong> | <strong>Angular</strong> |{' '}
-                  <strong>Next.js</strong>
+                  🛠️ Also Experienced In: <AuroraText>Node.js</AuroraText> |{' '}
+                  <AuroraText>Angular</AuroraText> | <AuroraText>Next.js</AuroraText>
                 </h4>
                 <h4 className={'pt-2'}>
-                  I love building{' '}
-                  <strong>scalable, efficient, and user-friendly applications</strong> while
-                  exploring new technologies.
+                  I love building <AuroraText>scalable</AuroraText>,{' '}
+                  <AuroraText>efficient</AuroraText> , and <AuroraText>user-friendly</AuroraText>{' '}
+                  applications while exploring new technologies.
                   <BlinkCursor />
                 </h4>
               </div>
