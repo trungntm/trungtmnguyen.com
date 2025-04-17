@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from '@/components/Image'
 import { BlinkCursor } from '@/components/cursor'
 import { AuroraText } from './text-animation'
+import RainbowButtonLink from './button/rainbow-button-link/RainbowButtonLink'
 
 const HeroSection = () => {
   return (
@@ -18,28 +19,54 @@ const HeroSection = () => {
               <div className="mb-16 tracking-tight md:text-lg xl:text-lg">
                 <h4 className={'pt-2'}>🚀 Passionate Software Engineer | Tech Enthusiast</h4>
                 <h4 className={'pt-2'}>
-                  💻 Main Stacks: <AuroraText>Java Spring Boot</AuroraText> |{' '}
-                  <AuroraText>React.js</AuroraText>
+                  💻 Main Stacks:{' '}
+                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                    Java Spring Boot
+                  </AuroraText>{' '}
+                  |{' '}
+                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                    React.js
+                  </AuroraText>
                 </h4>
                 <h4 className={'pt-2'}>
-                  🛠️ Also Experienced In: <AuroraText>Node.js</AuroraText> |{' '}
-                  <AuroraText>Angular</AuroraText> | <AuroraText>Next.js</AuroraText>
+                  🛠️ Also Experienced In:{' '}
+                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                    Node.js
+                  </AuroraText>{' '}
+                  |{' '}
+                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                    Angular
+                  </AuroraText>{' '}
+                  |{' '}
+                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                    Next.js
+                  </AuroraText>
                 </h4>
                 <h4 className={'pt-2'}>
-                  I love building <AuroraText>scalable</AuroraText>,{' '}
-                  <AuroraText>efficient</AuroraText> , and <AuroraText>user-friendly</AuroraText>{' '}
+                  I love building{' '}
+                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                    scalable
+                  </AuroraText>
+                  ,{' '}
+                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                    efficient
+                  </AuroraText>{' '}
+                  , and{' '}
+                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                    user-friendly
+                  </AuroraText>{' '}
                   applications while exploring new technologies.
                   <BlinkCursor />
                 </h4>
               </div>
-              <Link
-                className="text-primary hover:bg-opacity-10 hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:hover:bg-opacity-60 inline-block rounded bg-gray-100 px-12 pt-4 pb-3.5 text-sm leading-normal font-medium uppercase transition duration-150 ease-in-out hover:bg-gray-200 focus:ring-0 focus:outline-none dark:bg-gray-600 dark:hover:bg-gray-700"
-                data-te-ripple-color="light"
+
+              <RainbowButtonLink
                 href="/about"
-                role="button"
+                className="text-sm font-medium uppercase"
+                colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}
               >
                 About me &rarr;
-              </Link>
+              </RainbowButtonLink>
             </div>
             <div className="mb-12 lg:mb-0">
               <Image
