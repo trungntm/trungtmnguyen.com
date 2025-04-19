@@ -11,6 +11,8 @@ import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import { ScrollIndicator } from '@/components/scroll-indicator'
 import { ReadingTime } from '@/components/reading-time'
+import TOCInline from 'pliny/ui/TOCInline'
+import Bleed from 'pliny/ui/Bleed'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 const discussUrl = (path) =>
@@ -32,7 +34,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags, readingTime } = content
+  const { filePath, path, slug, date, title, tags, readingTime, toc } = content
   const basePath = path.split('/')[0]
 
   return (
@@ -98,7 +100,17 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 </dd>
               </dl>
               <div className="divide-y divide-gray-200 xl:col-span-3 xl:row-span-2 xl:pb-0 dark:divide-gray-700">
-                <div className="prose dark:prose-invert max-w-none pt-10 pb-8">{children}</div>
+                <div className="prose dark:prose-invert max-w-none pt-10 pb-8">
+                  <TOCInline
+                    fromHeading={1}
+                    toHeading={1}
+                    toc={toc}
+                    asDisclosure
+                    liClassName={'text-sm'}
+                  />
+                  <hr />
+                  {children}
+                </div>
                 {/*<div className="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">*/}
                 {/*  <Link href={discussUrl(path)} rel="nofollow">*/}
                 {/*    Discuss on Twitter*/}
