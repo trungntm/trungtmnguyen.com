@@ -53,7 +53,7 @@ const Header = () => {
               </div>
             </Link>
           </div>
-          <div className="flex items-center justify-between space-x-2.5">
+          <div className="flex items-center justify-between space-x-2.5 sm:space-x-4 sm:rounded-[40px] sm:border sm:border-gray-200 sm:pb-2 sm:pl-6 lg:space-x-2 dark:border-gray-700 dark:sm:border-gray-600">
             <div
               className={'mt-3 flex items-center space-x-4 pr-2 sm:space-x-6 lg:space-x-4 lg:pr-8'}
             >
@@ -70,7 +70,7 @@ const Header = () => {
                   </UnderlineHoverLink>
                 ))}
             </div>
-            <div className={'flex items-center space-x-4 pr-2 sm:space-x-6 lg:space-x-4'}>
+            <div className={'mt-2 flex items-center space-x-4 pr-2 sm:space-x-6 lg:space-x-4'}>
               <SearchButton />
               <ThemeSwitch />
               <MobileNav />
