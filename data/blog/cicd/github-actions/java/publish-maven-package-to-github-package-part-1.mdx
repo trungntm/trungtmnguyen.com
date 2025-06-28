@@ -1,0 +1,269 @@
+---
+title: A Complete Guide to Deploying Maven Artifacts with GitHub Actions - Part 1
+date: '2025-06-28'
+tags: ['Java', 'Maven', 'CI/CD', 'Github Action']
+draft: false
+thumbnail: '/static/images/blogs/cicd/java/maven-github-action/maven-githubaction.png'
+images: ['/static/images/blogs/cicd/java/maven-github-action/maven-githubaction.png']
+summary: 'GitHub Packages is a software package hosting service that allows you to host your packages privately or publicly. Learn how to configure your Maven project and set up GitHub Actions to automatically publish your Java packages to GitHub Packages registry with proper authentication and version management.'
+authors: [trungntm]
+---
+
+# Introduction
+
+In this post, I’ll show you how to publish your Java package to GitHub Packages using Maven and GitHub Actions. Automating this with CI/CD ensures your artifacts are always up-to-date, versioned, and easily consumable by others or by your own projects.
+This guide is aimed at Java developers comfortable with Maven who want to automate deployments using GitHub’s ecosystem.
+
+# Prerequisites
+
+- Java 8+
+- Maven installed (for testing purpose)
+- A Github Repository
+
+Alright, you have enough tools for get start. Let's go!
+
+# Get started
+
+## 1. Preparing your Github repo with maven project
+
+- As a developer and want to publish your package to Github package registry. You should prepare a Github repo with maven structure.
+  I am using a existing repo named vnd-to-text repo - which help translate Vietnam Dong to text. Please refer to [vnd-to-text](https://github.com/trungntm/vnd-to-text) for the idea.
+- In this artical, I will show your the configuration and workflow file to publish this repo to the Github package registry
+
+Okay, move on to next step!
+
+## 2. Setup your Github Action
+
+### 2.1. Configuring your pom.xml
+
+In order to publish your maven package to Github package registry, you will need to configure your pom.xml - which will point your repo to package registry.
+
+This is the configuration format you will need to add into your POM.xml
+
+```
+<distributionManagement>
+  <repository>
+    <id>github</id>
+    <name>GitHub OWNER Apache Maven Packages</name>
+    <url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+  </repository>
+</distributionManagement>
+```
+
+For example:
+
+```
+<distributionManagement>
+  <repository>
+    <id>github</id>
+    <name>Github package</name>
+    <url>https://maven.pkg.github.com/trungntm/vnd-to-text</url>
+  </repository>
+</distributionManagement>
+```
+
+So, for now, you may have a question that: `How can I manage Snapshot and Release version for my maven package?`. This is a good question and so do I.
+
+In order to addressing the above question, we need to adjust the configuration in POM.xml to allow your repo use Snapshot and Release version.
+
+This is the new format:
+
+```
+<distributionManagement>
+  <!-- The below will use for Release version >
+  <repository>
+    <id>github-release</id>
+    <name>GitHub Packages</name>
+    <url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+  </repository>
+
+  <!-- The below is using for Snapshot version >
+  <snapshotRepository>
+    <id>github-snapshot</id>
+    <name>GitHub Packages</name>
+    <url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+  </snapshotRepository>
+</distributionManagement>
+```
+
+For my repo, this will be:
+
+```
+<distributionManagement>
+  <repository>
+    <id>github-release</id>
+    <name>GitHub Packages</name>
+    <url>https://maven.pkg.github.com/trungntm/vnd-to-text</url>
+  </repository>
+
+  <snapshotRepository>
+    <id>github-snapshot</id>
+    <name>GitHub Packages</name>
+    <url>https://maven.pkg.github.com/trungntm/vnd-to-text</url>
+  </snapshotRepository>
+</distributionManagement>
+```
+
+### 2.2. Setup your Github workflow
+
+Let's talk something about the configuration in POM.xml.
+
+As you can see, I am using custom ID for Snapshot and Release version:
+
+- Snapshot: github-snapshot
+- Release: github-release
+
+By default, github only provide you a `github` ID.
+
+In case you would like to use custom ID for Snapshot & Release, you need additional step to define your custom ID.
+
+#### 2.2.1. Add settings.xml into your `.github` forder
+
+```
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
+    <server>
+      <id>github-snapshot</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+    <server>
+      <id>github-release</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+  </servers>
+</settings>
+```
+
+Github automatic provide you some Environment variable and Secret which start with `GITHUB_` prefix.
+
+In this `settings.xml`, I am using provided `GITHUB_ACTOR` and `GITHUB_TOKEN`.
+
+- `GITHUB_ACTOR`: It's OWNER. This can be your github name or github org.
+- `GITHUB_TOKEN`: This will be automatic generated when Github actions was triggered.
+
+#### 2.2.2. Workflow for Snapshot version
+
+For snapshot version, the workflow will be triggered when I have a new changes onto `develop` branch or by manual trigger.
+You also need to give the github permission to workflow.
+
+Let's create `snapshot.yml` inside `.github/workflows` and checkout my workflow below:
+
+```
+name: Publish to GitHub Snapshot Maven
+
+on:
+  push:
+    branches: [ "develop" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Publish to GitHub Packages
+        run: mvn deploy --settings .github/settings.xml -B --file pom.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+```
+
+#### 2.2.3. Workflow for Release version
+
+The idea for Release workflow will be the same with Snapshot version. But, it will have an additional step - after publishing Release version, it will automatic increase your version in POM.xml for next development.
+
+For example, you are developing at version `0.0.1-SNAPSHOT`, then dispatch new release. I will create a release version `0.0.1` and automatic bump your pom.xml version to `0.1.0-SNAPSHOT` and commit to your repo.
+
+In order to doing this, you will need `write` permission:
+
+```
+permissions:
+  contents: write
+  packages: write
+```
+
+Let's create `release.yml` inside `.github/workflows` and checkout my below workflow:
+
+```
+name: Release to GitHub Maven
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Remove -SNAPSHOT from version
+        run: |
+          sed -i '0,/-SNAPSHOT</s/-SNAPSHOT</</' pom.xml
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add pom.xml
+          git commit -m "Release: remove -SNAPSHOT from version"
+
+      - name: Deploy release to GitHub Packages
+        run: mvn deploy --settings .github/settings.xml -B --file pom.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+
+      - name: Bump version
+        run: |
+          VERSION=$(grep -m1 '<version>' pom.xml | sed -nE 's/.*<version>([0-9]+)\.([0-9]+)\.([0-9]+).*/\1 \2 \3/p')
+          MAJOR=$(echo $VERSION | cut -d' ' -f1)
+          MINOR=$(echo $VERSION | cut -d' ' -f2)
+          NEW_MINOR=$((MINOR+1))
+          sed -i "0,/<version>[0-9]\+\.[0-9]\+\.[0-9]\+<\/version>/s//<version>${MAJOR}.${NEW_MINOR}.0-SNAPSHOT<\/version>/" pom.xml
+          git add pom.xml
+          git commit -m "Bump version to ${MAJOR}.${NEW_MINOR}.0-SNAPSHOT"
+          git push
+
+```
+
+## 3. Common Pitfalls and Troubleshooting
+
+Offer value as below:
+
+- 401 Unauthorized: you are using wrong OWNER or typo for `GITHUB_TOKEN`. Let's check your OWNER is your github name or your org, and token should be `GITHUB_TOKEN`.
+- 403 Permission denied or Incorrect repo URL → Double-check OWNER/REPOSITORY. The REPOSITORY should be the repo you are working on and Github action is being run on.
+- Version conflicts → Increment Maven version. This issue happens if you release a version but have not yet bump to new version. Let's ensure you are working on latest code before Release.
+
+# Conclusion
+
+Publishing Maven packages to GitHub Packages via Actions makes releases repeatable and automatable. By following this setup, you ensure your consumers always have access to your latest versions with minimal manual work.
