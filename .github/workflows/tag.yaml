@@ -8,8 +8,6 @@ on:
 
 jobs:
   deployToProd:
-    name: Deploy to Vercel Production
-    id: deployToProd
     uses: ./.github/workflows/buildAndDeploy.yaml
     with:
       env: production
@@ -17,6 +15,7 @@ jobs:
   buildTagAndBumpVersion:
     name: Build, Tag, and Bump Version
     needs: [deployToProd]
+    if: success() || (!cancelled() && !failure())
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
