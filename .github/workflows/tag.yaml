@@ -6,16 +6,11 @@ on:
       - main
       - master
 
-permissions:
-  contents: write
-  actions: write
-  pull-requests: write
-
 jobs:
   deployToProd:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    uses: './.github/workflows/buildAndDeploy'
+    uses: './.github/workflows/buildAndDeploy.yaml'
     with:
       env: production
 
