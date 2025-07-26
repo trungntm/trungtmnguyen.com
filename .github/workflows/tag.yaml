@@ -10,7 +10,7 @@ jobs:
   deployToProd:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    uses: './.github/workflows/buildAndDeploy.yaml'
+    uses: ./.github/workflows/buildAndDeploy.yaml
     with:
       env: production
 
