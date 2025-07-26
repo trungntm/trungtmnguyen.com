@@ -1,12 +1,10 @@
 name: Release Check
 
 on:
-  push:
-    branches:
-      - 'release/**'
   pull_request:
     branches:
-      - 'release/**'
+      - main
+      - master
 
 permissions:
   contents: read
