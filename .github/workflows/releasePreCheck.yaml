@@ -10,7 +10,7 @@ on:
 
 jobs:
   dependencyReview:
-    uses: ./.github/actions/dependencyReview
+    uses: ./.github/workflows/dependencyReview.yaml
   build:
     name: Build
     runs-on: ubuntu-latest
