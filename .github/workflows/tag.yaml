@@ -8,16 +8,16 @@ on:
 
 jobs:
   deployToProd:
-    name: Deploy to Production
-    runs-on: ubuntu-latest
+    name: Deploy to Vercel Production
+    id: deployToProd
     uses: ./.github/workflows/buildAndDeploy.yaml
     with:
       env: production
 
   buildTagAndBumpVersion:
     name: Build, Tag, and Bump Version
+    needs: [deployToProd]
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
