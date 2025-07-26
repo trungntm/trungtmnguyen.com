@@ -8,9 +8,14 @@ on:
     branches:
       - 'release/**'
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   dependencyReview:
     uses: ./.github/workflows/dependencyReview.yaml
+
   build:
     name: Build
     runs-on: ubuntu-latest
