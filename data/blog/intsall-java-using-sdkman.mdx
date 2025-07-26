@@ -1,0 +1,410 @@
+---
+title: 'Install Java Using SDKMAN: The Ultimate Guide for Java Developers'
+date: '2025-07-26'
+tags: ['Java', 'SDKMAN', 'Development Tools', 'Setup']
+draft: false
+thumbnail: '/static/images/blogs/java/sdkman/sdkman.png'
+images: ['/static/images/blogs/java/sdkman/sdkman.png.png']
+summary: 'SDKMAN is a powerful tool for managing multiple versions of Java and other JVM-based technologies. Learn how to install SDKMAN and use it to effortlessly manage Java installations on your development machine.'
+authors: [trungntm]
+---
+
+# What is SDKMAN?
+
+[SDKMAN!](https://sdkman.io/) (Software Development Kit Manager) is a tool for managing parallel versions of multiple Software Development Kits on most Unix-based systems. It provides a convenient Command Line Interface (CLI) and API for installing, switching, removing and listing candidates.
+
+SDKMAN supports various JVM-based technologies including:
+
+- **Java** (Oracle JDK, OpenJDK, Amazon Corretto, GraalVM, etc.)
+- **Gradle** - Build automation tool
+- **Maven** - Project management tool
+- **Kotlin** - JVM programming language
+- **Scala** - Functional programming language
+- **Spring Boot CLI** - Spring Boot command line interface
+- And many more!
+
+## Why Use SDKMAN?
+
+### 🔄 **Version Management Made Easy**
+
+Switch between different Java versions with a single command - perfect for projects requiring different JDK versions.
+
+### 🚀 **Simple Installation Process**
+
+No need to manually download, extract, and configure environment variables. SDKMAN handles everything.
+
+### 🌍 **Cross-Platform Support**
+
+Works on Linux, macOS, and Windows (via WSL or Git Bash).
+
+### 📦 **Multiple Vendors Support**
+
+Choose from various Java distributions like Oracle JDK, OpenJDK, Amazon Corretto, AdoptOpenJDK, and more.
+
+# Prerequisites
+
+Before installing SDKMAN, ensure your system meets these requirements:
+
+## For SDKMAN Installation:
+
+- [x] **Unix-based system** (Linux, macOS, or Windows with WSL/Git Bash)
+- [x] **curl** or **wget** installed
+- [x] **bash** shell (version 3.2+)
+
+## For Installing Java/SDKs (after SDKMAN is installed):
+
+- [x] **zip** and **unzip** utilities (needed to extract downloaded SDK archives)
+
+You can verify these prerequisites by running:
+
+```bash
+# Check if curl is installed (required for SDKMAN installation)
+curl --version
+
+# Check bash version (required for SDKMAN)
+bash --version
+
+# Check if zip/unzip are available (needed later for SDK installations)
+zip --version
+unzip --version
+```
+
+# Installing SDKMAN
+
+## Step 1: Install SDKMAN
+
+Open your terminal and run the following command to install SDKMAN:
+
+```bash
+curl -s "https://get.sdkman.io" | bash
+```
+
+This command will:
+
+- Download the SDKMAN installation script
+- Install SDKMAN in your home directory (`~/.sdkman`)
+- Add necessary configurations to your shell profile
+
+## Step 2: Initialize SDKMAN
+
+After installation, you need to initialize SDKMAN in your current terminal session:
+
+```bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+```
+
+Alternatively, you can open a new terminal window, and SDKMAN will be automatically initialized.
+
+## Step 3: Verify Installation
+
+Confirm that SDKMAN is properly installed by checking its version:
+
+```bash
+sdk version
+```
+
+You should see output similar to:
+
+```
+SDKMAN!
+script: 5.18.0
+native: 0.4.6
+```
+
+# Installing Java with SDKMAN
+
+Now that SDKMAN is installed, let's explore how to install and manage Java versions.
+
+## List Available Java Versions
+
+To see all available Java versions, use:
+
+```bash
+sdk list java
+```
+
+This will display a comprehensive list of available Java distributions and versions:
+
+```
+================================================================================
+Available Java Versions for Linux 64bit
+================================================================================
+ Vendor        | Use | Version      | Dist    | Status     | Identifier
+--------------------------------------------------------------------------------
+ Corretto      |     | 21.0.1       | amzn    |            | 21.0.1-amzn
+               |     | 17.0.9       | amzn    |            | 17.0.9-amzn
+               |     | 11.0.21      | amzn    |            | 11.0.21-amzn
+               |     | 8.0.392      | amzn    |            | 8.0.392-amzn
+ Graal CE      |     | 21.0.1       | graalce |            | 21.0.1-graalce
+               |     | 17.0.9       | graalce |            | 17.0.9-graalce
+ OpenJDK       |     | 21.0.1       | open    |            | 21.0.1-open
+               |     | 17.0.9       | open    |            | 17.0.9-open
+               |     | 11.0.21      | open    |            | 11.0.21-open
+               |     | 8.0.392      | open    |            | 8.0.392-open
+ Oracle        |     | 21.0.1       | oracle  |            | 21.0.1-oracle
+               |     | 17.0.9       | oracle  |            | 17.0.9-oracle
+================================================================================
+```
+
+## Install a Java Version
+
+To install a specific Java version, use the `install` command with the identifier:
+
+```bash
+# Install the latest LTS version (Java 21)
+sdk install java 21.0.1-open
+
+# Install Java 17 (Previous LTS)
+sdk install java 17.0.9-open
+
+# Install Java 11 (Another LTS version)
+sdk install java 11.0.21-open
+
+# Install Amazon Corretto 17
+sdk install java 17.0.9-amzn
+```
+
+During installation, SDKMAN will ask if you want to set this version as the default. Type `Y` for yes or `N` for no.
+
+## Install Latest Java Version
+
+To install the latest available Java version without specifying the exact version number:
+
+```bash
+sdk install java
+```
+
+This will install the latest stable release and set it as your default Java version.
+
+# Managing Java Versions
+
+## Switch Between Java Versions
+
+### Use a Specific Version for Current Session
+
+```bash
+sdk use java 17.0.9-open
+```
+
+This switches to Java 17 for the current terminal session only.
+
+### Set Default Java Version
+
+```bash
+sdk default java 21.0.1-open
+```
+
+This sets Java 21 as the default version for all new terminal sessions.
+
+## List Installed Java Versions
+
+To see all Java versions installed on your system:
+
+```bash
+sdk list java | grep installed
+```
+
+Or use:
+
+```bash
+sdk current java
+```
+
+This shows the currently active Java version.
+
+## Verify Java Installation
+
+After installing or switching Java versions, verify the installation:
+
+```bash
+java -version
+javac -version
+echo $JAVA_HOME
+```
+
+You should see output indicating the correct Java version and JAVA_HOME path.
+
+Additionally, you can manual setup your JAVA_HOME on `.bash_profile` or `.zshrc`:
+
+```
+export JAVA_HOME=${SDKMAN_CANDIDATES_DIR}/java/${CURRENT}
+```
+
+# Advanced SDKMAN Features
+
+## Environment Configuration
+
+SDKMAN automatically sets the `JAVA_HOME` environment variable when you switch Java versions. You can verify this:
+
+```bash
+echo $JAVA_HOME
+# Output: /Users/username/.sdkman/candidates/java/current
+```
+
+## Uninstall Java Versions
+
+To remove a Java version you no longer need:
+
+```bash
+sdk uninstall java 11.0.21-open
+```
+
+## Update SDKMAN
+
+Keep SDKMAN up to date with:
+
+```bash
+sdk update
+```
+
+## Flush Archives and Temp Files
+
+Clean up downloaded archives and temporary files:
+
+```bash
+sdk flush archives
+sdk flush temp
+```
+
+# Project-Specific Java Versions
+
+## Using .sdkmanrc File
+
+You can create a `.sdkmanrc` file in your project root to specify the Java version for that project:
+
+```bash
+# Navigate to your project directory
+cd /path/to/your/project
+
+# Create .sdkmanrc file
+echo "java=17.0.9-open" > .sdkmanrc
+
+# Enable auto-switching (one-time setup)
+sdk config
+# Set sdkman_auto_env=true
+```
+
+Now, whenever you `cd` into the project directory, SDKMAN will automatically switch to the specified Java version.
+
+# Troubleshooting Common Issues
+
+## Issue 1: Command Not Found
+
+If you get "sdk: command not found" error:
+
+```bash
+# Check if SDKMAN is properly sourced
+echo $SDKMAN_DIR
+
+# If empty, manually source SDKMAN
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# Add to your shell profile permanently
+echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.bashrc
+# or for zsh users
+echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.zshrc
+```
+
+## Issue 2: Permission Denied
+
+If you encounter permission issues:
+
+```bash
+# Check SDKMAN directory permissions
+ls -la ~/.sdkman
+
+# Fix permissions if needed
+chmod -R 755 ~/.sdkman
+```
+
+## Issue 3: Network Issues
+
+If downloads fail due to network issues:
+
+```bash
+# Set proxy if needed
+export http_proxy=http://your-proxy:port
+export https_proxy=https://your-proxy:port
+
+# Or configure SDKMAN with different mirror
+sdk config
+```
+
+# Best Practices
+
+## 1. Keep LTS Versions
+
+Install and maintain Long Term Support (LTS) versions for stability:
+
+- Java 8 (LTS until 2030)
+- Java 11 (LTS until 2026)
+- Java 17 (LTS until 2029)
+- Java 21 (LTS until 2031)
+
+## 2. Use Project-Specific Versions
+
+Create `.sdkmanrc` files for projects to ensure team consistency:
+
+```bash
+# Example .sdkmanrc for a Spring Boot project
+java=17.0.9-open
+gradle=8.4
+maven=3.9.5
+```
+
+## 3. Regular Updates
+
+Keep your Java installations updated:
+
+```bash
+# Update SDKMAN itself
+sdk update
+
+# Check for newer versions
+sdk list java
+
+# Upgrade to newer patch versions
+sdk install java 21.0.2-open
+sdk default java 21.0.2-open
+sdk uninstall java 21.0.1-open
+```
+
+## 4. Clean Up Regularly
+
+Remove unused versions to save disk space:
+
+```bash
+# List installed versions
+sdk list java | grep installed
+
+# Remove old versions
+sdk uninstall java 8.0.382-open
+
+# Clean up archives
+sdk flush archives
+```
+
+# Conclusion
+
+SDKMAN is an indispensable tool for Java developers who work with multiple Java versions or JVM-based technologies. It simplifies the installation, management, and switching between different Java distributions and versions.
+
+Key benefits of using SDKMAN:
+
+- ✅ **Effortless version management** - Switch between Java versions with a single command
+- ✅ **Multiple vendor support** - Choose from Oracle, OpenJDK, Amazon Corretto, and more
+- ✅ **Project-specific configurations** - Use `.sdkmanrc` for team consistency
+- ✅ **Automatic environment setup** - No manual JAVA_HOME configuration needed
+- ✅ **Cross-platform compatibility** - Works on Linux, macOS, and Windows (WSL)
+
+Whether you're maintaining legacy applications on Java 8, developing modern microservices with Java 17, or experimenting with the latest Java 21 features, SDKMAN makes it seamless to manage your Java development environment.
+
+Start using SDKMAN today and experience the convenience of effortless Java version management!
+
+---
+
+## References
+
+- [SDKMAN Official Website](https://sdkman.io/)
+- [SDKMAN GitHub Repository](https://github.com/sdkman/sdkman-cli)
+- [Java Release Notes](https://www.oracle.com/java/technologies/javase/jdk-relnotes-index.html)
+- [OpenJDK Website](https://openjdk.org/)

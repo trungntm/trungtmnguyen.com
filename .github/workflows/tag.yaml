@@ -1,0 +1,202 @@
+name: Tag And Bump Version
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  deployToProd:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    uses: './.github/workflows/buildAndDeploy.yaml'
+    with:
+      env: production
+
+  buildTagAndBumpVersion:
+    name: Build, Tag, and Bump Version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check release version
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "current_version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+
+          # Get the latest tag (if any) for changelog generation
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          echo "previous_tag=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
+          echo "Previous tag: $PREVIOUS_TAG"
+
+      - name: Create release tag
+        id: create_tag
+        run: |
+          VERSION=${{ steps.get_version.outputs.current_version }}
+          TAG_NAME="v$VERSION"
+
+          # Check if tag already exists
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists, skipping tag creation"
+            echo "tag_created=false" >> $GITHUB_OUTPUT
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git tag -a "$TAG_NAME" -m "Release version $VERSION"
+            git push origin "$TAG_NAME"
+            echo "tag_created=true" >> $GITHUB_OUTPUT
+            echo "Created and pushed tag: $TAG_NAME"
+          fi
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+
+      - name: Generate CHANGELOG
+        id: generate_changelog
+        run: |
+          # Make the changelog script executable
+          chmod +x scripts/generate-changelog.js
+
+          # Generate changelog entry
+          node scripts/generate-changelog.js "${{ steps.get_version.outputs.current_version }}" "${{ steps.get_version.outputs.previous_tag }}"
+
+          # Extract the changelog content for the current version
+          VERSION="${{ steps.get_version.outputs.current_version }}"
+
+          # Get the changelog content for this version
+          if [ -f "CHANGELOG.md" ]; then
+            # Extract content between the version header and the next version or end
+            CHANGELOG_CONTENT=$(awk "/## \[$VERSION\]/,/## \[|---/" CHANGELOG.md | head -n -1 | tail -n +2)
+            echo "Generated changelog content for version $VERSION"
+
+            # Get detailed commit information since last tag
+            PREVIOUS_TAG="${{ steps.get_version.outputs.previous_tag }}"
+            if [ -n "$PREVIOUS_TAG" ]; then
+              echo "Getting commits since $PREVIOUS_TAG"
+              COMMIT_DETAILS=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- **%s** (%h) - %an, %ar" --no-merges | grep -v "\[skip ci\]" || echo "- No commits found")
+            else
+              echo "No previous tag found, getting last 10 commits"
+              COMMIT_DETAILS=$(git log --pretty=format:"- **%s** (%h) - %an, %ar" --no-merges -10 | grep -v "\[skip ci\]" || echo "- No commits found")
+            fi
+
+            # Get contributor information
+            if [ -n "$PREVIOUS_TAG" ]; then
+              CONTRIBUTORS=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"%an" --no-merges | sort | uniq | tr '\n' ', ' | sed 's/, $//')
+            else
+              CONTRIBUTORS=$(git log --pretty=format:"%an" --no-merges -10 | sort | uniq | tr '\n' ', ' | sed 's/, $//')
+            fi
+
+            # Get file changes statistics
+            if [ -n "$PREVIOUS_TAG" ]; then
+              FILES_CHANGED=$(git diff --name-only ${PREVIOUS_TAG}..HEAD | wc -l | tr -d ' ')
+              INSERTIONS=$(git diff --shortstat ${PREVIOUS_TAG}..HEAD | grep -o '[0-9]\+ insertion' | grep -o '[0-9]\+' || echo "0")
+              DELETIONS=$(git diff --shortstat ${PREVIOUS_TAG}..HEAD | grep -o '[0-9]\+ deletion' | grep -o '[0-9]\+' || echo "0")
+            else
+              FILES_CHANGED="N/A"
+              INSERTIONS="N/A"
+              DELETIONS="N/A"
+            fi
+
+            # Save detailed changelog content to a file for the GitHub release
+            cat > release_notes.md << EOF
+          ## Release v${{ steps.get_version.outputs.current_version }}
+
+          ${CHANGELOG_CONTENT}
+
+          ### � Detailed Changes
+          ${COMMIT_DETAILS}
+
+          ### 📊 Statistics
+          - **Files changed**: ${FILES_CHANGED}
+          - **Lines added**: ${INSERTIONS}
+          - **Lines removed**: ${DELETIONS}
+          - **Contributors**: ${CONTRIBUTORS}
+
+          ### 🔗 Links
+          - **Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG:-${{ github.sha }}}...${{ github.sha }}
+          - **Build**: [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          - **Commit**: [\`${{ github.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+
+          ### 🚀 Deployment
+          - **Status**: Successful
+          - **Environment**: Production
+          - **Branch**: ${{ github.ref_name }}
+          - **Deployed at**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          EOF
+
+            echo "release_notes_created=true" >> $GITHUB_OUTPUT
+          else
+            echo "CHANGELOG.md not found, using default release notes"
+            echo "release_notes_created=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release with CHANGELOG
+        if: steps.create_tag.outputs.tag_created == 'true' && steps.generate_changelog.outputs.release_notes_created == 'true'
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.create_tag.outputs.tag_name }}
+          name: Release ${{ steps.create_tag.outputs.tag_name }}
+          body_path: ./release_notes.md
+          draft: false
+          prerelease: false
+
+      - name: Increment minor version
+        id: increment_version
+        run: |
+          # Get current version components
+          CURRENT_VERSION=${{ steps.get_version.outputs.current_version }}
+
+          # Split version into parts (assuming semantic versioning)
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+
+          # Increment minor version and reset patch to 0
+          NEW_MINOR=$((MINOR + 1))
+          NEW_VERSION="${MAJOR}.${NEW_MINOR}.0"
+
+          echo "Incrementing version from $CURRENT_VERSION to $NEW_VERSION"
+
+          # Update package.json
+          npm version $NEW_VERSION --no-git-tag-version
+
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit version increment and CHANGELOG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json CHANGELOG.md
+          git commit -m "chore: bump version to ${{ steps.increment_version.outputs.new_version }} and update CHANGELOG [skip ci]"
+          git push origin develop
+
+      - name: Release Summary
+        run: |
+          echo "🎉 Release Pipeline Completed Successfully!"
+          echo "=================================="
+          echo "📦 Built version: ${{ steps.get_version.outputs.current_version }}"
+          echo "🏷️  Created tag: ${{ steps.create_tag.outputs.tag_name }}"
+          echo "� Updated CHANGELOG.md"
+          echo "�🚀 Deployed to production"
+          echo "⬆️  Next version: ${{ steps.increment_version.outputs.new_version }}"
+          echo "=================================="
+
+          # Display changelog content if available
+          if [ -f "CHANGELOG.md" ]; then
+            echo ""
+            echo "📝 Latest CHANGELOG entry:"
+            echo "=================================="
+            head -20 CHANGELOG.md | tail -15
+            echo "=================================="
+          fi

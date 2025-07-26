@@ -112,13 +112,16 @@ export default function ListLayoutWithTags({
                           {`${t} (${tagCounts[t]})`}
                         </h3>
                       ) : (
-                        <Link
-                          href={`/tags/${slug(t)}`}
-                          className="hover:text-primary-500 dark:hover:text-primary-500 px-3 py-2 text-sm font-medium text-gray-500 uppercase dark:text-gray-300"
-                          aria-label={`View posts tagged ${t}`}
-                        >
-                          {`${t} (${tagCounts[t]})`}
-                        </Link>
+                        <>
+                          <Tag text={t} />
+                          <Link
+                            href={`/tags/${slug(t)}`}
+                            className="-ml-2 text-sm font-semibold text-gray-600 uppercase dark:text-gray-300"
+                            aria-label={`View posts tagged ${t}`}
+                          >
+                            {` (${tagCounts[t]})`}
+                          </Link>
+                        </>
                       )}
                     </li>
                   )
