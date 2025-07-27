@@ -21,7 +21,6 @@ jobs:
       vercel_org_id: ${{ secrets.VERCEL_ORG_ID }}
       vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
 
-
   buildTagAndBumpVersion:
     name: Build, Tag, and Bump Version
     needs: [deployToProd]
@@ -30,6 +29,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Check release version
         id: get_version
