@@ -27,7 +27,7 @@ jobs:
     name: Build, Tag, and Bump Version
     needs: [deployToProd]
     runs-on: ubuntu-latest
-    success() || (!cancelled() && !failure())
+    if: success() || (!cancelled() && !failure())
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
