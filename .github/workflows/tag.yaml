@@ -187,7 +187,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add package.json CHANGELOG.md
-          git commit -m "chore: bump version to ${{ steps.increment_version.outputs.new_version }} and update CHANGELOG [skip ci]"
+          git commit -m "chore: bump version to ${{ steps.increment_version.outputs.new_version }} and update CHANGELOG
           git push origin develop
 
       - name: Release Summary
