@@ -1,6 +1,6 @@
 {
   "name": "trungtmnguyen",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "next dev",
@@ -11,7 +11,7 @@
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
     "prepare": "husky",
     "format": "prettier --write .",
-    "changelog": "node scripts/generate-changelog.mjs"
+    "changelog": "node scripts/generate-changelog.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

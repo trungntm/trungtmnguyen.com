@@ -6,17 +6,27 @@ on:
       - main
       - master
 
+permissions:
+  contents: write
+  actions: write
+  deployments: write
+
 jobs:
   deployToProd:
-    uses: ./.github/workflows/buildAndDeploy.yaml
+    name: Deploy to Production
+    uses: './.github/workflows/buildAndDeploy.yaml'
     with:
       env: production
+    secrets:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 
   buildTagAndBumpVersion:
     name: Build, Tag, and Bump Version
-    needs: [deployToProd]
-    if: success() || (!cancelled() && !failure())
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -149,7 +159,7 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Increment minor version
+      - name: Bump minor version
         id: increment_version
         run: |
           # Get current version components
