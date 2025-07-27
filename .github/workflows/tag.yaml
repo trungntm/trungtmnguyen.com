@@ -13,14 +13,13 @@ permissions:
 
 jobs:
   deployToProd:
-    name: Deploy to Production
-    uses: './.github/workflows/buildAndDeploy.yaml'
+    uses: trungntm/github-workflow-support/.github/workflows/buildAndDeployToVercel.yaml@master
     with:
       env: production
     secrets:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      vercel_token: ${{ secrets.VERCEL_TOKEN }}
+      vercel_org_id: ${{ secrets.VERCEL_ORG_ID }}
+      vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
 
 
   buildTagAndBumpVersion:
