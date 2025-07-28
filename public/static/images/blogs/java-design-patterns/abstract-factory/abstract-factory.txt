@@ -1,0 +1,53 @@
+@startuml GeneralAbstractFactory
+
+' Abstract product interfaces
+interface AbstractProductA
+interface AbstractProductB
+
+' Concrete products for family 1
+class ProductA1 implements AbstractProductA
+class ProductB1 implements AbstractProductB
+
+' Concrete products for family 2
+class ProductA2 implements AbstractProductA
+class ProductB2 implements AbstractProductB
+
+' Abstract factory interface
+interface AbstractFactory {
+    +createProductA() : AbstractProductA
+    +createProductB() : AbstractProductB
+}
+
+' Concrete factories
+class ConcreteFactory1 implements AbstractFactory {
+    +createProductA() : ProductA1
+    +createProductB() : ProductB1
+}
+
+class ConcreteFactory2 implements AbstractFactory {
+    +createProductA() : ProductA2
+    +createProductB() : ProductB2
+}
+
+' Client
+class Client {
+    -productA: AbstractProductA
+    -productB: AbstractProductB
+    +Client(factory: AbstractFactory)
+    +run()
+}
+
+
+' Creation relationships
+ConcreteFactory1 ..> ProductA1 : <<creates>>
+ConcreteFactory1 ..> ProductB1 : <<creates>>
+
+ConcreteFactory2 ..> ProductA2 : <<creates>>
+ConcreteFactory2 ..> ProductB2 : <<creates>>
+
+' Usage relationships
+Client --> AbstractFactory : uses
+Client --> AbstractProductA : uses
+Client --> AbstractProductB : uses
+
+@enduml
