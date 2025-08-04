@@ -1,0 +1,500 @@
+---
+title: 'Factory Method Pattern in Java: Delegating Object Creation to Subclasses'
+date: '2025-08-02'
+tags: ['Java', 'Design Patterns', 'Creational Patterns', 'Software Architecture', 'OOP']
+draft: false
+thumbnail: '/static/images/blogs/java-design-patterns/java-design-pattern.png'
+images: ['/static/images/blogs/java-design-patterns/java-design-pattern.png']
+summary: 'The Factory Method pattern provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created. Learn how to implement this fundamental creational design pattern in Java with real-world examples and best practices.'
+authors: [trungntm]
+---
+
+# Introduction to Factory Method Pattern
+
+The **Factory Method Pattern** is one of the most fundamental and widely-used creational design patterns. It provides a way to delegate the object creation logic to child classes, allowing the system to be more flexible and extensible without modifying existing code.
+
+## What is the Factory Method Pattern?
+
+The Factory Method pattern defines an interface for creating an object, but lets subclasses decide which class to instantiate. It lets a class defer instantiation to subclasses, promoting loose coupling and following the **Open/Closed Principle**.
+
+### Key Characteristics:
+
+- 🏗️ **Delegation** - Object creation is delegated to subclasses
+- 🔌 **Loose Coupling** - Client code doesn't depend on concrete classes
+- 🎯 **Single Responsibility** - Each factory creates one type of object
+- 🔄 **Extensibility** - New products can be added without changing existing code
+
+## Factory Method UML Diagram
+
+![factory-method](/static/images/blogs/java-design-patterns/factory-method/factory-method-1.png)
+
+## Components of Factory Method Pattern
+
+### 1. **Product**
+
+An interface or abstract class defining the interface of objects the factory method creates.
+
+### 2. **Concrete Product**
+
+Implements the Product interface with specific functionality.
+
+### 3. **Creator**
+
+Declares the factory method that returns an object of Product type. May also define a default implementation.
+
+### 4. **Concrete Creator**
+
+Overrides the factory method to return an instance of a Concrete Product.
+
+## Real-World Use Cases
+
+### 1. **Logistics and Transportation**
+
+- Different delivery methods (road, sea, air transportation)
+- Each method creates specific transport vehicles
+- Business logic remains the same regardless of transport type
+- Example: Shipping companies with multiple delivery options
+
+### 2. **Document Processing**
+
+- Different document types (PDF, Word, Excel, PowerPoint)
+- Each type has specific parsers and generators
+- Unified interface for document operations
+- Example: Office suites creating various document formats
+
+### 3. **Database Connections**
+
+- Different database types (MySQL, PostgreSQL, Oracle, SQLite)
+- Each database requires specific connection implementations
+- Same interface for all database operations
+- Example: ORM frameworks supporting multiple databases
+
+### 4. **UI Component Creation**
+
+- Different UI frameworks (Swing, JavaFX, Android, Web)
+- Each framework creates platform-specific components
+- Consistent component behavior across platforms
+- Example: Cross-platform mobile applications
+
+### 5. **Gaming Systems**
+
+- Different enemy types or character classes
+- Each type has specific creation logic and behaviors
+- Game engine remains unchanged when adding new types
+- Example: RPG games with various character classes
+
+### 6. **Notification Systems**
+
+- Different notification channels (Email, SMS, Push, Slack)
+- Each channel has specific implementation requirements
+- Unified notification sending interface
+- Example: Multi-channel marketing platforms
+
+# Programing in Java
+
+This implementation demonstrates a logistics system that can handle different types of transportation methods:
+
+- **Road Logistics** was used for Truck
+- **Sea Logistics** was used for Ship
+- **Air Logistics** was used for Plane
+
+## UML Structure
+
+![factory-method-logistic](/static/images/blogs/java-design-patterns/factory-method/factory-method-example.png)
+
+## Step 1: Define Product Interface
+
+```java
+// Product interface
+public interface Transport {
+    void deliver();
+    void startEngine();
+    void stopEngine();
+}
+```
+
+## Step 2: Create Concrete Products
+
+```java
+// Truck Implementation
+public class Truck implements Transport {
+
+  @Override
+  public void deliver() {
+    System.out.println("Delivering by land in a truck");
+  }
+
+  @Override
+  public void startEngine() {
+    System.out.println("Starting truck engine");
+  }
+
+  @Override
+  public void stopEngine() {
+    System.out.println("Stopping truck engine");
+  }
+}
+
+// Ship Document Implementation
+public class Ship implements Transport {
+
+  @Override
+  public void deliver() {
+    System.out.println("Delivering by sea in a ship");
+  }
+
+  @Override
+  public void startEngine() {
+    System.out.println("Starting ship engine");
+  }
+
+  @Override
+  public void stopEngine() {
+    System.out.println("Stopping ship engine");
+  }
+}
+
+// Plane Implementation
+public class Plane implements Transport {
+
+  @Override
+  public void deliver() {
+    System.out.println("Delivering by air in a plane");
+  }
+
+  @Override
+  public void startEngine() {
+    System.out.println("Starting plane engine");
+  }
+
+  @Override
+  public void stopEngine() {
+    System.out.println("Stopping plane engine");
+  }
+}
+```
+
+## Step 3: Define Abstract Creator
+
+```java
+// Abstract Creator class
+public abstract class Logistics {
+    // Factory method - subclasses implement this
+    public abstract Transport createTransport();
+
+    // Business logic using the factory method
+    public void planDelivery() {
+        Transport transport = createTransport();
+        transport.startEngine();
+        transport.deliver();
+        transport.stopEngine();
+    }
+}
+```
+
+## Step 4: Implement Concrete Creators
+
+```java
+// Truck Creator
+public class RoadLogistics extends Logistics {
+
+  @Override
+  public Transport createTransport() {
+    return new Truck();
+  }
+}
+
+// Sea Creator
+public class SeaLogistics extends Logistics {
+
+  @Override
+  public Transport createTransport() {
+    return new Ship();
+  }
+}
+
+// Plane Creator
+public class AirLogistics extends Logistics {
+
+  @Override
+  public Transport createTransport() {
+    return new Plane();
+  }
+}
+```
+
+## Step 5: Logistics Factory Registry
+
+```java
+// Factory Registry for managing different creators
+public class LogisticsFactory {
+
+  public static Logistics createLogistics(String deliveryType) {
+    return switch (deliveryType) {
+      case "road" -> new RoadLogistics();
+      case "sea" -> new SeaLogistics();
+      case "air" -> new AirLogistics();
+      default -> new RoadLogistics();
+    };
+  }
+}
+```
+
+## Step 6: Client Code and Demo
+
+```java
+// Application class demonstrating the Factory Method pattern
+public class Main {
+
+  public static void main(String[] args) {
+    Logistics logistics = LogisticsFactory.createLogistics("road");
+
+    logistics.planDelivery();
+  }
+}
+```
+
+# Benefits and Advantages
+
+## ✅ **Advantages**
+
+### 1. **Loose Coupling**
+
+- Client code doesn't depend on concrete product classes
+- Easy to change implementations without affecting clients
+
+### 2. **Extensibility**
+
+- New product types can be added without modifying existing code
+- Follows Open/Closed Principle
+
+### 3. **Single Responsibility**
+
+- Each creator is responsible for creating one type of product
+- Separation of object creation and business logic
+
+### 4. **Polymorphism**
+
+- Clients can work with different creators through common interface
+- Runtime decision about which product to create
+
+### 5. **Template Method Integration**
+
+- Factory method can be part of a larger template method
+- Common operations can be standardized
+
+## ❌ **Disadvantages**
+
+### 1. **Code Complexity**
+
+- Increases number of classes in the system
+- May be overkill for simple scenarios
+
+### 2. **Inheritance Dependency**
+
+- Requires subclassing to add new product types
+- Can lead to deep inheritance hierarchies
+
+### 3. **Runtime Overhead**
+
+- Virtual method calls add slight performance cost
+- Factory method lookup takes time
+
+# When to Use Factory Method Pattern
+
+## ✅ **Use When:**
+
+1. **Unknown Product Types at Compile Time**
+
+   - Product type is determined at runtime
+   - Based on configuration or user input
+
+2. **Framework Development**
+
+   - Providing hooks for users to extend functionality
+   - Library needs to create objects of user-defined types
+
+3. **Parallel Class Hierarchies**
+
+   - Related classes that should be created together
+   - Each creator knows which product variant to create
+
+4. **Testing and Mocking**
+   - Need to substitute real objects with mocks
+   - Different implementations for different environments
+
+## ❌ **Avoid When:**
+
+1. **Simple Object Creation**
+
+   - Only one product type exists
+   - No variation in creation logic
+
+2. **Performance Critical Code**
+
+   - Object creation happens very frequently
+   - Every nanosecond matters
+
+3. **Static Creation Logic**
+   - Creation logic never changes
+   - No need for runtime flexibility
+
+# Comparison with Other Patterns
+
+## Factory Method vs Abstract Factory
+
+| Aspect          | Factory Method               | Abstract Factory            |
+| --------------- | ---------------------------- | --------------------------- |
+| **Scope**       | Creates single objects       | Creates families of objects |
+| **Complexity**  | Simpler implementation       | More complex structure      |
+| **Inheritance** | Uses inheritance             | Uses composition            |
+| **Products**    | One product type per factory | Multiple related products   |
+| **Use Case**    | Single object creation       | Platform-specific families  |
+
+## Factory Method vs Builder
+
+| Aspect           | Factory Method        | Builder                         |
+| ---------------- | --------------------- | ------------------------------- |
+| **Purpose**      | Object type selection | Complex object construction     |
+| **Process**      | One-step creation     | Multi-step construction         |
+| **Flexibility**  | Type flexibility      | Configuration flexibility       |
+| **Immutability** | Not enforced          | Often creates immutable objects |
+
+## Factory Method vs Simple Factory
+
+| Aspect             | Factory Method      | Simple Factory         |
+| ------------------ | ------------------- | ---------------------- |
+| **Extensibility**  | Highly extensible   | Limited extensibility  |
+| **OCP Compliance** | Follows Open/Closed | Violates Open/Closed   |
+| **Inheritance**    | Uses inheritance    | Uses static methods    |
+| **Flexibility**    | Runtime flexibility | Compile-time decisions |
+
+# Common Pitfalls and Solutions
+
+## 1. **Over-Engineering Simple Cases**
+
+```java
+// ❌ Pitfall: Complex factory for simple creation
+public abstract class OverEngineeredCreator {
+    public abstract SimpleObject createObject();
+    // Complex hierarchy for simple object creation
+}
+
+// ✅ Solution: Use simple instantiation
+public class SimpleService {
+    public SimpleObject createObject() {
+        return new SimpleObject(); // Direct creation is fine
+    }
+}
+```
+
+## 2. **Deep Inheritance Hierarchies**
+
+```java
+// ❌ Pitfall: Too many inheritance levels
+public abstract class BaseCreator {
+    public abstract Product create();
+}
+
+public abstract class IntermediateCreator extends BaseCreator {
+    // Additional abstraction
+}
+
+public abstract class AnotherLevelCreator extends IntermediateCreator {
+    // More abstraction
+}
+
+public class ConcreteCreator extends AnotherLevelCreator {
+    // Finally, actual implementation
+}
+
+// ✅ Solution: Composition over inheritance
+public class FlexibleCreator {
+    private final CreationStrategy strategy;
+
+    public FlexibleCreator(CreationStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public Product create() {
+        return strategy.createProduct();
+    }
+}
+
+interface CreationStrategy {
+    Product createProduct();
+}
+```
+
+## 3. **Ignoring Error Handling**
+
+```java
+// ❌ Pitfall: No error handling
+public class UnsafeCreator extends DocumentCreator {
+    @Override
+    public Document createDocument(String fileName) {
+        // What if fileName is null? What if creation fails?
+        return new PDFDocument(fileName);
+    }
+}
+
+// ✅ Solution: Comprehensive error handling
+public class SafeCreator extends DocumentCreator {
+    @Override
+    public Document createDocument(String fileName) {
+        Objects.requireNonNull(fileName, "File name cannot be null");
+
+        try {
+            validateFileName(fileName);
+            return doCreateDocument(fileName);
+        } catch (Exception e) {
+            throw new DocumentCreationException(
+                "Failed to create document: " + fileName, e);
+        }
+    }
+
+    private void validateFileName(String fileName) {
+        if (fileName.trim().isEmpty()) {
+            throw new IllegalArgumentException("File name cannot be empty");
+        }
+        // Additional validation...
+    }
+
+    private Document doCreateDocument(String fileName) {
+        // Actual creation logic with error handling
+        return new PDFDocument(fileName);
+    }
+}
+```
+
+# Conclusion
+
+The Factory Method pattern is a fundamental creational pattern that provides an elegant solution for object creation while maintaining loose coupling and extensibility. It's particularly valuable when:
+
+## Key Takeaways:
+
+- ✅ **Use Factory Method when** you need runtime flexibility in object creation
+- ✅ **Promotes loose coupling** between client code and concrete classes
+- ✅ **Enables extensibility** through inheritance and polymorphism
+- ✅ **Follows SOLID principles** for maintainable code
+- ✅ **Integrates well** with other patterns like Template Method
+
+## Best Practices Summary:
+
+- 🎯 **Keep it simple** - Don't over-engineer for basic scenarios
+- 🏗️ **Handle errors gracefully** - Validate inputs and provide meaningful error messages
+- 🧪 **Design for testability** - Use dependency injection and mock factories
+- 📝 **Document factory contracts** - Clear specifications for creators and products
+- ⚡ **Consider performance** - Use caching and lazy initialization when appropriate
+
+The Factory Method pattern is essential for any Java developer's toolkit, providing a clean and extensible approach to object creation that scales well with application complexity.
+
+---
+
+## References
+
+- **Gang of Four Design Patterns** - Original Factory Method pattern definition
+- **Effective Java by Joshua Bloch** - Best practices for factory methods in Java
+- **Head First Design Patterns** - Practical examples and explanations
+- **Clean Code by Robert Martin** - Principles for writing maintainable factory code
+- **Java Design Patterns in Action** - Real-world applications and implementations
