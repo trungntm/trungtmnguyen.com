@@ -1,0 +1,37 @@
+@startuml FactoryMethodPattern
+
+' Abstract Product
+interface Product {
+    +use(): void
+}
+
+' Concrete Products
+class ConcreteProductA implements Product {
+    +use(): void
+}
+
+class ConcreteProductB implements Product {
+    +use(): void
+}
+
+' Abstract Creator
+abstract class Creator {
+    +createProduct(): Product
+    +someOperation(): void
+}
+
+' Concrete Creators
+class ConcreteCreatorA extends Creator {
+    +createProduct(): Product
+}
+
+class ConcreteCreatorB extends Creator {
+    +createProduct(): Product
+}
+
+' Relationships
+
+ConcreteCreatorA --> ConcreteProductA
+ConcreteCreatorB --> ConcreteProductB
+
+@enduml
