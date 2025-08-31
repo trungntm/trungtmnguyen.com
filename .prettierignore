@@ -10,3 +10,4 @@ yarn.lock
 .contentlayer/
 
 app/tag-data.json
+CHANGELOG.md
