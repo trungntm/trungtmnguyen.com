@@ -1,6 +1,8 @@
-const { withContentlayer } = require('next-contentlayer2')
+import type { NextConfig } from 'next'
+import { withContentlayer } from 'next-contentlayer2'
+import withBundleAnalyzer from '@next/bundle-analyzer'
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
@@ -61,9 +63,9 @@ const unoptimized = process.env.UNOPTIMIZED ? true : undefined
 /**
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
-module.exports = () => {
-  const plugins = [withContentlayer, withBundleAnalyzer]
-  return plugins.reduce((acc, next) => next(acc), {
+const nextConfig: NextConfig = () => {
+  const plugins = [withContentlayer, bundleAnalyzer]
+  return plugins.reduce((acc: Partial<NextConfig>, next) => next(acc), {
     output,
     basePath,
     reactStrictMode: true,
@@ -77,6 +79,10 @@ module.exports = () => {
           protocol: 'https',
           hostname: 'picsum.photos',
         },
+        {
+          protocol: 'https',
+          hostname: '**.supabase.co',
+        },
       ],
       unoptimized,
     },
@@ -88,7 +94,7 @@ module.exports = () => {
         },
       ]
     },
-    webpack: (config, options) => {
+    webpack: (config: { module: { rules: { test: RegExp; use: string[] }[] } }, options) => {
       config.module.rules.push({
         test: /\.svg$/,
         use: ['@svgr/webpack'],
@@ -98,3 +104,5 @@ module.exports = () => {
     },
   })
 }
+
+export default nextConfig
