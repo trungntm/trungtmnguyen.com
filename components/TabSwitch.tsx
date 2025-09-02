@@ -9,11 +9,7 @@ interface TabSwitchProps {
   className?: string
 }
 
-export function TabSwitch({
-  defaultTab = 'anonymous',
-  onTabChange,
-  className = '',
-}: TabSwitchProps) {
+export function TabSwitch({ defaultTab = 'signin', onTabChange, className = '' }: TabSwitchProps) {
   const [activeTab, setActiveTab] = useState<'signin' | 'anonymous'>(defaultTab)
 
   const handleTabChange = (tab: 'signin' | 'anonymous') => {
@@ -22,8 +18,8 @@ export function TabSwitch({
   }
 
   const tabs = [
-    { id: 'anonymous', label: 'Anonymous' },
     { id: 'signin', label: 'Sign In' },
+    { id: 'anonymous', label: 'Anonymous' },
   ] as const
 
   return (
