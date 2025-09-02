@@ -18,14 +18,29 @@ export function GitHubSignInButton({
   const [isLoading, setIsLoading] = useState(false)
   const supabase = createClient()
 
+  const getURL = () => {
+    let url =
+      process.env.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
+      process.env.NEXT_PUBLIC_VERCEL_URL ??
+      process.env.VERCEL_URL ?? // Automatically set by Vercel.
+      'http://localhost:3000'
+    // Make sure to include `https://` when not localhost.
+    url = url.startsWith('http') ? url : `https://${url}`
+    // Make sure to include a trailing `/`.
+    url = url.endsWith('/') ? url : `${url}/`
+    console.log('url', url)
+    return url
+  }
+
   const handleSignIn = async () => {
     try {
       setIsLoading(true)
-
+      const redirectToUri = `${getURL()}api/auth/callback?next=${encodeURIComponent(redirectTo)}`
+      console.log('redirectToUri', redirectToUri)
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
-          redirectTo: `${window.location.origin}/api/auth/callback?next=${encodeURIComponent(redirectTo)}`,
+          redirectTo: redirectToUri,
         },
       })
 
