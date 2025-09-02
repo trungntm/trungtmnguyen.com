@@ -14,6 +14,9 @@ import { FormProvider } from '@/components/hook-form'
 import { SignInForm } from './components/sign-in-form'
 import { LoadingButton } from '@/components/button/LoadingButton'
 import { createClient } from '@/utils/supabase/client'
+import { useAuth } from '@/hooks/useAuth'
+import { SignOutButton } from '@/components/auth/SignOutButton'
+import { Avatar } from '@/components/avatar'
 import dayjs from 'dayjs'
 
 interface GuestBookEntry {
@@ -25,27 +28,28 @@ interface GuestBookEntry {
   user_id?: string
   website?: string
   is_anonymous?: boolean
-}
-
-interface StoredEntry {
-  id: string
-  name: string
-  message: string
-  created_at?: string
-  email?: string
-  website?: string
+  avatar_url?: string
 }
 
 export default function GuestBook() {
+  const { user, isAuthenticated, activeAuthMode, setActiveAuthMode } = useAuth()
+
+  const [entries, setEntries] = useState<GuestBookEntry[]>([])
+
+  // Schema definition after state variables
   const guestBookSchema = useMemo(
     () =>
       Yup.object().shape({
-        name: Yup.string().required('Name is required'),
+        name: isAuthenticated
+          ? Yup.string() // Optional for authenticated users
+          : activeAuthMode === 'anonymous'
+            ? Yup.string().required('Display name is required for anonymous comments')
+            : Yup.string(), // Optional for sign-in mode (user hasn't signed in yet)
         email: Yup.string().email('Invalid email').optional(),
         website: Yup.string().url('Invalid URL').optional(),
         message: Yup.string().min(2, 'Message is too short').required('Message is required'),
       }),
-    []
+    [isAuthenticated, activeAuthMode]
   )
 
   const defaultValues = {
@@ -65,9 +69,6 @@ export default function GuestBook() {
     handleSubmit,
     formState: { isSubmitting },
   } = methods
-
-  const [entries, setEntries] = useState<GuestBookEntry[]>([])
-  const [activeAuthMode, setActiveAuthMode] = useState<'signin' | 'anonymous'>('anonymous')
 
   // Load entries from localStorage on component mount
   useEffect(() => {
@@ -125,38 +126,79 @@ export default function GuestBook() {
   }, [])
 
   const onHandleSubmit = async (formData) => {
-    if (!formData.name?.trim() || !formData.message?.trim()) {
+    if (!formData.message?.trim()) {
+      console.log('Validation failed: missing message')
       return
     }
 
-    const supabase = await createClient()
-    let user
+    const supabase = createClient()
+    let currentUser = user // Use authenticated user if available
 
-    if (activeAuthMode === 'anonymous') {
-      const { data, error } = await supabase.auth.signInAnonymously({
-        options: {
-          data: {
-            email: formData.email?.trim() || undefined,
-            name: formData.name.trim(),
+    // Handle different authentication modes
+    if (!isAuthenticated) {
+      if (activeAuthMode === 'anonymous') {
+        // For anonymous users, we require a name
+        if (!formData.name?.trim()) {
+          console.log('Validation failed: anonymous user missing name')
+          return
+        }
+
+        // Sign in anonymously with user metadata
+        const { data, error } = await supabase.auth.signInAnonymously({
+          options: {
+            data: {
+              full_name: formData.name.trim(),
+              email: formData.email?.trim() || undefined,
+              website: formData.website?.trim() || undefined,
+            },
           },
-        },
-      })
+        })
 
-      user = data?.user
+        if (error) {
+          console.error('Anonymous sign-in error:', error)
+          return
+        }
+
+        currentUser = data?.user
+      } else {
+        // User selected sign-in mode but is not authenticated
+        return
+      }
     }
-
+    // Prepare the guest book entry
     const newEntry: GuestBookEntry = {
-      name: formData.name.trim(),
+      name: isAuthenticated
+        ? currentUser?.user_metadata?.full_name ||
+          currentUser?.user_metadata?.name ||
+          currentUser?.email ||
+          currentUser?.user_metadata?.email ||
+          'Anonymous'
+        : formData.name?.trim() || 'Anonymous',
       message: formData.message.trim(),
-      email: formData.email?.trim() || undefined,
-      website: formData.website?.trim() || undefined,
-      user_id: user?.id || undefined,
-      is_anonymous: activeAuthMode === 'anonymous',
+      email: isAuthenticated
+        ? currentUser?.email || currentUser?.user_metadata?.email
+        : formData.email?.trim() || undefined,
+      website:
+        isAuthenticated && !currentUser?.is_anonymous
+          ? 'https://github.com/' + currentUser?.user_metadata?.user_name
+          : formData.website?.trim() || undefined, // Manual input for anonymous users
+      user_id: currentUser?.id || undefined,
+      is_anonymous: !isAuthenticated || currentUser?.is_anonymous || false,
+      avatar_url:
+        isAuthenticated && !currentUser?.is_anonymous
+          ? user?.user_metadata?.avatar_url || user?.user_metadata?.picture
+          : undefined,
     }
 
-    await supabase.from('guestbook').insert(newEntry)
+    const { error } = await supabase.from('guestbook').insert(newEntry)
 
-    methods.reset()
+    if (error) {
+      console.error('Error inserting entry:', error)
+      // You could show a toast notification here
+      return
+    }
+
+    methods.reset() // Reset form after successful submission
   }
 
   const formatDate = (date: Date | undefined) => {
@@ -191,11 +233,28 @@ export default function GuestBook() {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Leave a Message
               </h3>
-              <TabSwitch defaultTab="anonymous" onTabChange={setActiveAuthMode} className="ml-4" />
+              <div className="flex items-center gap-4">
+                {isAuthenticated && user && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Signed in as {user.user_metadata?.full_name || user.email}
+                    </span>
+                    <SignOutButton size="sm" />
+                  </div>
+                )}
+                {!isAuthenticated && <TabSwitch onTabChange={setActiveAuthMode} className="" />}
+              </div>
             </div>
 
-            {activeAuthMode === 'anonymous' ? <AnonymousForm /> : <SignInForm />}
-            <CommentForm />
+            {/* Show different forms based on auth state */}
+            {isAuthenticated ? (
+              <CommentForm />
+            ) : (
+              <>
+                {activeAuthMode === 'anonymous' ? <AnonymousForm /> : <SignInForm />}
+                <CommentForm />
+              </>
+            )}
 
             <div className="mt-6">
               <LoadingButton
@@ -204,7 +263,6 @@ export default function GuestBook() {
                 loadingText="Submitting..."
                 fullWidth
                 size="md"
-                onClick={() => console.log('Button clicked!')}
               >
                 Sign Guest Book
               </LoadingButton>
@@ -230,8 +288,18 @@ export default function GuestBook() {
                   key={entry.id}
                   className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
+                  <div className="flex items-start space-x-3">
+                    {/* Avatar */}
+                    <Avatar
+                      avatarUrl={entry.is_anonymous ? undefined : entry.avatar_url}
+                      fullName={entry.name || 'Anonymous'}
+                      isAnonymous={entry.is_anonymous}
+                      size={40}
+                      className="mt-4"
+                    />
+
+                    {/* Content */}
+                    <div className="min-w-0 flex-1">
                       <div className="flex items-center space-x-2">
                         <h4 className="font-semibold text-gray-900 dark:text-gray-100">
                           {entry.website ? (
@@ -251,9 +319,14 @@ export default function GuestBook() {
                             entry.name
                           )}
                         </h4>
-                        <span className="pt-4 text-sm text-gray-500 dark:text-gray-400">
-                          {formatDate(entry.created_at)}
-                        </span>
+                        {entry.is_anonymous && (
+                          <span className="mt-3 rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-400">
+                            Anonymous
+                          </span>
+                        )}
+                      </div>
+                      <div className="mt-1 flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span>{formatDate(entry.created_at)}</span>
                       </div>
                       <p className="mt-2 whitespace-pre-wrap text-gray-700 dark:text-gray-300">
                         {entry.message}

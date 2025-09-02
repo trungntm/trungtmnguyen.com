@@ -24,6 +24,7 @@
       "@/css/*": ["css/*"],
       "@/config/*": ["config/*"],
       "@/utils/*": ["utils/*"],
+      "@/hooks/*": ["hooks/*"],
       "contentlayer/generated": ["./.contentlayer/generated"],
       "pliny/*": ["node_modules/pliny/*"]
     },

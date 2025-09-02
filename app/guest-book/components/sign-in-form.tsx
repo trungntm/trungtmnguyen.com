@@ -1,3 +1,5 @@
+import { GitHubSignInButton } from '@/components/auth/GitHubSignInButton'
+
 export const SignInForm = () => {
   return (
     <div className="space-y-4">
@@ -12,7 +14,7 @@ export const SignInForm = () => {
               />
             </svg>
           </div>
-          <div className="ml-3">
+          <div className="ml-3 flex-1">
             <h3 className="text-sm font-medium text-blue-800 dark:text-blue-200">
               Sign In Required
             </h3>
@@ -22,21 +24,15 @@ export const SignInForm = () => {
                 helps us maintain the quality of our guest book.
               </p>
             </div>
-            <div className="mt-4">
-              <div className="-mx-2 -my-1.5 flex">
-                <button
-                  type="button"
-                  className="rounded-md bg-blue-50 px-2 py-1.5 text-sm font-medium text-blue-800 hover:bg-blue-100 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-blue-50 focus:outline-none dark:bg-blue-900/20 dark:text-blue-200 dark:hover:bg-blue-900/30"
-                >
-                  Sign In with GitHub
-                </button>
-                <button
-                  type="button"
-                  className="ml-3 rounded-md bg-blue-50 px-2 py-1.5 text-sm font-medium text-blue-800 hover:bg-blue-100 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-blue-50 focus:outline-none dark:bg-blue-900/20 dark:text-blue-200 dark:hover:bg-blue-900/30"
-                >
-                  Sign In with Google
-                </button>
-              </div>
+            <div className="mt-4 space-y-2">
+              <GitHubSignInButton redirectTo="/guest-book" />
+              <button
+                type="button"
+                className="w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+                disabled
+              >
+                Sign In with Google (Coming Soon)
+              </button>
             </div>
           </div>
         </div>
