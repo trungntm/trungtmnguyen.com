@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2025-09-05
+
+### 🔧 Changed
+- Merge pull request #166 from trungntm/feature/skip-build-release
+
+
 ## [1.3.0] - 2025-08-28
 
 ### 🔧 Changed
