@@ -181,7 +181,7 @@ export default function GuestBook() {
       website:
         isAuthenticated &&
         !currentUser?.is_anonymous &&
-        currentUser?.user_metadata?.provider === 'github'
+        currentUser?.app_metadata?.provider === 'github'
           ? 'https://github.com/' + currentUser?.user_metadata?.user_name
           : formData.website?.trim() || undefined, // Manual input for anonymous users
       user_id: currentUser?.id || undefined,
