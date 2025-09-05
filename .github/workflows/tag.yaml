@@ -89,6 +89,7 @@ jobs:
 
             # Get detailed commit information since last tag
             PREVIOUS_TAG="${{ steps.get_version.outputs.previous_tag }}"
+            CURRENT_TAG="v$VERSION"
             if [ -n "$PREVIOUS_TAG" ]; then
               echo "Getting commits since $PREVIOUS_TAG"
               COMMIT_DETAILS=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- **%s** (%h) - %an, %ar" --no-merges | grep -v "\[skip ci\]" || echo "- No commits found")
@@ -131,7 +132,7 @@ jobs:
           - **Contributors**: ${CONTRIBUTORS}
 
           ### 🔗 Links
-          - **Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG:-${{ github.sha }}}...${{ github.sha }}
+          - **Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG:-${{ github.sha }}}...${CURRENT_TAG:-${{ github.sha }}}
           - **Build**: [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
           - **Commit**: [\`${{ github.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
 

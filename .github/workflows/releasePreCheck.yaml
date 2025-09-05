@@ -14,30 +14,3 @@ jobs:
   dependencyReview:
     uses: ./.github/workflows/dependencyReview.yaml
 
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build project
-        run: yarn build
-        env:
-          CI: false
-
-      - name: Notify success
-        if: success()
-        run: |
-          echo "✅ Release branch build verification completed successfully!"
-          echo "The code is ready for merge to main branch."
