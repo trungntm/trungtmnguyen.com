@@ -28,7 +28,6 @@ export function GitHubSignInButton({
     url = url.startsWith('http') ? url : `https://${url}`
     // Make sure to include a trailing `/`.
     url = url.endsWith('/') ? url : `${url}/`
-    console.log('url', url)
     return url
   }
 
@@ -36,7 +35,6 @@ export function GitHubSignInButton({
     try {
       setIsLoading(true)
       const redirectToUri = `${getURL()}api/auth/callback?next=${encodeURIComponent(redirectTo)}`
-      console.log('redirectToUri', redirectToUri)
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {

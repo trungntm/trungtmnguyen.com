@@ -72,8 +72,6 @@ export function Reactions({ guestbookId }: ReactionsProps) {
         }
       })
 
-      console.log(reactionCounts)
-
       setReactions(Object.values(reactionCounts))
     }
 
