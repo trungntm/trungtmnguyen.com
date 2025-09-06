@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Image from '@/components/Image'
 import { BlinkCursor } from '@/components/cursor'
 import { AuroraText } from './text-animation'
