@@ -1,6 +1,6 @@
 {
   "name": "trungtmnguyen",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "private": true,
   "scripts": {
     "start": "next dev",
