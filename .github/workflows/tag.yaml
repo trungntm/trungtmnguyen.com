@@ -69,97 +69,17 @@ jobs:
         with:
           ref: develop
 
-      - name: Generate CHANGELOG
-        id: generate_changelog
-        run: |
-          # Make the changelog script executable
-          chmod +x scripts/generate-changelog.js
-
-          # Generate changelog entry
-          node scripts/generate-changelog.js "${{ steps.get_version.outputs.current_version }}" "${{ steps.get_version.outputs.previous_tag }}"
-
-          # Extract the changelog content for the current version
-          VERSION="${{ steps.get_version.outputs.current_version }}"
-
-          # Get the changelog content for this version
-          if [ -f "CHANGELOG.md" ]; then
-            # Extract content between the version header and the next version or end
-            CHANGELOG_CONTENT=$(awk "/## \[$VERSION\]/,/## \[|---/" CHANGELOG.md | head -n -1 | tail -n +2)
-            echo "Generated changelog content for version $VERSION"
-
-            # Get detailed commit information since last tag
-            PREVIOUS_TAG="${{ steps.get_version.outputs.previous_tag }}"
-            CURRENT_TAG="v$VERSION"
-            if [ -n "$PREVIOUS_TAG" ]; then
-              echo "Getting commits since $PREVIOUS_TAG"
-              COMMIT_DETAILS=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- **%s** (%h) - %an, %ar" --no-merges | grep -v "\[skip ci\]" || echo "- No commits found")
-            else
-              echo "No previous tag found, getting last 10 commits"
-              COMMIT_DETAILS=$(git log --pretty=format:"- **%s** (%h) - %an, %ar" --no-merges -10 | grep -v "\[skip ci\]" || echo "- No commits found")
-            fi
-
-            # Get contributor information
-            if [ -n "$PREVIOUS_TAG" ]; then
-              CONTRIBUTORS=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"%an" --no-merges | sort | uniq | tr '\n' ', ' | sed 's/, $//')
-            else
-              CONTRIBUTORS=$(git log --pretty=format:"%an" --no-merges -10 | sort | uniq | tr '\n' ', ' | sed 's/, $//')
-            fi
-
-            # Get file changes statistics
-            if [ -n "$PREVIOUS_TAG" ]; then
-              FILES_CHANGED=$(git diff --name-only ${PREVIOUS_TAG}..HEAD | wc -l | tr -d ' ')
-              INSERTIONS=$(git diff --shortstat ${PREVIOUS_TAG}..HEAD | grep -o '[0-9]\+ insertion' | grep -o '[0-9]\+' || echo "0")
-              DELETIONS=$(git diff --shortstat ${PREVIOUS_TAG}..HEAD | grep -o '[0-9]\+ deletion' | grep -o '[0-9]\+' || echo "0")
-            else
-              FILES_CHANGED="N/A"
-              INSERTIONS="N/A"
-              DELETIONS="N/A"
-            fi
-
-            # Save detailed changelog content to a file for the GitHub release
-            cat > release_notes.md << EOF
-          ## Release v${{ steps.get_version.outputs.current_version }}
-
-          ${CHANGELOG_CONTENT}
-
-          ### � Detailed Changes
-          ${COMMIT_DETAILS}
-
-          ### 📊 Statistics
-          - **Files changed**: ${FILES_CHANGED}
-          - **Lines added**: ${INSERTIONS}
-          - **Lines removed**: ${DELETIONS}
-          - **Contributors**: ${CONTRIBUTORS}
-
-          ### 🔗 Links
-          - **Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG:-${{ github.sha }}}...${CURRENT_TAG:-${{ github.sha }}}
-          - **Build**: [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-          - **Commit**: [\`${{ github.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
-
-          ### 🚀 Deployment
-          - **Status**: Successful
-          - **Environment**: Production
-          - **Branch**: ${{ github.ref_name }}
-          - **Deployed at**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
-          EOF
-
-            echo "release_notes_created=true" >> $GITHUB_OUTPUT
-          else
-            echo "CHANGELOG.md not found, using default release notes"
-            echo "release_notes_created=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Create GitHub Release with CHANGELOG
-        if: steps.create_tag.outputs.tag_created == 'true' && steps.generate_changelog.outputs.release_notes_created == 'true'
+      - name: Create GitHub Release (auto-generated notes)
+        if: steps.create_tag.outputs.tag_created == 'true'
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.create_tag.outputs.tag_name }}
           name: Release ${{ steps.create_tag.outputs.tag_name }}
-          body_path: ./release_notes.md
           draft: false
           prerelease: false
+          generate_release_notes: true
 
       - name: Bump minor version
         id: increment_version
@@ -184,12 +104,12 @@ jobs:
 
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Commit version increment and CHANGELOG
+      - name: Commit version increment
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json CHANGELOG.md
-          git commit -m "chore: bump version to ${{ steps.increment_version.outputs.new_version }} and update CHANGELOG"
+          git add package.json
+          git commit -m "chore: bump version to ${{ steps.increment_version.outputs.new_version }}"
           git push origin develop
 
       - name: Release Summary
@@ -198,16 +118,5 @@ jobs:
           echo "=================================="
           echo "📦 Built version: ${{ steps.get_version.outputs.current_version }}"
           echo "🏷️  Created tag: ${{ steps.create_tag.outputs.tag_name }}"
-          echo "� Updated CHANGELOG.md"
-          echo "�🚀 Deployed to production"
-          echo "⬆️  Next version: ${{ steps.increment_version.outputs.new_version }}"
+          echo "🚀 Deployed to production"
           echo "=================================="
-
-          # Display changelog content if available
-          if [ -f "CHANGELOG.md" ]; then
-            echo ""
-            echo "📝 Latest CHANGELOG entry:"
-            echo "=================================="
-            head -20 CHANGELOG.md | tail -15
-            echo "=================================="
-          fi
