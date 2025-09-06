@@ -17,10 +17,11 @@ import { createClient } from '@/utils/supabase/client'
 import { useAuth } from '@/hooks/useAuth'
 import { SignOutButton } from '@/components/auth/SignOutButton'
 import { Avatar } from '@/components/avatar'
+import { Reactions } from './components/reactions'
 import dayjs from 'dayjs'
 
 interface GuestBookEntry {
-  id?: string
+  id: string
   name: string
   message: string
   created_at?: Date
@@ -166,7 +167,7 @@ export default function GuestBook() {
       }
     }
     // Prepare the guest book entry
-    const newEntry: GuestBookEntry = {
+    const newEntry: Omit<GuestBookEntry, 'id'> = {
       name: isAuthenticated
         ? currentUser?.user_metadata?.full_name ||
           currentUser?.user_metadata?.name ||
@@ -333,6 +334,11 @@ export default function GuestBook() {
                       <p className="mt-2 whitespace-pre-wrap text-gray-700 dark:text-gray-300">
                         {entry.message}
                       </p>
+
+                      {/* Reactions */}
+                      <div className="mt-3">
+                        <Reactions guestbookId={entry.id} />
+                      </div>
                     </div>
                   </div>
                 </div>
