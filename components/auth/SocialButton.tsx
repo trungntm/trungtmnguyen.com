@@ -83,8 +83,6 @@ export function SocialButton({
       setIsLoading(true)
       const redirectToUri = `${getURL()}api/auth/callback?next=${encodeURIComponent(redirectTo)}`
 
-      console.log(`${config.name} sign-in redirectTo:`, redirectToUri)
-
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
