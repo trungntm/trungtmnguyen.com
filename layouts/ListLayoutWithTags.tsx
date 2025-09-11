@@ -10,7 +10,7 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
 import Image from '@/components/Image'
-import { UnderlineHoverLink } from '@/components/UnderlineHoverLink'
+import UnderlineHoverLink from '@/components/UnderlineHoverLink'
 import { ReadingTime } from '@/components/reading-time'
 
 interface PaginationProps {
