@@ -4,7 +4,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import HeroSection from '@/components/HeroSection'
-import { UnderlineHoverLink } from '@/components/UnderlineHoverLink'
+import UnderlineHoverLink from '@/components/UnderlineHoverLink'
 import Image from '@/components/Image'
 import { ReadingTime } from '@/components/reading-time'
 const MAX_DISPLAY = 5
