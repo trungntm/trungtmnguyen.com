@@ -1,8 +1,25 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /** @type {import("tailwindcss").Config } */
 module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      animation: {
+        shine: 'shine var(--duration) ease-in-out infinite',
+      },
+      keyframes: {
+        shine: {
+          '0%': {
+            'background-position': '0% 0%',
+          },
+          '50%': {
+            'background-position': '100% 100%',
+          },
+          '100%': {
+            'background-position': '0% 0%',
+          },
+        },
+      },
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
@@ -44,6 +61,7 @@ module.exports = {
       }),
     },
   },
+
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),

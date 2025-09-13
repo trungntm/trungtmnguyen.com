@@ -16,21 +16,10 @@ import { LoadingButton } from '@/components/button/LoadingButton'
 import { createClient } from '@/utils/supabase/client'
 import { useAuth } from '@/hooks/useAuth'
 import { SignOutButton } from '@/components/auth/SignOutButton'
-import { Avatar } from '@/components/avatar'
-import { Reactions } from './components/reactions'
-import dayjs from 'dayjs'
-
-interface GuestBookEntry {
-  id: string
-  name: string
-  message: string
-  created_at?: Date
-  email?: string
-  user_id?: string
-  website?: string
-  is_anonymous?: boolean
-  avatar_url?: string
-}
+import { GuestBookEntry } from './types'
+import { MessageDisplayForm } from './components/message-display-form'
+import { ShineBorder } from '@/components/shine-border'
+import RainbowButton from '@/components/button/rainbow-button/RainbowButton'
 
 export default function GuestBook() {
   const { user, isAuthenticated, activeAuthMode, setActiveAuthMode } = useAuth()
@@ -204,13 +193,6 @@ export default function GuestBook() {
     methods.reset() // Reset form after successful submission
   }
 
-  const formatDate = (date: Date | undefined) => {
-    if (!date) {
-      date = new Date()
-    }
-    return dayjs(date).format('MMMM D, YYYY h:mm A')
-  }
-
   return (
     <GeneralLayout
       title="Guest Book"
@@ -231,7 +213,9 @@ export default function GuestBook() {
 
         {/* Guest Book Form */}
         <FormProvider methods={methods} onSubmit={handleSubmit(onHandleSubmit)}>
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+          <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <ShineBorder shineColor={['#FD3DB5', '#4079FF', '#FD3DB5', '#4079FF', '#FD3DB5']} />
+
             <div className="mb-6 flex items-center justify-between">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Leave a Message
@@ -259,93 +243,24 @@ export default function GuestBook() {
               </>
             )}
 
-            <div className="mt-6">
-              <LoadingButton
-                type="submit"
-                loading={isSubmitting}
-                loadingText="Submitting..."
-                fullWidth
-                size="md"
-              >
-                Sign Guest Book
-              </LoadingButton>
+            <div className="mt-6 flex justify-center">
+              <RainbowButton colors={['#FD3DB5', '#4079FF', '#FD3DB5', '#4079FF', '#FD3DB5']}>
+                <LoadingButton
+                  type="submit"
+                  loading={isSubmitting}
+                  loadingText="Submitting..."
+                  fullWidth
+                  className="rainbow-button-content bg-gradient-to-r from-[#48dbfb] to-[#4079FF]"
+                  size="md"
+                >
+                  Sign Guest Book
+                </LoadingButton>
+              </RainbowButton>
             </div>
           </div>
         </FormProvider>
         {/* Guest Book Entries */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            Messages ({entries.length})
-          </h3>
-
-          {entries.length === 0 ? (
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-700 dark:bg-gray-800">
-              <p className="text-gray-500 dark:text-gray-400">
-                No messages yet. Be the first to sign the guest book!
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {entries.map((entry) => (
-                <div
-                  key={entry.id}
-                  className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
-                >
-                  <div className="flex items-start space-x-3">
-                    {/* Avatar */}
-                    <Avatar
-                      avatarUrl={entry.is_anonymous ? undefined : entry.avatar_url}
-                      fullName={entry.name || 'Anonymous'}
-                      isAnonymous={entry.is_anonymous}
-                      size={40}
-                      className="mt-4"
-                    />
-
-                    {/* Content */}
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center space-x-2">
-                        <h4 className="font-semibold text-gray-900 dark:text-gray-100">
-                          {entry.website ? (
-                            <a
-                              href={
-                                entry.website.startsWith('http')
-                                  ? entry.website
-                                  : `https://${entry.website}`
-                              }
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                            >
-                              {entry.name}
-                            </a>
-                          ) : (
-                            entry.name
-                          )}
-                        </h4>
-                        {entry.is_anonymous && (
-                          <span className="mt-3 rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-400">
-                            Anonymous
-                          </span>
-                        )}
-                      </div>
-                      <div className="mt-1 flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                        <span>{formatDate(entry.created_at)}</span>
-                      </div>
-                      <p className="mt-2 whitespace-pre-wrap text-gray-700 dark:text-gray-300">
-                        {entry.message}
-                      </p>
-
-                      {/* Reactions */}
-                      <div className="mt-3">
-                        <Reactions guestbookId={entry.id} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <MessageDisplayForm entries={entries} />
       </div>
     </GeneralLayout>
   )

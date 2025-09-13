@@ -46,6 +46,7 @@
 
 .light .rainbow-button-content {
   background-color: rgb(249 250 251);
+  color: rgb(17 24 39);
 }
 
 .dark .rainbow-button-content {

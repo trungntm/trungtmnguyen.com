@@ -1,22 +1,20 @@
 import React from 'react'
-import Link from 'next/link'
-import './RainbowButtonLink.css'
+import './RainbowButton.css'
+import { cn } from '@/utils/lib/cn'
 
-interface RainbowButtonLinkProps {
-  href: string
+interface RainbowButtonProps {
   children: React.ReactNode
   className?: string
   colors?: string[] // New prop for custom gradient colors
   animationDuration?: number // New prop for animation duration
 }
 
-const RainbowButtonLink = ({
-  href,
+const RainbowButton = ({
   children,
   className = '',
   colors = ['#ec4899', '#8b5cf6', '#3b82f6'], // Default rainbow colors (pink, purple, blue)
   animationDuration = 3, // Default 3 seconds
-}: RainbowButtonLinkProps) => {
+}: RainbowButtonProps) => {
   // Generate CSS gradient string from colors array with animation duration
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${colors.join(', ')})`,
@@ -26,14 +24,12 @@ const RainbowButtonLink = ({
   return (
     <div className="rainbow-button-container">
       <div
-        className={`rainbow-button-glow ${className}`}
+        className={cn('rainbow-button-glow', className)}
         style={gradientStyle} // Apply dynamic gradient
       ></div>
-      <Link href={href} className={`rainbow-button-content ${className}`}>
-        <span className="flex items-center space-x-2 pr-2">{children}</span>
-      </Link>
+      {children}
     </div>
   )
 }
 
-export default RainbowButtonLink
+export default RainbowButton
