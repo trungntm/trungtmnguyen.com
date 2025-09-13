@@ -4,6 +4,7 @@ import { AuroraText } from './text-animation'
 import RainbowButton from '@/components/button/rainbow-button/RainbowButton'
 import Link from 'next/link'
 import { CometCard } from './comet-card'
+import Highlighter from './highlighter'
 
 const HeroSection = () => {
   return (
@@ -21,24 +22,28 @@ const HeroSection = () => {
                 <h4 className={'pt-2'}>🚀 Passionate Software Engineer | Tech Enthusiast</h4>
                 <h4 className={'pt-2'}>
                   💻 Main Stacks:{' '}
-                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
-                    Java Spring Boot
-                  </AuroraText>{' '}
-                  |{' '}
-                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
-                    React.js
-                  </AuroraText>
+                  <Highlighter action="underline">
+                    <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                      Java Spring Boot
+                    </AuroraText>{' '}
+                  </Highlighter>
+                  ,{' '}
+                  <Highlighter action="underline">
+                    <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                      React.js
+                    </AuroraText>
+                  </Highlighter>
                 </h4>
                 <h4 className={'pt-2'}>
                   🛠️ Also Experienced In:{' '}
                   <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
                     Node.js
                   </AuroraText>{' '}
-                  |{' '}
+                  ,{' '}
                   <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
                     Angular
                   </AuroraText>{' '}
-                  |{' '}
+                  ,{' '}
                   <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
                     Next.js
                   </AuroraText>
