@@ -26,17 +26,17 @@ interface HighlighterProps {
   isView?: boolean
 }
 
-export function Highlighter({
+const Highlighter = ({
   children,
   action = 'highlight',
-  color = '#ffd1dc',
+  color = '#87CEFA',
   strokeWidth = 1.5,
   animationDuration = 600,
   iterations = 2,
   padding = 2,
   multiline = true,
   isView = false,
-}: HighlighterProps) {
+}: HighlighterProps) => {
   const elementRef = useRef<HTMLSpanElement>(null)
   const isInView = useInView(elementRef, {
     once: true,
@@ -77,3 +77,5 @@ export function Highlighter({
     </span>
   )
 }
+
+export default Highlighter

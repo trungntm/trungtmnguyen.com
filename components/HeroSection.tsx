@@ -1,7 +1,10 @@
 import Image from '@/components/Image'
 import { BlinkCursor } from '@/components/cursor'
 import { AuroraText } from './text-animation'
-import RainbowButtonLink from './button/rainbow-button-link/RainbowButtonLink'
+import RainbowButton from '@/components/button/rainbow-button/RainbowButton'
+import Link from 'next/link'
+import { CometCard } from './comet-card'
+import Highlighter from './highlighter'
 
 const HeroSection = () => {
   return (
@@ -19,24 +22,28 @@ const HeroSection = () => {
                 <h4 className={'pt-2'}>🚀 Passionate Software Engineer | Tech Enthusiast</h4>
                 <h4 className={'pt-2'}>
                   💻 Main Stacks:{' '}
-                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
-                    Java Spring Boot
-                  </AuroraText>{' '}
-                  |{' '}
-                  <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
-                    React.js
-                  </AuroraText>
+                  <Highlighter action="underline">
+                    <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                      Java Spring Boot
+                    </AuroraText>{' '}
+                  </Highlighter>
+                  ,{' '}
+                  <Highlighter action="underline">
+                    <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
+                      React.js
+                    </AuroraText>
+                  </Highlighter>
                 </h4>
                 <h4 className={'pt-2'}>
                   🛠️ Also Experienced In:{' '}
                   <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
                     Node.js
                   </AuroraText>{' '}
-                  |{' '}
+                  ,{' '}
                   <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
                     Angular
                   </AuroraText>{' '}
-                  |{' '}
+                  ,{' '}
                   <AuroraText colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}>
                     Next.js
                   </AuroraText>
@@ -59,23 +66,28 @@ const HeroSection = () => {
                 </h4>
               </div>
 
-              <RainbowButtonLink
-                href="/about"
-                className="text-sm font-medium uppercase"
-                colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}
-              >
-                About me &rarr;
-              </RainbowButtonLink>
+              <RainbowButton colors={['#ff6b6b', '#feca57', '#1dd1a4ff', '#48c5fbff', '#5f27cd']}>
+                <Link
+                  href={'/about'}
+                  className={
+                    'rainbow-button-content bg-gradient-to-r from-[#48dbfb] to-[#48dbac] text-sm font-medium uppercase'
+                  }
+                >
+                  <span className="flex items-center space-x-2 pr-2">About me &rarr;</span>
+                </Link>
+              </RainbowButton>
             </div>
             <div className="mb-12 lg:mb-0">
-              <Image
-                width={440}
-                height={660}
-                priority={true}
-                src="/static/images/pages/hero.jpg"
-                className="w-full rounded-lg shadow-lg dark:shadow-black/20"
-                alt=""
-              />
+              <CometCard rotateDepth={10} translateDepth={5} opacity={0.2}>
+                <Image
+                  width={440}
+                  height={660}
+                  priority={true}
+                  src="/static/images/pages/hero.jpg"
+                  className="w-full rounded-lg shadow-lg dark:shadow-black/20"
+                  alt=""
+                />
+              </CometCard>
             </div>
           </div>
         </div>

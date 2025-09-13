@@ -8,7 +8,7 @@ import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 import ImageLogo from '@/components/logo'
 import { useEffect } from 'react'
-import { UnderlineHoverLink } from '@/components/UnderlineHoverLink'
+import UnderlineHoverLink from '@/components/UnderlineHoverLink'
 
 const Header = () => {
   useEffect(() => {
