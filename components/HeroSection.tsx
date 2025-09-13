@@ -1,7 +1,8 @@
 import Image from '@/components/Image'
 import { BlinkCursor } from '@/components/cursor'
 import { AuroraText } from './text-animation'
-import RainbowButtonLink from './button/rainbow-button-link/RainbowButtonLink'
+import RainbowButton from '@/components/button/rainbow-button/RainbowButton'
+import Link from 'next/link'
 
 const HeroSection = () => {
   return (
@@ -59,13 +60,16 @@ const HeroSection = () => {
                 </h4>
               </div>
 
-              <RainbowButtonLink
-                href="/about"
-                className="text-sm font-medium uppercase"
-                colors={['#ff6b6b', '#feca57', '#1dd1a1', '#48dbfb', '#5f27cd']}
-              >
-                About me &rarr;
-              </RainbowButtonLink>
+              <RainbowButton colors={['#ff6b6b', '#feca57', '#1dd1a4ff', '#48c5fbff', '#5f27cd']}>
+                <Link
+                  href={'/about'}
+                  className={
+                    'rainbow-button-content bg-gradient-to-r from-[#48dbfb] to-[#48dbac] text-sm font-medium uppercase'
+                  }
+                >
+                  <span className="flex items-center space-x-2 pr-2">About me &rarr;</span>
+                </Link>
+              </RainbowButton>
             </div>
             <div className="mb-12 lg:mb-0">
               <Image
