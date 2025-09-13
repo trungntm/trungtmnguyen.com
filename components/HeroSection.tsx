@@ -3,6 +3,7 @@ import { BlinkCursor } from '@/components/cursor'
 import { AuroraText } from './text-animation'
 import RainbowButton from '@/components/button/rainbow-button/RainbowButton'
 import Link from 'next/link'
+import { CometCard } from './comet-card'
 
 const HeroSection = () => {
   return (
@@ -72,14 +73,16 @@ const HeroSection = () => {
               </RainbowButton>
             </div>
             <div className="mb-12 lg:mb-0">
-              <Image
-                width={440}
-                height={660}
-                priority={true}
-                src="/static/images/pages/hero.jpg"
-                className="w-full rounded-lg shadow-lg dark:shadow-black/20"
-                alt=""
-              />
+              <CometCard rotateDepth={10} translateDepth={5} opacity={0.2}>
+                <Image
+                  width={440}
+                  height={660}
+                  priority={true}
+                  src="/static/images/pages/hero.jpg"
+                  className="w-full rounded-lg shadow-lg dark:shadow-black/20"
+                  alt=""
+                />
+              </CometCard>
             </div>
           </div>
         </div>
