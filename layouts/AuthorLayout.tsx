@@ -51,10 +51,6 @@ export default function AuthorLayout({ children, content }: Props) {
           </div>
           <div className="prose dark:prose-invert max-w-none pt-8 pb-8 xl:col-span-2">
             {children}
-            <div className={'pt-2'}>
-              <AnchorLink href={'career-path'}>Career Path 🚀</AnchorLink>
-              <Timeline />
-            </div>
           </div>
         </div>
       </div>
