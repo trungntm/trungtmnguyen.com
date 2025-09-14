@@ -6,6 +6,8 @@ import Image from './Image'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
 import Highlighter from './highlighter'
+import GitHubContribWrapper from '@/components/github-contrib/GitHubContribWrapper'
+import Timeline from '@/components/Timeline'
 
 export const components: MDXComponents = {
   Image,
@@ -15,4 +17,6 @@ export const components: MDXComponents = {
   table: TableWrapper,
   BlogNewsletterForm,
   Highlighter,
+  GitHubContribWrapper,
+  Timeline,
 }

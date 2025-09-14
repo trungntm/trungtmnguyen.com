@@ -1,6 +1,6 @@
 {
   "name": "trungtmnguyen",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "private": true,
   "scripts": {
     "start": "next dev",
@@ -46,6 +46,7 @@
     "postcss": "^8.4.24",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "react-github-calendar": "^4.5.10",
     "react-hook-form": "^7.62.0",
     "reading-time": "1.5.0",
     "rehype-autolink-headings": "^7.1.0",
