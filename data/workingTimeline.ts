@@ -99,8 +99,8 @@ const workingTimelineData: TimeLine[] = [
         duration: 'Jun 2019 – Oct 2022',
         description: [
           'Developing & Maintaining the E-commerce platform using Java, Spring framework, Apache tiles.',
-          `Developing new features for <a target="_blank" href="https://francescas.com/">francescas.com</a>, <a target="_blank" href="https://www.ghbass.com/">ghbas.com</a>, <a target="_blank" href="https://www.donnakaran.com/">donnakaran.com</a>, <a target="_blank" href="https://www.andrewmarc.com/">andrewmarc.com</a>, <a target="_blank" href="https://www.karllagerfeldparis.com/">karllagerfeldparis.com</a>`,
-          'Implement Affirm checkout for AMR (<a target="_blank" href="https://www.ghbass.com/">ghbas.com</a>, <a target="_blank" href="https://www.donnakaran.com/">donnakaran.com</a>, <a target="_blank" href="https://www.andrewmarc.com/">andrewmarc.com</a>, <a target="_blank" href="https://www.karllagerfeldparis.com/">karllagerfeldparis.com</a>)',
+          `Developing new features for <a target="_blank" href="https://francescas.com/">francescas.com</a>, <a target="_blank" href="https://www.ghbass.com/">ghbass.com</a>, <a target="_blank" href="https://www.donnakaran.com/">donnakaran.com</a>, <a target="_blank" href="https://www.andrewmarc.com/">andrewmarc.com</a>, <a target="_blank" href="https://www.karllagerfeldparis.com/">karllagerfeldparis.com</a>`,
+          'Implement Affirm checkout for AMR (<a target="_blank" href="https://www.ghbass.com/">ghbass.com</a>, <a target="_blank" href="https://www.donnakaran.com/">donnakaran.com</a>, <a target="_blank" href="https://www.andrewmarc.com/">andrewmarc.com</a>, <a target="_blank" href="https://www.karllagerfeldparis.com/">karllagerfeldparis.com</a>)',
           'Collaborating with on-shore teams to create the highest quality values for the clients.',
           'Be in-charge of performance during PEAK season, ensure the system is stable, high throughput and can handle the high traffic.',
           'Being Technical lead - heads up all technical issues.',
