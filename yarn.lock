@@ -5532,13 +5532,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "date-fns@npm:4.1.0"
-  checksum: fb681b242cccabed45494468f64282a7d375ea970e0adbcc5dcc92dcb7aba49b2081c2c9739d41bf71ce89ed68dd73bebfe06ca35129490704775d091895710b
-  languageName: node
-  linkType: hard
-
 "dayjs@npm:^1.11.18":
   version: 1.11.18
   resolution: "dayjs@npm:1.11.18"
@@ -10594,17 +10587,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-activity-calendar@npm:^2.7.14":
-  version: 2.7.14
-  resolution: "react-activity-calendar@npm:2.7.14"
-  dependencies:
-    date-fns: ^4.1.0
-  peerDependencies:
-    react: ^18.0.0 || ^19.0.0
-  checksum: d399a169a03a89e51ba0809573b586e1028243a45e0c2219a21cb6ab06950932da62f99f12d05dd51d2d90906fe1a0713ea4fac098905cd3d8894e14f410b8ce
-  languageName: node
-  linkType: hard
-
 "react-dom@npm:19.1.1":
   version: 19.1.1
   resolution: "react-dom@npm:19.1.1"
@@ -10613,17 +10595,6 @@ __metadata:
   peerDependencies:
     react: ^19.1.1
   checksum: 71d63df955e99bb58470c6ae12ebb82fa80e2a73147c387b73a31c17bcff803ce8aded52ae0c4391c9b413be0aa449249d8be7d063136826d1f0caba9720a907
-  languageName: node
-  linkType: hard
-
-"react-github-calendar@npm:^4.5.10":
-  version: 4.5.10
-  resolution: "react-github-calendar@npm:4.5.10"
-  dependencies:
-    react-activity-calendar: ^2.7.14
-  peerDependencies:
-    react: ^18.0.0 || ^19.0.0
-  checksum: 61372f9d50bb4ab5539d32df663315de040a171ab6a968dffc8cdecc05c2624e2c2a61f01e436a18643e6123331f99e2f546bdca15c8489c4fd3755b692624cf
   languageName: node
   linkType: hard
 
@@ -12509,7 +12480,6 @@ __metadata:
     prettier-plugin-tailwindcss: ^0.6.11
     react: 19.1.1
     react-dom: 19.1.1
-    react-github-calendar: ^4.5.10
     react-hook-form: ^7.62.0
     reading-time: 1.5.0
     rehype-autolink-headings: ^7.1.0
