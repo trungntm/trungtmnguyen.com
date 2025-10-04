@@ -3019,12 +3019,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/bundle-analyzer@npm:15.5.2":
-  version: 15.5.2
-  resolution: "@next/bundle-analyzer@npm:15.5.2"
+"@next/bundle-analyzer@npm:15.5.3":
+  version: 15.5.3
+  resolution: "@next/bundle-analyzer@npm:15.5.3"
   dependencies:
     webpack-bundle-analyzer: 4.10.1
-  checksum: 146e6e036c544a05ae27fccd6e4d5b83df71daf5e8a8569581462689c652a806626f15a18a625d68ec0f765742eeb11d10479a6b23d4e7314b3278c1ff995d52
+  checksum: d658924f1418fbb9febaae548cc8d7049e0fe9492611a219af50d98d7bb8b5dc95f3421c516d05a9aa52eb2d0d26e9ab345baa3a09dff0b9d5e3302ffaa9e7c6
   languageName: node
   linkType: hard
 
@@ -12565,7 +12565,7 @@ __metadata:
     "@headlessui/react": 2.2.7
     "@heroicons/react": ^2.1.5
     "@hookform/resolvers": ^5.2.1
-    "@next/bundle-analyzer": 15.5.2
+    "@next/bundle-analyzer": 15.5.3
     "@next/eslint-plugin-next": ^15.1.7
     "@supabase/ssr": ^0.7.0
     "@supabase/supabase-js": ^2.57.0
