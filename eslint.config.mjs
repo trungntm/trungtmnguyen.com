@@ -15,6 +15,7 @@ const compat = new FlatCompat({
 export default [
   {
     ignores: [
+      'next-env.d.ts',
       'node_modules',
       '.contentlayer',
       '.vscode',
