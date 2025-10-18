@@ -2554,14 +2554,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hookform/resolvers@npm:^5.2.1":
-  version: 5.2.1
-  resolution: "@hookform/resolvers@npm:5.2.1"
+"@hookform/resolvers@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "@hookform/resolvers@npm:5.2.2"
   dependencies:
     "@standard-schema/utils": ^0.3.0
   peerDependencies:
     react-hook-form: ^7.55.0
-  checksum: 7c1626ddd1833796ee4f8407125547bc83f7972a91a2564eee5f8056b0fd9d56f6ac7093041d5f2b5734016b9df9e5ca8fa0184fe7755f39db29a74abfacb58c
+  checksum: 131b1c4c763949164825634058fbe126041f1375622fddcb4f833af57e89665a2672474c778e604583d7447cff8252ab7df460240269e91eb5683646a3c9bebb
   languageName: node
   linkType: hard
 
@@ -12595,7 +12595,7 @@ __metadata:
     "@eslint/js": ^9.21.0
     "@headlessui/react": 2.2.8
     "@heroicons/react": ^2.1.5
-    "@hookform/resolvers": ^5.2.1
+    "@hookform/resolvers": ^5.2.2
     "@next/bundle-analyzer": 15.5.3
     "@next/eslint-plugin-next": ^15.1.7
     "@supabase/ssr": ^0.7.0
