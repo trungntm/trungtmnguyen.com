@@ -2529,9 +2529,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:2.2.7":
-  version: 2.2.7
-  resolution: "@headlessui/react@npm:2.2.7"
+"@headlessui/react@npm:2.2.8":
+  version: 2.2.8
+  resolution: "@headlessui/react@npm:2.2.8"
   dependencies:
     "@floating-ui/react": ^0.26.16
     "@react-aria/focus": ^3.20.2
@@ -2541,7 +2541,7 @@ __metadata:
   peerDependencies:
     react: ^18 || ^19 || ^19.0.0-rc
     react-dom: ^18 || ^19 || ^19.0.0-rc
-  checksum: 1715b12adfafec8e0e4de96a1bf1181c552c122bd4e2d8181a6696f5cc12ad017fa7d6b8eed0937acc58e5c60c8ae039679d996f210391c0150509bd5517bf75
+  checksum: ee929f36a4f31f027449e663d65c0a048ea5c8806fd8b6ef8f8e3da00547526b4602bc8e9c280222e8944c0dc815e3f1dfe49998aeaed7e24d0d33239c65593f
   languageName: node
   linkType: hard
 
@@ -12593,7 +12593,7 @@ __metadata:
     "@emotion/react": ^11.14.0
     "@emotion/styled": ^11.14.1
     "@eslint/js": ^9.21.0
-    "@headlessui/react": 2.2.7
+    "@headlessui/react": 2.2.8
     "@heroicons/react": ^2.1.5
     "@hookform/resolvers": ^5.2.1
     "@next/bundle-analyzer": 15.5.3
