@@ -12623,7 +12623,7 @@ __metadata:
     eslint-config-prettier: ^8.8.0
     eslint-plugin-next: ^0.0.0
     eslint-plugin-prettier: ^5.0.0
-    framer-motion: ^12.23.12
+    framer-motion: ^12.23.15
     github-slugger: ^2.0.0
     globals: ^16.0.0
     gray-matter: ^4.0.2
