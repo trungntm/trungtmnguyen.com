@@ -6992,7 +6992,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^12.23.15":
+"framer-motion@npm:^12.23.23":
   version: 12.23.23
   resolution: "framer-motion@npm:12.23.23"
   dependencies:
@@ -9832,11 +9832,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"motion@npm:^12.23.12":
-  version: 12.23.12
-  resolution: "motion@npm:12.23.12"
+"motion@npm:^12.23.15":
+  version: 12.23.23
+  resolution: "motion@npm:12.23.23"
   dependencies:
-    framer-motion: ^12.23.12
+    framer-motion: ^12.23.23
     tslib: ^2.4.0
   peerDependencies:
     "@emotion/is-prop-valid": "*"
@@ -9849,7 +9849,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: af9618bdd96a08bfafa847b70b7cb762b99f2bed225ce66c917e855c53b855fd63b3a14b2f1e778752e2476413fc5c0bf3e272ef21dfe755258e8f4bc766a6e4
+  checksum: 0ca57cbc7e93ade33b05052d1d1a628348268bb2dcc87e5f3b3874685dcea19efe385f28e2f258247dee9c8edf9486850b71aeb5d9671790d305d3b88f2727f7
   languageName: node
   linkType: hard
 
@@ -12631,7 +12631,7 @@ __metadata:
     husky: ^9.1.7
     image-size: 1.2.1
     lint-staged: ^15.4.3
-    motion: ^12.23.12
+    motion: ^12.23.15
     next: ^15.5.2
     next-contentlayer2: 0.5.8
     next-themes: ^0.4.6
