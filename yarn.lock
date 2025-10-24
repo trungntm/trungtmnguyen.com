@@ -2529,9 +2529,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:2.2.8":
-  version: 2.2.8
-  resolution: "@headlessui/react@npm:2.2.8"
+"@headlessui/react@npm:2.2.9":
+  version: 2.2.9
+  resolution: "@headlessui/react@npm:2.2.9"
   dependencies:
     "@floating-ui/react": ^0.26.16
     "@react-aria/focus": ^3.20.2
@@ -2541,7 +2541,7 @@ __metadata:
   peerDependencies:
     react: ^18 || ^19 || ^19.0.0-rc
     react-dom: ^18 || ^19 || ^19.0.0-rc
-  checksum: ee929f36a4f31f027449e663d65c0a048ea5c8806fd8b6ef8f8e3da00547526b4602bc8e9c280222e8944c0dc815e3f1dfe49998aeaed7e24d0d33239c65593f
+  checksum: 32b8bbf62d09a53f6c2a3a49e9cab868a024810b53f1b12fb00e34ce4dc45c3c48acb09abcd319fb2da60a2d13482500be758c4fc112ec6e64b1cc587ea9825a
   languageName: node
   linkType: hard
 
@@ -7080,7 +7080,7 @@ __metadata:
 
 "fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.3
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=18f3a7"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -11629,7 +11629,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.4#~builtin<compat/resolve>":
   version: 1.22.10
-  resolution: "resolve@patch:resolve@npm%3A1.22.10#~builtin<compat/resolve>::version=1.22.10&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.10#~builtin<compat/resolve>::version=1.22.10&hash=07638b"
   dependencies:
     is-core-module: ^2.16.0
     path-parse: ^1.0.7
@@ -11642,7 +11642,7 @@ __metadata:
 
 "resolve@patch:resolve@^2.0.0-next.5#~builtin<compat/resolve>":
   version: 2.0.0-next.5
-  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.5#~builtin<compat/resolve>::version=2.0.0-next.5&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.5#~builtin<compat/resolve>::version=2.0.0-next.5&hash=07638b"
   dependencies:
     is-core-module: ^2.13.0
     path-parse: ^1.0.7
@@ -12629,7 +12629,7 @@ __metadata:
     "@emotion/react": ^11.14.0
     "@emotion/styled": ^11.14.1
     "@eslint/js": ^9.21.0
-    "@headlessui/react": 2.2.8
+    "@headlessui/react": 2.2.9
     "@heroicons/react": ^2.1.5
     "@hookform/resolvers": ^5.2.2
     "@next/bundle-analyzer": 15.5.3
@@ -12845,7 +12845,7 @@ __metadata:
 
 "typescript@patch:typescript@^5.1.3#~builtin<compat/typescript>":
   version: 5.7.3
-  resolution: "typescript@patch:typescript@npm%3A5.7.3#~builtin<compat/typescript>::version=5.7.3&hash=14eedb"
+  resolution: "typescript@patch:typescript@npm%3A5.7.3#~builtin<compat/typescript>::version=5.7.3&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
