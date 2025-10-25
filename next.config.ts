@@ -70,6 +70,18 @@ const nextConfig: NextConfig = {
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   turbopack: {
     root: process.cwd(),
+    resolveAlias: {
+      '@/app/*': 'app/*',
+      '@/components/*': 'components/*',
+      '@/data/*': 'data/*',
+      '@/layouts/*': 'layouts/*',
+      '@/css/*': 'css/*',
+      '@/config/*': 'config/*',
+      '@/utils/*': 'utils/*',
+      '@/hooks/*': 'hooks/*',
+      'contentlayer/generated': './.contentlayer/generated',
+      'pliny/*': 'node_modules/pliny/*',
+    },
   },
   images: {
     remotePatterns: [
