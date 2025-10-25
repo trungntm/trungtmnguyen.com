@@ -1,0 +1,66 @@
+---
+title: 'How to Use Postman Scratch Pad Without Workspace'
+date: '2025-10-22'
+authors: ['trungntm']
+tags: ['Postman', 'API Testing', 'Developer Tips']
+thumbnail: '/static/images/blogs/postman/postman.png'
+images: ['/static/images/blogs/postman/postman.png']
+summary: 'A quick guide to bring back the Scratch Pad mode in Postman when the workspace login is enforced.'
+---
+
+# 💡 How to Use Postman Scratch Pad Without Workspace
+
+Starting from **Postman v10.18** (released around **May 2023**), the classic **Scratch Pad** mode was officially **removed** and replaced by a new **workspace-based experience** that requires users to **sign in**.
+While this transition aims to improve collaboration and syncing between devices, many developers still prefer a **lightweight**, **offline**, and **no-login** workflow.
+
+If you’re one of them — here’s a simple trick to **re-enable the Scratch Pad manually**, even in the latest versions of Postman.
+
+---
+
+# ⚙️ Steps to Enable Scratch Pad
+
+Follow these 7 simple steps:
+
+1. **Run Postman** — make sure it starts in the **lightweight client** mode (the default for new versions).
+2. **Open DevTools** — press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd> (or <kbd>Cmd</kbd> + <kbd>Option</kbd> + <kbd>I</kbd> on macOS).
+3. In the **Console**, run this command:
+
+   ```
+   pm.settings.setSetting("offlineAPIClientEnabled", 0)
+   ```
+
+   This disables the lightweight client and switches Postman back to the **Scratch Pad** mode.
+
+4. **Restart Postman** — you’ll briefly see the Scratch Pad interface appear before it gets hidden by the login screen.
+5. **Open DevTools again** (same shortcut as before).
+6. Run this command in the console:
+
+   ```
+   pm.mediator.trigger("hideUserSwitchingExperienceModal")
+   ```
+
+7. 🎉 **Done!** You now have full access to **Scratch Pad** again — no login, no workspace required.
+
+---
+
+# 🧠 Why This Works
+
+These commands toggle Postman’s internal feature flags that control how the **workspace UI** and **offline mode** are displayed.
+Essentially, you’re telling Postman to behave like an older version, where **Scratch Pad** was the default.
+
+---
+
+## ⚠️ Notes
+
+- This tweak might **reset after Postman updates**, so keep the steps handy.
+- It’s meant for **personal or offline testing only** — avoid using it for team workspaces or production setups.
+- The commands are safe; they simply modify client-side settings.
+
+---
+
+# ✅ Final Thoughts
+
+Postman’s move to enforce sign-in and cloud workspaces makes sense for collaboration —
+but sometimes, developers just want the **simplicity of offline Scratch Pad**.
+
+This little trick gives you back that flexibility. Happy testing! 🚀
