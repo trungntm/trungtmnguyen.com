@@ -16,13 +16,20 @@ export default [
   {
     ignores: [
       'next-env.d.ts',
-      'node_modules',
-      '.contentlayer',
-      '.vscode',
-      '.idea',
-      '.vercel',
+      'node_modules/**',
+      '.next/**',
+      '.contentlayer/**',
+      '.vscode/**',
+      '.idea/**',
+      '.vercel/**',
       'eslint.config.mjs',
       'app/tag-data.json',
+      'public/**',
+      'out/**',
+      '.turbo/**',
+      'packages/**/.next/**',
+      'packages/**/.contentlayer/**',
+      '**/generated/**',
     ],
   },
   js.configs.recommended,
@@ -50,12 +57,13 @@ export default [
       ),
 
       parser: tsParser,
-      ecmaVersion: 5,
-      sourceType: 'commonjs',
+      ecmaVersion: 2022,
+      sourceType: 'module',
 
       parserOptions: {
-        project: true,
-        tsconfigRootDir: __dirname,
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
 

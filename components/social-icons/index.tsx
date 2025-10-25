@@ -9,6 +9,7 @@ import {
   Threads,
   Instagram,
 } from './icons'
+import { sanitizeUrl, isSafeUrl } from '@/utils/sanitize-url'
 
 const components = {
   mail: Mail,
@@ -29,9 +30,13 @@ type SocialIconProps = {
 }
 
 const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
-  if (!href || (kind === 'mail' && !/^mailto:\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/.test(href)))
-    return null
+  if (!href || !isSafeUrl(href)) return null
 
+  if (kind === 'mail' && !/^mailto:\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/.test(href)) {
+    return null
+  }
+
+  const sanitizedHref = sanitizeUrl(href)
   const SocialSvg = components[kind]
 
   return (
@@ -39,7 +44,7 @@ const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
       className="text-sm text-gray-500 transition hover:text-gray-600"
       target="_blank"
       rel="noopener noreferrer"
-      href={href}
+      href={sanitizedHref}
     >
       <span className="sr-only">{kind}</span>
       <SocialSvg
