@@ -1,5 +1,4 @@
 import type { NextConfig } from 'next'
-import { withContentlayer } from 'next-contentlayer2'
 import withBundleAnalyzer from '@next/bundle-analyzer'
 
 const bundleAnalyzer = withBundleAnalyzer({
@@ -82,6 +81,11 @@ const nextConfig: NextConfig = {
       'contentlayer/generated': './.contentlayer/generated',
       'pliny/*': 'node_modules/pliny/*',
     },
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+      },
+    },
   },
   images: {
     remotePatterns: [
@@ -104,14 +108,6 @@ const nextConfig: NextConfig = {
       },
     ]
   },
-  webpack: (config: { module: { rules: { test: RegExp; use: string[] }[] } }, options) => {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    })
-
-    return config
-  },
 }
 
-export default withContentlayer(bundleAnalyzer(nextConfig))
+export default bundleAnalyzer(nextConfig)

@@ -5,6 +5,11 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import js from '@eslint/js'
 import { FlatCompat } from '@eslint/eslintrc'
+import nextPlugin from '@next/eslint-plugin-next'
+import tseslint from 'typescript-eslint'
+import prettierPlugin from 'eslint-plugin-prettier'
+import prettierConfig from 'eslint-config-prettier'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -33,18 +38,15 @@ export default [
     ],
   },
   js.configs.recommended,
-  ...compat.extends(
-    'plugin:@next/next/recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:jsx-a11y/recommended',
-    'plugin:prettier/recommended',
-    'next',
-    'next/core-web-vitals'
-  ),
+  ...tseslint.configs.recommended,
+  nextPlugin.configs.recommended,
+  prettierConfig,
   {
     plugins: {
-      '@typescript-eslint': typescriptEslint,
+      'jsx-a11y': jsxA11y,
+      '@typescript-eslint': tseslint.plugin,
+      prettier: prettierPlugin,
+      next: nextPlugin,
     },
 
     languageOptions: {
