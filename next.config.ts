@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { withContentlayer } from 'next-contentlayer2'
 import withBundleAnalyzer from '@next/bundle-analyzer'
 
 const bundleAnalyzer = withBundleAnalyzer({
@@ -63,29 +64,23 @@ const unoptimized = process.env.UNOPTIMIZED ? true : undefined
  * @type {import('next').NextConfig}
  **/
 const nextConfig: NextConfig = {
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
+  },
   output,
   basePath,
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   turbopack: {
     root: process.cwd(),
-    resolveAlias: {
-      '@/app/*': 'app/*',
-      '@/components/*': 'components/*',
-      '@/data/*': 'data/*',
-      '@/layouts/*': 'layouts/*',
-      '@/css/*': 'css/*',
-      '@/config/*': 'config/*',
-      '@/utils/*': 'utils/*',
-      '@/hooks/*': 'hooks/*',
-      'contentlayer/generated': './.contentlayer/generated',
-      'pliny/*': 'node_modules/pliny/*',
-    },
-    rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-      },
-    },
+  },
+  webpack: (config: { module: { rules: { test: RegExp; use: string[] }[] } }, options) => {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    })
+
+    return config
   },
   images: {
     remotePatterns: [
@@ -110,4 +105,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default bundleAnalyzer(nextConfig)
+export default withContentlayer(bundleAnalyzer(nextConfig))
