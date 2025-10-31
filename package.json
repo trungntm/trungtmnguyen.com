@@ -18,7 +18,7 @@
     "@headlessui/react": "2.2.9",
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^5.2.2",
-    "@next/bundle-analyzer": "15.5.3",
+    "@next/bundle-analyzer": "15.5.4",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.57.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
