@@ -3654,25 +3654,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@supabase/auth-js@npm:2.72.0":
-  version: 2.72.0
-  resolution: "@supabase/auth-js@npm:2.72.0"
+"@supabase/auth-js@npm:2.78.0":
+  version: 2.78.0
+  resolution: "@supabase/auth-js@npm:2.78.0"
   dependencies:
-    "@supabase/node-fetch": ^2.6.14
-  checksum: df6c906562a18b5a0ae809a36db24d830637016b3a61c64ac4085d10c43f639ff5665742d179a25395cd31c99e9959b07e7cbc30ff57ea11df54f4b5a6d8739d
+    "@supabase/node-fetch": 2.6.15
+    tslib: 2.8.1
+  checksum: 66b7a0395fb7b4ecd8ebedc5d2243ad18166478d2d4625af728183b9c762074a92a4eb25516e1b898ea1f9b298a8b6952440d3f84a16acb43999e143f880191b
   languageName: node
   linkType: hard
 
-"@supabase/functions-js@npm:2.5.0":
-  version: 2.5.0
-  resolution: "@supabase/functions-js@npm:2.5.0"
+"@supabase/functions-js@npm:2.78.0":
+  version: 2.78.0
+  resolution: "@supabase/functions-js@npm:2.78.0"
   dependencies:
-    "@supabase/node-fetch": ^2.6.14
-  checksum: b0cc12b34961bc388f6bd003e006ac79da6f657271261b1f826559110da883013cd0e951b9872104ab02ac4adab8800300a433c23a8127f8ecf65913f759ca88
+    "@supabase/node-fetch": 2.6.15
+    tslib: 2.8.1
+  checksum: c78e48177209e39fb04ed7d931b6e3894c618cd983035a0f5c1014e8e010e850ca957015e3a3aebb6a3e65a5f7bbcb5b72a8c282705813ef876efad0dd3235a3
   languageName: node
   linkType: hard
 
-"@supabase/node-fetch@npm:2.6.15, @supabase/node-fetch@npm:^2.6.13, @supabase/node-fetch@npm:^2.6.14":
+"@supabase/node-fetch@npm:2.6.15":
   version: 2.6.15
   resolution: "@supabase/node-fetch@npm:2.6.15"
   dependencies:
@@ -3681,24 +3683,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@supabase/postgrest-js@npm:1.21.4":
-  version: 1.21.4
-  resolution: "@supabase/postgrest-js@npm:1.21.4"
+"@supabase/postgrest-js@npm:2.78.0":
+  version: 2.78.0
+  resolution: "@supabase/postgrest-js@npm:2.78.0"
   dependencies:
-    "@supabase/node-fetch": ^2.6.14
-  checksum: 5f3fc05358777de4e01edabfb46ad79722652640e0e06be132f5f5aaed11f6282163ec8d7d7f75618eab981b94fcf2e546247c1d742647f1755baf5f8be71f07
+    "@supabase/node-fetch": 2.6.15
+    tslib: 2.8.1
+  checksum: c82cf24e9297e630cdf064e06c4b5e1fe6343e4d40bf7d74d764a679767215e6e78e7a88b48bb7371e37dcf902933b8e07d69c3ec4f1dfa74181c95d91b9cf24
   languageName: node
   linkType: hard
 
-"@supabase/realtime-js@npm:2.15.5":
-  version: 2.15.5
-  resolution: "@supabase/realtime-js@npm:2.15.5"
+"@supabase/realtime-js@npm:2.78.0":
+  version: 2.78.0
+  resolution: "@supabase/realtime-js@npm:2.78.0"
   dependencies:
-    "@supabase/node-fetch": ^2.6.13
+    "@supabase/node-fetch": 2.6.15
     "@types/phoenix": ^1.6.6
     "@types/ws": ^8.18.1
+    tslib: 2.8.1
     ws: ^8.18.2
-  checksum: a609fad3efbcca7b2b8e25819608d4cae806390d04a58ba4b10db5a320572003650e3ef57c2ae50370c3128a3ff28b451231629c9c37f877a2059ab8759c2697
+  checksum: a4e54e4271c700c2db3a7c6a0460ec60659ef4dfc9f62e1290db3392da5485cb1b17939e748076367e8d297902335a7cd8323c0512f55000233fd9cdc5f3bbbc
   languageName: node
   linkType: hard
 
@@ -3713,26 +3717,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@supabase/storage-js@npm:2.12.2":
-  version: 2.12.2
-  resolution: "@supabase/storage-js@npm:2.12.2"
+"@supabase/storage-js@npm:2.78.0":
+  version: 2.78.0
+  resolution: "@supabase/storage-js@npm:2.78.0"
   dependencies:
-    "@supabase/node-fetch": ^2.6.14
-  checksum: 0b523c4c58453dfe06c6578a9b839b6332635fea97b3bb8f12b35f0d9fba9034c9d1f841a8fa4f047e7cf442a30c6b4010f5818aa0aeed44f5902de6a6a94ad3
+    "@supabase/node-fetch": 2.6.15
+    tslib: 2.8.1
+  checksum: 9f64d2cec25c3512f913c076afac885064a56df6f9b4f5c7ad2bfa5bf30c526ff0db41cc3f2069e41f15225c8abde34b98d43a65a615af6893c6ae8edc17ec8b
   languageName: node
   linkType: hard
 
-"@supabase/supabase-js@npm:^2.57.0":
-  version: 2.58.0
-  resolution: "@supabase/supabase-js@npm:2.58.0"
+"@supabase/supabase-js@npm:^2.75.0":
+  version: 2.78.0
+  resolution: "@supabase/supabase-js@npm:2.78.0"
   dependencies:
-    "@supabase/auth-js": 2.72.0
-    "@supabase/functions-js": 2.5.0
+    "@supabase/auth-js": 2.78.0
+    "@supabase/functions-js": 2.78.0
     "@supabase/node-fetch": 2.6.15
-    "@supabase/postgrest-js": 1.21.4
-    "@supabase/realtime-js": 2.15.5
-    "@supabase/storage-js": 2.12.2
-  checksum: 68130af53e15f6e3a9eb4aeda02a4e758a6786b7d666718c09c8860106aa9f969df69aa6cc77076c35a7a42feddcf912b4fe0bafdccb07fc0a92267992ed1eeb
+    "@supabase/postgrest-js": 2.78.0
+    "@supabase/realtime-js": 2.78.0
+    "@supabase/storage-js": 2.78.0
+  checksum: d9bf6930300754dec817c5d818ac6a8ba8ca4c6d30a40b6219996c64c2c6543cec5e12d53879b64f83aa8a4607cd06f0e6786fda67e399481563c979d52c8f44
   languageName: node
   linkType: hard
 
@@ -7077,7 +7082,7 @@ __metadata:
 
 "fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.3
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=18f3a7"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -11612,7 +11617,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.4#~builtin<compat/resolve>":
   version: 1.22.10
-  resolution: "resolve@patch:resolve@npm%3A1.22.10#~builtin<compat/resolve>::version=1.22.10&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.10#~builtin<compat/resolve>::version=1.22.10&hash=07638b"
   dependencies:
     is-core-module: ^2.16.0
     path-parse: ^1.0.7
@@ -11625,7 +11630,7 @@ __metadata:
 
 "resolve@patch:resolve@^2.0.0-next.5#~builtin<compat/resolve>":
   version: 2.0.0-next.5
-  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.5#~builtin<compat/resolve>::version=2.0.0-next.5&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.5#~builtin<compat/resolve>::version=2.0.0-next.5&hash=07638b"
   dependencies:
     is-core-module: ^2.13.0
     path-parse: ^1.0.7
@@ -12618,7 +12623,7 @@ __metadata:
     "@next/bundle-analyzer": 15.5.3
     "@next/eslint-plugin-next": ^15.1.7
     "@supabase/ssr": ^0.7.0
-    "@supabase/supabase-js": ^2.57.0
+    "@supabase/supabase-js": ^2.75.0
     "@svgr/webpack": ^8.0.1
     "@tailwindcss/aspect-ratio": ^0.4.2
     "@tailwindcss/container-queries": ^0.1.1
@@ -12712,7 +12717,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.4.0, tslib@npm:^2.4.1, tslib@npm:^2.6.2, tslib@npm:^2.8.0":
+"tslib@npm:2.8.1, tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.4.0, tslib@npm:^2.4.1, tslib@npm:^2.6.2, tslib@npm:^2.8.0":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: e4aba30e632b8c8902b47587fd13345e2827fa639e7c3121074d5ee0880723282411a8838f830b55100cbe4517672f84a2472667d355b81e8af165a55dc6203a
@@ -12828,7 +12833,7 @@ __metadata:
 
 "typescript@patch:typescript@^5.1.3#~builtin<compat/typescript>":
   version: 5.7.3
-  resolution: "typescript@patch:typescript@npm%3A5.7.3#~builtin<compat/typescript>::version=5.7.3&hash=14eedb"
+  resolution: "typescript@patch:typescript@npm%3A5.7.3#~builtin<compat/typescript>::version=5.7.3&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
