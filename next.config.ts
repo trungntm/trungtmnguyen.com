@@ -66,21 +66,16 @@ const unoptimized = process.env.UNOPTIMIZED ? true : undefined
 const nextConfig: NextConfig = {
   experimental: {
     turbopackFileSystemCacheForDev: true,
+    // Optimize bundle splitting
+    optimizePackageImports: ['@headlessui/react', '@heroicons/react', 'framer-motion'],
   },
   output,
   basePath,
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-  turbopack: {
-    root: process.cwd(),
-  },
-  webpack: (config: { module: { rules: { test: RegExp; use: string[] }[] } }, options) => {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    })
-
-    return config
+  // Production optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
   },
   images: {
     remotePatterns: [

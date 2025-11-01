@@ -40,7 +40,7 @@ jobs:
           fi
   buildAndDeploy:
     needs: [setup]
-    uses: trungntm/github-workflow-support/.github/workflows/buildAndDeployToVercel.yaml@master
+    uses: trungntm/github-workflow-support/.github/workflows/buildAndDeployToVercel.yaml@feature/add-node-version-as-inputs
     with:
       env: ${{ needs.setup.outputs.env }}
     secrets:
