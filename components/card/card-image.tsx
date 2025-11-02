@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import { sanitizeUrl } from '@/utils/sanitize-url'
+
 interface ProjectCategory {
   title: string
   href: string
@@ -24,6 +26,10 @@ interface Project {
 }
 
 export const CardImage = ({ post }) => {
+  const categoryHref = sanitizeUrl(post?.category?.href)
+  const postHref = sanitizeUrl(post?.href)
+  const authorHref = sanitizeUrl(post?.author?.href)
+
   return (
     <article key={post.id} className="flex max-w-xl flex-col items-start justify-between">
       {post.imgSrc && (
@@ -40,7 +46,7 @@ export const CardImage = ({ post }) => {
           {post?.date}
         </time>
         <a
-          href={post?.category?.href ?? '#'}
+          href={categoryHref}
           className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
         >
           {post.category.title}
@@ -48,7 +54,7 @@ export const CardImage = ({ post }) => {
       </div>
       <div className="group relative">
         <h3 className="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600 dark:text-gray-400">
-          <a href={post.href}>
+          <a href={postHref}>
             <span className="absolute inset-0" />
             {post.title}
           </a>
@@ -59,7 +65,7 @@ export const CardImage = ({ post }) => {
         <Image alt="" src={post.author.imageUrl} className="size-10 rounded-full bg-gray-50" />
         <div className="text-sm/6">
           <p className="font-semibold text-gray-900 dark:text-gray-400">
-            <a href={post.author.href}>
+            <a href={authorHref}>
               <span className="absolute inset-0" />
               {post.author.name}
             </a>
