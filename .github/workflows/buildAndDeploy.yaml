@@ -40,7 +40,7 @@ jobs:
           fi
   buildAndDeploy:
     needs: [setup]
-    uses: trungntm/github-workflow-support/.github/workflows/buildAndDeployToVercel.yaml@master
+    uses: trungntm/github-workflow-support/.github/workflows/buildAndDeployToVercel.yaml@v0.0.1
     with:
       env: ${{ needs.setup.outputs.env }}
     secrets:

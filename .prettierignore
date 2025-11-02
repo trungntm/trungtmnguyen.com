@@ -10,4 +10,5 @@ yarn.lock
 .contentlayer/
 
 app/tag-data.json
+next-env.d.ts
 CHANGELOG.md
