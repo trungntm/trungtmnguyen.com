@@ -65,7 +65,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.16",
     "unist-util-visit": "^5.0.0",
-    "yup": "^1.7.0"
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
