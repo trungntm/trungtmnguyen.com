@@ -7414,7 +7414,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^12.23.15":
+"framer-motion@npm:^12.23.15, framer-motion@npm:^12.23.24":
   version: 12.23.24
   resolution: "framer-motion@npm:12.23.24"
   dependencies:
@@ -7433,28 +7433,6 @@ __metadata:
     react-dom:
       optional: true
   checksum: 8f1496ef846e3519c0f8aeaa2994ea5cb12264548e3e97aa33b7de95a4a2227e3e8d79fab17f36f722eafcbbe7cf1e020edd9d3288eda95b4c8d1b05126a8da3
-  languageName: node
-  linkType: hard
-
-"framer-motion@npm:^12.23.23":
-  version: 12.23.23
-  resolution: "framer-motion@npm:12.23.23"
-  dependencies:
-    motion-dom: ^12.23.23
-    motion-utils: ^12.23.6
-    tslib: ^2.4.0
-  peerDependencies:
-    "@emotion/is-prop-valid": "*"
-    react: ^18.0.0 || ^19.0.0
-    react-dom: ^18.0.0 || ^19.0.0
-  peerDependenciesMeta:
-    "@emotion/is-prop-valid":
-      optional: true
-    react:
-      optional: true
-    react-dom:
-      optional: true
-  checksum: a946b72a699aad55b4ba5c82d685d5c66ee624460251abbacc1ee26cf8872c0d4cc675c767c27eb696b3d2834bbf3fdce844fa355e744220f099f79b0d5c03a4
   languageName: node
   linkType: hard
 
@@ -7486,7 +7464,7 @@ __metadata:
 
 "fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.3
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=18f3a7"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -10314,11 +10292,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"motion@npm:^12.23.15":
-  version: 12.23.23
-  resolution: "motion@npm:12.23.23"
+"motion@npm:^12.23.24":
+  version: 12.23.24
+  resolution: "motion@npm:12.23.24"
   dependencies:
-    framer-motion: ^12.23.23
+    framer-motion: ^12.23.24
     tslib: ^2.4.0
   peerDependencies:
     "@emotion/is-prop-valid": "*"
@@ -10331,7 +10309,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 0ca57cbc7e93ade33b05052d1d1a628348268bb2dcc87e5f3b3874685dcea19efe385f28e2f258247dee9c8edf9486850b71aeb5d9671790d305d3b88f2727f7
+  checksum: 4e7046f312b85adf96f64f91d67f6f6880bab2ff6e9cdd62cd3e888da8c2f52e14202eb4c095e246cf760a2080fef449115174f8f4f24b1618520501b53b8485
   languageName: node
   linkType: hard
 
@@ -12082,7 +12060,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.4#~builtin<compat/resolve>":
   version: 1.22.10
-  resolution: "resolve@patch:resolve@npm%3A1.22.10#~builtin<compat/resolve>::version=1.22.10&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.10#~builtin<compat/resolve>::version=1.22.10&hash=07638b"
   dependencies:
     is-core-module: ^2.16.0
     path-parse: ^1.0.7
@@ -12095,7 +12073,7 @@ __metadata:
 
 "resolve@patch:resolve@^2.0.0-next.5#~builtin<compat/resolve>":
   version: 2.0.0-next.5
-  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.5#~builtin<compat/resolve>::version=2.0.0-next.5&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.5#~builtin<compat/resolve>::version=2.0.0-next.5&hash=07638b"
   dependencies:
     is-core-module: ^2.13.0
     path-parse: ^1.0.7
@@ -13120,7 +13098,7 @@ __metadata:
     husky: ^9.1.7
     image-size: 1.2.1
     lint-staged: ^15.4.3
-    motion: ^12.23.15
+    motion: ^12.23.24
     next: ^16.0.1
     next-contentlayer2: 0.5.8
     next-themes: ^0.4.6
@@ -13322,7 +13300,7 @@ __metadata:
 
 "typescript@patch:typescript@^5.1.3#~builtin<compat/typescript>":
   version: 5.7.3
-  resolution: "typescript@patch:typescript@npm%3A5.7.3#~builtin<compat/typescript>::version=5.7.3&hash=14eedb"
+  resolution: "typescript@patch:typescript@npm%3A5.7.3#~builtin<compat/typescript>::version=5.7.3&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
