@@ -7414,7 +7414,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^12.23.15":
+"framer-motion@npm:^12.23.24":
   version: 12.23.24
   resolution: "framer-motion@npm:12.23.24"
   dependencies:
@@ -7433,28 +7433,6 @@ __metadata:
     react-dom:
       optional: true
   checksum: 8f1496ef846e3519c0f8aeaa2994ea5cb12264548e3e97aa33b7de95a4a2227e3e8d79fab17f36f722eafcbbe7cf1e020edd9d3288eda95b4c8d1b05126a8da3
-  languageName: node
-  linkType: hard
-
-"framer-motion@npm:^12.23.23":
-  version: 12.23.23
-  resolution: "framer-motion@npm:12.23.23"
-  dependencies:
-    motion-dom: ^12.23.23
-    motion-utils: ^12.23.6
-    tslib: ^2.4.0
-  peerDependencies:
-    "@emotion/is-prop-valid": "*"
-    react: ^18.0.0 || ^19.0.0
-    react-dom: ^18.0.0 || ^19.0.0
-  peerDependenciesMeta:
-    "@emotion/is-prop-valid":
-      optional: true
-    react:
-      optional: true
-    react-dom:
-      optional: true
-  checksum: a946b72a699aad55b4ba5c82d685d5c66ee624460251abbacc1ee26cf8872c0d4cc675c767c27eb696b3d2834bbf3fdce844fa355e744220f099f79b0d5c03a4
   languageName: node
   linkType: hard
 
@@ -10314,11 +10292,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"motion@npm:^12.23.15":
-  version: 12.23.23
-  resolution: "motion@npm:12.23.23"
+"motion@npm:^12.23.24":
+  version: 12.23.24
+  resolution: "motion@npm:12.23.24"
   dependencies:
-    framer-motion: ^12.23.23
+    framer-motion: ^12.23.24
     tslib: ^2.4.0
   peerDependencies:
     "@emotion/is-prop-valid": "*"
@@ -10331,7 +10309,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 0ca57cbc7e93ade33b05052d1d1a628348268bb2dcc87e5f3b3874685dcea19efe385f28e2f258247dee9c8edf9486850b71aeb5d9671790d305d3b88f2727f7
+  checksum: 4e7046f312b85adf96f64f91d67f6f6880bab2ff6e9cdd62cd3e888da8c2f52e14202eb4c095e246cf760a2080fef449115174f8f4f24b1618520501b53b8485
   languageName: node
   linkType: hard
 
@@ -11726,9 +11704,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rehype-preset-minify@npm:7.0.0":
-  version: 7.0.0
-  resolution: "rehype-preset-minify@npm:7.0.0"
+"rehype-preset-minify@npm:7.0.1":
+  version: 7.0.1
+  resolution: "rehype-preset-minify@npm:7.0.1"
   dependencies:
     rehype-minify-attribute-whitespace: ^4.0.0
     rehype-minify-css-style: ^4.0.0
@@ -11754,13 +11732,13 @@ __metadata:
     rehype-sort-attribute-values: ^5.0.0
     rehype-sort-attributes: ^5.0.0
     unified: ^11.0.0
-  checksum: bf323da70f00ef6b2449e601dd4a433dc20f32b7e9a796fee31e5aa4698a1122ca84740a21af4db7e59e3a97b8f86cf4a6e53cd34232f12dc16e9f4bdc554d93
+  checksum: 04e3618b90f8a592270b6277edab56a6ff142d79c225db3c10ec273cd9108d26ddb6dc62f06f4f76a269105cbcebe6a3dfd36074495312152e92fa41ef3120b5
   languageName: node
   linkType: hard
 
-"rehype-prism-plus@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "rehype-prism-plus@npm:2.0.0"
+"rehype-prism-plus@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "rehype-prism-plus@npm:2.0.1"
   dependencies:
     hast-util-to-string: ^3.0.0
     parse-numeric-range: ^1.3.0
@@ -11768,7 +11746,7 @@ __metadata:
     rehype-parse: ^9.0.0
     unist-util-filter: ^5.0.0
     unist-util-visit: ^5.0.0
-  checksum: c025f5b96d55431000cb4c688c9cbb174e6ed87c683d8499683f840d55e621b619365316b3d01f3c788086dd7a7abcdddca77f3054ba61c14ce6e73e31eb37e6
+  checksum: d68d65379e98867400420188c9ba7198975619f76f4991c389ebc65f2bd7efc62b2f85b1829057086b1080d2f5e421994b6ef855e97b8f2da146da5358562d3c
   languageName: node
   linkType: hard
 
@@ -11933,12 +11911,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remark-github-blockquote-alert@npm:^1.2.1":
-  version: 1.3.0
-  resolution: "remark-github-blockquote-alert@npm:1.3.0"
+"remark-github-blockquote-alert@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "remark-github-blockquote-alert@npm:1.3.1"
   dependencies:
     unist-util-visit: ^5.0.0
-  checksum: 34a9eebe5000570933d83cd28997668e0cc2bb2d1c4ef1bcc2ccffdfdc742e5bc7fa84bf03c88957a956fa20402a17606523246fd105433ecafb7fa3d1f2a2d7
+  checksum: 7627f5932673bf40f0a5b9da13983149709302d3e7ecdef2a4c7a13d973250c5d5168df5e045c5b8221724a63d08f28b3abb143c7062a32299921845af1d0599
   languageName: node
   linkType: hard
 
@@ -13112,7 +13090,7 @@ __metadata:
     eslint-config-next: 16.0.1
     eslint-config-prettier: ^8.8.0
     eslint-plugin-prettier: ^5.0.0
-    framer-motion: ^12.23.15
+    framer-motion: ^12.23.24
     github-slugger: ^2.0.0
     globals: ^16.4.0
     gray-matter: ^4.0.2
@@ -13120,7 +13098,7 @@ __metadata:
     husky: ^9.1.7
     image-size: 1.2.1
     lint-staged: ^15.4.3
-    motion: ^12.23.15
+    motion: ^12.23.24
     next: ^16.0.1
     next-contentlayer2: 0.5.8
     next-themes: ^0.4.6
@@ -13136,12 +13114,12 @@ __metadata:
     rehype-citation: ^2.3.1
     rehype-katex: ^7.0.0
     rehype-katex-notranslate: ^1.1.4
-    rehype-preset-minify: 7.0.0
-    rehype-prism-plus: ^2.0.0
+    rehype-preset-minify: 7.0.1
+    rehype-prism-plus: ^2.0.1
     rehype-slug: ^6.0.0
     remark: ^15.0.0
     remark-gfm: ^4.0.0
-    remark-github-blockquote-alert: ^1.2.1
+    remark-github-blockquote-alert: ^1.3.1
     remark-math: ^6.0.0
     rough-notation: ^0.5.1
     swr: ^2.3.6
@@ -13150,7 +13128,7 @@ __metadata:
     typescript: ^5.1.3
     typescript-eslint: ^8.24.1
     unist-util-visit: ^5.0.0
-    yup: ^1.7.0
+    yup: ^1.7.1
   languageName: unknown
   linkType: soft
 
@@ -13943,15 +13921,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yup@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "yup@npm:1.7.0"
+"yup@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "yup@npm:1.7.1"
   dependencies:
     property-expr: ^2.0.5
     tiny-case: ^1.0.3
     toposort: ^2.0.2
     type-fest: ^2.19.0
-  checksum: 845f4bb66df547208c1906a15d03a0cd838789dc22fa9ae948247752f360b273834f7d607176285d8c11779bb143640c65ae5f8f4045351505b17413a183aea9
+  checksum: 80d0d6838da457d489a97ee0b9c26fa9f59355a553f86842ea114b049811a918a0e7221f9c22bb88314699ddfb3e24ded49f7ab10a0e74dd273d03430110d5af
   languageName: node
   linkType: hard
 
