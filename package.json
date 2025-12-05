@@ -29,7 +29,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
-    "autoprefixer": "^10.4.21",
+    "autoprefixer": "^10.4.22",
     "clsx": "^2.1.1",
     "contentlayer2": "0.5.8",
     "dayjs": "^1.11.19",
