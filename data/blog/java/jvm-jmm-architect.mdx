@@ -1,0 +1,827 @@
+---
+title: 'JVM & JMM Architecture Fundamentals — The Core Architecture Behind Java Multithreading'
+date: '2025-12-13'
+tags: ['Java', 'JVM', 'JMM', 'Concurrency', 'Multi-threading']
+draft: false
+thumbnail: '/static/images/blogs/java-design-patterns/java-design-pattern.png'
+images: ['/static/images/blogs/java-design-patterns/java-design-pattern.png']
+summary: 'Have you ever wondered how Java manages memory and multithreading? The Java Virtual Machine (JVM) and the Java Memory Model (JMM) are the “brains” behind every Java application, governing how the heap, stack, threads, and garbage collection operate. This article will help you gain a clear understanding of JVM architecture, memory management mechanisms, thread safety, and the core JVM components that enable multithreading to work correctly. If you want to build a solid foundation in Java concurrency and memory management, this is a must-read article.'
+authors: [trungntm]
+---
+
+# Overview
+
+In the Java ecosystem, understanding the JVM and the Java Memory Model (JMM) not only helps you write correct code — it also unlocks a deep understanding of how Java operates at its core.
+The JVM is not a “black box”: it manages memory, loads classes, executes bytecode, and optimizes performance through the Interpreter, JIT Compiler, and Garbage Collector.
+
+The JMM ensures memory consistency and visibility across threads, enabling Java to avoid race conditions and other subtle concurrency bugs.
+
+In this article, you will explore the JVM architecture in detail, from the class loader and memory areas such as Heap, Stack, and Metaspace, to how the Execution Engine operates—supported by clear diagrams illustrating data flow and object lifecycles.
+This foundation will help you master application performance, optimize systems, and debug multithreading issues more effectively.
+
+![JVM Core Architect](/static/images/blogs/java/jvm-jmm-architect/core-architect.png)
+
+To truly understand what the JVM does, you need to view it not as a “black box that runs Java,” but as a component-based runtime system consisting of three core parts:
+
+- Class Loader System
+- Runtime Data Areas (Heap, Stack, Meta/Perm)
+- Execution Engine (Interpreter + JIT Compiler)
+
+# Class Loader Subsystem
+
+## What's Class Loader Subsystem?
+
+The Class Loader Subsystem is the mechanism that allows the JVM to load classes into memory on demand. It is the core enabler of Java’s flexibility, dynamic loading, and hot deployment capabilities.
+
+When a class is used by the JVM, it **cannot** execute a `.class` file directly from disk and must first load it into memory for the following reasons:
+
+- The VM needs a structured, in-memory representation of the class in order to execute it. A `.class` file is a binary artifact in the ClassFile format, which must be transformed by the JVM into internal runtime structures, including:
+
+  - class metadata (class name, superclass, implemented interfaces, etc.)
+  - a parsed constant pool (the list of fields and methods)
+  - bytecode for each method
+  - access flags information
+  - runtime metadata required for reflection
+  - memory layouts used for object allocation on the heap
+
+- Execution performance: if the JVM had to read the class file from disk every time a method was invoked, performance would collapse. Once loaded into the JVM, classes can be:
+
+  - cached in the Method Area / Metaspace
+  - optimized by the JIT compiler
+  - immediately accessed by reflection APIs
+  - used by the GC to manage objects instantiated from the class
+  - allowed to invoke methods on each other without repeated disk access
+
+- Support for runtime features such as:
+  - Reflection
+  - Dynamic proxies
+  - JIT compilation
+  - Annotations
+  - Class redefinition (hot swap during debugging)
+  - CDI / Spring DI (class scanning and metadata loading)
+
+For the reasons and features outlined above, classes are required to reside in memory so that the JVM and frameworks can read and operate on their metadata.
+
+**So why does the JVM load classes on demand instead of loading all classes upfront and then simply using them?**
+
+The JVM uses a **lazy loading (load-on-demand) model** to optimize resource usage and application startup time. This design exists for three major reasons:
+
+- **Memory optimization** — avoiding unnecessary RAM consumption Java applications may contain:
+
+  - thousands of classes
+  - hundreds of JAR files
+  - large frameworks such as Spring Boot and Hibernate
+
+  In practice, not all classes in a Java application are actually used at runtime. The JVM loads a class only when it is needed, for example:
+
+  - when creating a new object instance
+  - when invoking a static method
+  - when accessing a field
+  - during reflective lookups
+  - when the JIT optimizes execution paths
+
+  If all framework classes and JARs were loaded into the JVM during startup, your RAM would become like an overfilled warehouse—bloated and storing everything at once. In that case, the following issues would occur:
+
+  - Metaspace would grow unnecessarily
+  - Startup time would increase significantly
+  - Both memory and CPU resources would be wasted
+
+- **Optimizing Startup Time**
+
+  Imagine if the JVM had to load 30,000 classes when starting a Spring Boot application—the startup time would increase dramatically.
+  Lazy loading helps by:
+
+  - starting the JVM very quickly
+  - loading only the classes required for initial execution
+  - avoiding unnecessary loading of rarely used classes
+
+  Example:
+  You may have 100 REST endpoints, but if users only invoke 10 of them today, the JVM only needs to load the classes related to those 10 endpoints.
+
+- **Dynamic Loading**
+
+  Java was designed to run large, distributed, and modular applications where systems must evolve and scale without stopping the application:
+
+  - **loading plugins at runtime (runtime extensibility)**
+
+    - You can add new features simply by dropping a JAR file into a plugin directory, no rebuild required, no application restart.
+    - Example:
+      Tools like IntelliJ IDEA and Jenkins load plugins through dynamic class loading.
+
+  - **Swapping implementations** via interfaces without restarting
+    You can:
+
+    - switch database drivers
+    - change email service providers
+    - replace the template engine
+
+    ... and the application continues to run normally, because the JVM loads an implementation only when the corresponding class is actually used.
+
+    At this point, a common question arises: **why does Spring Boot require a restart when changing database configuration, email providers, or beans?**
+    This behavior depends on how the Spring Framework operates, not on the JVM itself:
+
+    ```java
+      App → ClassLoader → Load classpath → Run
+    ```
+
+    - When you change a driver or switch an implementation, the new class does not exist on the old classpath.
+    - There is no way to unload the old class (the JVM intentionally forbids this).
+    - Spring does not create a new classloader for the entire application (except in devtools).
+      → Restarting is the simplest and safest approach.
+
+  - **Hot Deploy / Hot Swap**
+
+    - Many platforms support hot deploy and hot swap, such as:
+    - Spring DevTools
+    - JRebel
+    - Java Instrumentation API
+
+    These platforms rely entirely on the JVM’s ability to load new classes to replace existing ones while the application is running.
+
+  - **Module Systems: OSGi, Java Platform Module System (JPMS)**
+    OSGi introduces a **layered classloader model**, where each bundle has its own classloader, enabling modules to:
+
+    - be loaded and unloaded independently
+    - be upgraded at runtime (hot upgrades)
+    - avoid dependency conflicts (class shadowing / class hiding)
+
+  - **Loading Classes from the Network — Java’s Original Philosophy (Applets)**
+    Historically, Java Applets allowed the JVM to **download classes from the internet** and execute them immediately in the browser.
+    **Dynamic loading remains the foundational mechanism behind this capability**.
+
+  A Practical Example: Spring Boot
+  Spring Boot relies almost entirely on dynamic class loading:
+
+  - loading beans when they are referenced or when the application context is initialized
+  - loading configurations based on profiles or conditions (@Conditional)
+  - loading dependency modules according to the runtime environment
+  - loading classes from external libraries (external JARs) through multiple classloaders
+
+  If Spring Boot were forced to load all classes upfront:
+
+  - startup time would be disastrous
+  - memory usage would spike
+  - hot reload and conditional loading would no longer be possible
+
+**Goals of the Class Loader:**
+
+- Load `.class` files containing bytecode into the JVM and transform them into Class objects in the heap.
+
+  - The Class Loader reads `.class` files (or byte streams from JARs, the network, or custom sources) and converts them into in-memory **Class objects** used during execution.
+
+- Building the dependency graph
+  When a class is loaded, the JVM automatically loads:
+
+  - its superclass
+  - implemented interfaces
+  - field types
+  - method parameter and return types
+    → forming a dependency graph between classes.
+
+- Isolating namespaces between modules
+  Each class loader has its own namespace → two classes with the same fully qualified name but loaded by different class loaders are treated as **distinct classes**. This enables:
+
+  - application isolation (separate Tomcat web applications)
+  - plugin architectures (OSGi)
+  - reloading classes without affecting other applications
+
+- Supporting sandboxing and security by controlling class origins
+  The Class Loader controls:
+
+  - where a class is loaded from (file system, network, custom source)
+  - whether loading the class is permitted
+    → ensuring the JVM’s security boundaries.
+
+- Enabling custom class loaders (OSGi, Spring Boot, application servers like Tomcat/JBoss)
+  Developers can implement custom Class Loaders to:
+  - load classes from a database
+  - dynamically generate classes (ByteBuddy, ASM)
+  - support hot reload (Spring Boot DevTools, Tomcat)
+  - manage modules (OSGi)
+
+**Class Loader types:**
+
+- Bootstrap ClassLoader
+- Extension/Platform ClassLoader
+- Application ClassLoader
+
+**Operating Principles:**
+
+- The JVM starts → the Bootstrap Class Loader is implicitly initialized in native code.
+- It locates and loads the core JRE classes from rt.jar or the Java Runtime Image.
+- When another class needs to be loaded (for example, `java.sql.Connection`), the JVM first delegates the request to the bootstrap loader. If the class is not found, it then delegates to child class loaders (extension, application, custom). This follows the Parent-First delegation model, ensuring that core JVM classes cannot be overridden or modified by other class loaders.
+
+  ![Class Loader Hierarchy](/static/images/blogs/java/jvm-jmm-architect/class-loader-hierarchy.png)
+
+## Bootstrap Class Loader
+
+In the JVM architecture, the Bootstrap Class Loader (also known as the Primordial Class Loader) is **the most fundamental and highest-level class loader**, serving as the foundation for JVM startup. It is the very first “building block” that establishes the Java runtime environment, because **nothing in the JVM can function until the core classes are loaded**.
+
+The Bootstrap Class Loader is responsible for loading Java’s core classes—specifically, the classes essential for JVM operation:
+
+- `java.lang.Object` — the root class of all objects in Java
+- `java.lang.String` — the core class for string handling
+- Classes in packages such as `java.lang`, `java.util`, `java.io`, and others that are part of the Java Runtime Environment (JRE)
+
+In other words, every other class loader and every other class ultimately depends on the classes loaded first by the **Bootstrap Class Loader**.
+
+**Key characteristics**:
+
+| Feature                    | Explanation                                                                                                                                                                                                                                                                                            |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Native code implementation | The Bootstrap Class Loader is implemented in native code (typically C/C++), not in Java, because the JVM requires it to exist before any Java classes are loaded.                                                                                                                                      |
+| No parent class loader     | It is the root of all class loaders and has no parent. Other class loaders in the JVM follow the parent delegation model, but the bootstrap loader sits at the very top.                                                                                                                               |
+| Location of loaded classes | Java ≤ 8: loads classes from rt.jar located in `<JAVA_HOME>/jre/lib`. Java ≥ 9: uses the Java Runtime Image (JRT) through the module system rather than a java.lang.ClassLoader instance. As a result, it is not possible to obtain a reference to the bootstrap class loader via the ClassLoader API. |
+
+**So why is the Bootstrap Class Loader so important?**
+
+- **It establishes the foundation for JVM execution**: every other class loader depends on it.
+- **It ensures safety**: core classes (`java.lang.*`) cannot be overridden because the bootstrap loader sits at the top of the hierarchy.
+- **It initializes the runtime environment**: the heap, stack, code cache, GC, JIT, and other runtime components all rely on the core classes loaded by the bootstrap loader.
+- **It supports the module system (Java 9+)**: core classes are managed as modules, making the JVM more lightweight, better isolated, and more secure.
+
+## Extension/Platform ClassLoader
+
+In the Java ClassLoader hierarchy, after the **Bootstrap Class Loader**, the next level is the **Extension Class Loader** (called the **Platform Class Loader** in Java 9+). This is an important component responsible for **loading extension libraries and platform modules that extend the functionality of core Java**.
+
+Before Java 9, extensions were loaded from the **Java extension directories ($JAVA_HOME/jre/lib/ext)**. These classes typically included:
+
+- JDBC drivers
+- security providers
+- other standard extension libraries
+
+From Java 9 onward, this class loader was renamed to the **Platform ClassLoader**. It is responsible for loading **platform modules** and is a core component of the **Java Platform Module System (JPMS)**.
+Key considerations when working with the **Extension / Platform ClassLoader**
+
+- **Precedence & versioning**: Classes loaded by the Extension/Platform ClassLoader have higher precedence than those loaded by the Application ClassLoader. As a result, if the same class exists both in the extension/platform layer and on the application classpath, improper management can lead to version conflicts, because the JVM will resolve and use the version loaded by the Extension/Platform ClassLoader.
+- **Security implications**: Because the Platform ClassLoader sits above the Application ClassLoader in the hierarchy, the JVM treats these classes as trusted libraries. They may also be granted higher privileges than application-level classes. Therefore, when deploying applications, it is critical to ensure that untrusted classes do not end up in extension/platform locations and that access permissions for classes loaded by the Platform ClassLoader are properly controlled.
+
+## Application Class Loader
+
+In the Java ClassLoader hierarchy, the Application ClassLoader (also known as the System ClassLoader) is the last loader in the parent delegation model. It is responsible for loading application classes and external libraries, and it is the class loader that developers most commonly interact with when running projects or working with the classpath.
+
+This loader loads application code, including:
+
+- Classes loaded from the classpath:
+  – code written by you
+  – external libraries (JARs, directories)
+
+- Locations defined via:
+  – the **CLASSPATH** environment variable
+  – command-line options: **-cp** or **-classpath**
+
+The Application ClassLoader also supports dynamic class loading through techniques such as:
+
+- Reflection: `Class.forName("com.example.MyClass")`
+- Proxy classes or bytecode generation: Spring AOP, Hibernate, ByteBuddy
+
+**These classes are loaded into the JVM Method Area / Metaspace; object instances are allocated on the Heap, and stack frames are created on thread stacks when methods are invoked.**
+
+As the final loader in the parent delegation model, the Application ClassLoader **can see classes loaded by its parents**, but its own classes are **not visible to parent loaders**. This ensures that **core classes and platform modules cannot be overridden**, while still allowing applications to **load the classes they need without affecting the JVM**.
+
+Example:
+
+```java
+java -cp myapp.jar com.example.Main
+```
+
+- The JVM uses the Application ClassLoader to locate myapp.jar on the classpath.
+- It loads com.example.Main and its dependent classes from the JAR.
+- If a class cannot be found in the parent class loaders or on the classpath, a ClassNotFoundException is thrown.
+
+# Runtime Data Area
+
+## What is Runtime Data Area?
+
+**Runtime Data Areas** are the set of memory regions created and managed by the JVM throughout the entire lifecycle of an application.
+
+The Java Virtual Machine (JVM) divides memory into separate areas to classify memory spaces based on their intended usage. The core idea is to quickly identify the approximate usage pattern of a given object and to focus only on objects of specific interest.
+
+These data areas are carefully designed to ensure:
+
+- Isolation between threads
+- Efficient bytecode execution performance
+- Memory safety
+- Optimized garbage collection (GC)
+- Cross-platform support (through an underlying abstraction model)
+
+Each memory region plays a distinct role in:
+
+- class loading
+- bytecode execution
+- object storage
+- local variable storage
+- method invocation management
+- and support for native code.
+
+Some areas are **shared across all threads**, while others are **created per thread** to ensure data safety and isolation.
+
+**High-Level Architecture of Runtime Data Areas — Java Memory Model:**
+![High-level JVM/JMM](/static/images/blogs/java/jvm-jmm-architect/high-level-jvm-jmm.png)
+
+## Shared Areas
+
+The JVM has several **shared data areas that are accessible to all threads running within the JVM**. As a result, multiple threads can concurrently access any of these shared regions.
+
+### HEAP
+
+#### What is HEAP?
+
+The Heap is the JVM’s **shared home**, used to store all objects in the JVM. Each JVM has a **single heap**, which is therefore **shared across all threads**. This design saves memory and allows **multiple threads to operate on the same objects** (with proper synchronization when required).
+
+When an object is created using the `new` keyword, a region of memory in the heap is allocated to store that object. The heap stores **instance data** and **reference fields**, but it does not contain method code—method implementations are stored in the **Method Area**.
+
+The heap is initialized when the JVM starts.
+Heap memory is managed by the Garbage Collector (GC)—an automatic memory management system responsible for reclaiming objects that are no longer in use within the JVM.
+
+**How is the Heap divided?**
+
+In the classic JVM (HotSpot prior to Java 8), the heap is divided into:
+
+- Young Generation
+- Old Generation
+- Permanent Generation (PermGen) → stores class metadata
+
+![Classic JVM](/static/images/blogs/java/jvm-jmm-architect/classic-jvm-model.png)
+
+Modern JVM (Java 8+)
+
+- Young Generation
+- Old Generation
+- Metaspace (thay cho PermGen, nằm trong native memory)
+
+![Modern JVM](/static/images/blogs/java/jvm-jmm-architect/modern-jvm-model.png)
+
+In this section, we will focus on the **Young Generation** and **Old Generation** — the two most critical areas that determine application performance:
+
+#### **Young Generation**
+
+The Young Generation is the memory region where all newly created objects are allocated. When the Young Generation becomes full, the JVM triggers garbage collection. Garbage collection in this region is known as **Minor Garbage Collection**.
+
+The Young Generation is divided into three areas: **Eden** and **two Survivor spaces (S0 and S1)**.
+
+**Eden (object allocation area)**
+
+- Approximately 90% of newly created objects are allocated here.
+- When Eden becomes full → a Minor GC is triggered.
+
+**Survivor 0 & Survivor 1**
+
+- After each GC cycle, surviving objects are copied from Eden → S0 → S1 → eventually to the Old Generation.
+- The JVM uses a **moving algorithm**, ensuring that one Survivor space is always empty.
+
+**Key characteristics of the Young Generation:**
+
+- Most newly created objects reside in the **Eden space**.
+- When Eden fills up, a **Minor GC** is triggered and surviving objects are moved to one of the **Survivor spaces**.
+- **Minor GC** continues to evaluate surviving objects and moves them to the **other Survivor space**, ensuring that **one Survivor space is always empty**.
+- Objects that survive **multiple GC cycles** are eventually promoted to the **Old Generation**.
+
+#### **Old Generation (Tenured Space)**
+
+This is where long-lived objects reside—those that have **graduated** from the **Young Generation**.
+
+**Characteristics:**
+
+- Stores long-lived objects: sessions, caches, singletons
+- GC is slower (Major GC / Full GC)
+- Uses the Mark–Sweep–Compact algorithm
+
+**When does an object get promoted to the Old Generation?**
+
+- It survives multiple GC cycles in the Young Generation
+- Or Eden is under heavy pressure → early promotion
+- Or the object is too large → bypasses Eden and is allocated directly in the Old Generation
+
+**Critical risks:**
+
+- Full GC can pause the application for several milliseconds to several seconds
+- If the Old Generation becomes full → `java.lang.OutOfMemoryError: Java heap space`
+
+#### **Object life-cycle in HEAP**
+
+![Object Life-cycle In Heap](/static/images/blogs/java/jvm-jmm-architect/object-life-cycle-in-heap-2.png)
+
+This lifecycle allows the GC to efficiently reclaim short-lived objects while retaining long-lived objects in the Old Generation, improving performance and reducing the risk of memory leaks.
+
+#### Permanent Generation (PERM)
+
+Before Java 8, the JVM had a special memory region called the **Permanent Generation (PermGen)**. This area was used to store **class metadata**.
+
+Predicting the amount of memory required for this region was difficult. When the estimation was incorrect, the JVM would often throw:
+`java.lang.OutOfMemoryError: PermGen space`
+
+If the root cause was not an actual memory leak, the common workaround was to increase the PermGen size, for example by setting the maximum limit to 256 MB:
+
+```java
+java -XX:MaxPermSize=256m
+```
+
+**Key points about the Permanent Generation:**
+
+- It exists only in Java versions prior to Java 8.
+- It stores metadata for classes.
+- Its memory usage is difficult to predict.
+
+#### Metaspace
+
+Because predicting metadata memory requirements was complex and inconvenient, the Permanent Generation was **removed starting with Java 8 and replaced by Metaspace**. From this version onward, most miscellaneous components were moved into the regular Java heap.
+
+**Class definitions** are loaded into **Metaspace**. Metaspace resides in **native memory (off-heap)**, so it does not directly interfere with objects allocated in the Java heap. By default, the size of Metaspace is limited only by the amount of native memory available to the Java process. This design prevents scenarios where adding just a single class would cause the application to fail with:
+`java.lang.OutOfMemoryError: PermGen space`
+
+**Key points about Metaspace:**
+
+- Allowing Metaspace to grow without bounds can lead to heavy swapping and native memory allocation failures.
+- If you want to safeguard against this, you can explicitly cap the Metaspace size, for example by setting a maximum of 256 MB:
+
+```java
+java -XX:MaxMetaspaceSize=256m
+```
+
+### Method Area
+
+Similar to the Heap, each JVM has only one Method Area, which is therefore shared across all threads. This design helps save memory and avoids duplicating metadata for the same class.
+
+| Data type             | Description                                                 |
+| --------------------- | ----------------------------------------------------------- |
+| Class Metadata        | Class name, field layout, method information                |
+| Runtime Constant Pool | Constants, method references, symbolic references, literals |
+| Class References      | References to superclasses, interfaces, annotations, etc.   |
+
+In short, the Method Area is where the JVM stores the **blueprints** of classes required to execute the program.
+
+### Runtime Constant Pool (RCP)
+
+As an important part of the **Method Area**, it contains:
+
+- Compiled constants (int, long, string, etc.)
+- References to classes, fields, and methods
+
+When a class is loaded, its Runtime Constant Pool (RCP) is also created and populated with all related constants. This allows the JVM and methods to quickly access these resources without repeatedly re-parsing bytecode.
+
+**Note**:
+Although the Runtime Constant Pool may store references to String literals, the pool itself resides in the Method Area and is created per class or per interface at runtime. In contrast, the String Pool is located in the Heap and is a global pool shared across all classes.
+
+### Per-thread Data Areas
+
+In addition to the **shared common areas** that all threads can access at any time, the JVM also creates **private memory regions per thread** to store thread-specific data. These regions support the concurrent execution of multiple threads by isolating each thread’s execution state and local data.
+
+### PC Register
+
+**The PC (Program Counter) Register** is a special register associated with each JVM thread. Its role is to store the memory address of the next bytecode instruction to be executed by the CPU (via the JVM). It acts as a “navigation pointer” that controls the execution flow, ensuring instructions are executed in the correct order or jump to other locations according to program logic.
+
+Each thread running in the JVM has its own private memory called the JVM Stack, and each stack frame within that stack has its own PC Register. This enables independent execution across threads by:
+tracking the execution progress of the current frame
+remembering the current and next bytecode instructions to execute
+
+Therefore, the PC Register is part of the **thread context**, used to store the bytecode position for each individual thread, and it is **completely isolated and never shared between threads**.
+
+**The relationship between the PC Register and the OS Thread Scheduler**
+
+On any operating system (Linux, Windows, macOS):
+
+- A CPU cannot truly execute multiple threads simultaneously on the same core.
+- The operating system decides:
+  - which thread is scheduled to run
+  - on which core it runs
+  - how long it runs
+  - when to switch to another thread (context switch)
+
+→ The JVM **does not control thread scheduling**, it relies on the OS.
+
+The JVM’s responsibility is to prepare a **separate execution context** for each thread, including:
+
+- Stack: containing stack frames for method invocations
+- Local variables: variables local to each method, owned exclusively by that thread
+- PC Register: storing the next bytecode instruction the thread will execute
+
+This demonstrates that the PC Register is part of the thread context that the OS saves and restores during a thread context switch.
+
+**What happens during a context switch?**
+
+Consider a practical scenario: Thread A is currently running, and the operating system (OS) decides to switch the CPU to Thread B. At this moment, the OS performs a context switch—and this is where the role of the PC Register becomes critical.
+
+- Step 1: OS pauses Thread A — saving its CPU state
+  To resume execution later, the OS must save the full execution context of Thread A, including:
+
+  - CPU registers (eax, ebx, r1, r2… depending on CPU architecture)
+  - Stack pointer (SP) → pointing to the current frame in the thread’s stack
+  - CPU flags (carry, zero, sign, etc.)
+  - PC Register of Thread A → the most critical piece of information, storing the address of the next bytecode or instruction to execute
+
+- Step 2: OS switches to Thread B — restoring Thread B’s state
+
+  - Load Thread B’s PC Register → informs the CPU where Thread B left off
+  - Load Thread B’s CPU registers
+  - Restore Thread B’s stack pointer
+  - CPU resumes execution at the instruction indicated by Thread B’s PC Register
+
+  Here, the PC Register acts as the **coordinate** allowing the OS to pause and resume threads at the exact instruction where they were stopped.
+
+**Why is the PC Register important in multithreading?**
+
+When multiple threads run concurrently, the JVM needs to know the current instruction of each thread.
+Having a **dedicated PC Register per thread** ensures there is no confusion between threads, enabling smooth, correct execution and preventing race conditions in bytecode control flow.
+
+**Why having a separate PC Register per thread prevents race conditions in bytecode execution logic**
+
+Each thread has **its own PC Register**, which stores the address of the next bytecode instruction to execute.
+This ensures that when multiple threads run in parallel, Thread A and Thread B always know exactly where they are in their own bytecode sequence.
+Each thread continues from its own execution point without being affected by other threads.
+
+Without a dedicated PC Register per thread:
+If all threads shared a single PC:
+
+- Thread A is executing instruction 120
+- Thread B changes the PC to instruction 45
+  → When Thread A resumes, it would continue from instruction 45 instead of 121, breaking program logic.
+
+With separate PC Registers:
+
+- Thread A independently tracks its bytecode path
+- Thread B independently tracks its bytecode path
+  → No thread can interfere with another’s control flow, eliminating conflicts at the bytecode level.
+
+In general, we can understand that the **PC Register helps prevent race conditions in the control flow**.
+More precisely, the **PC Register stores the current bytecode position for each thread**, making it a **critical part of the thread context**.
+However, the PC Register alone is not sufficient to guarantee consistency—because it only operates while the thread is actively running on a CPU. If the thread is paused, the PC stops updating and its value is saved.
+Here, the OS Scheduler plays a **critical role by ensuring that each CPU core executes only one thread at a time**. No two thread contexts can run simultaneously on the same CPU, preventing control-flow conflicts at the CPU level.
+In other words:
+
+- The OS Scheduler prevents race conditions at the CPU/core execution level
+- The PC Register prevents race conditions at the bytecode level for each thread
+
+### Java Stack
+
+The **Java Stack** is the memory area where the JVM manages **method invocations** and **local variables (primitive values and object references)** for a single thread.
+
+Each time a method is invoked, a new stack frame is created and pushed onto the stack to store that method’s local variables and execution data. When the method completes, its stack frame is popped from the stack and the associated memory is released.
+
+The stack follows the **LIFO (Last-In, First-Out)** principle.
+
+**Primary responsibilities of the Java Stack:**
+
+- Manage the lifecycle of Java method calls
+- Store local variables and method parameters
+- Store execution-related metadata
+- Manage stack frames using the LIFO discipline
+
+**Structure of Java Stack Memory**
+
+The **Java Stack** is divided into **stack frames**, with each frame corresponding to a single method invocation.
+
+A **Stack Frame** consists of:
+
+1. Local Variable Array
+   It was used to stores:
+
+- Local variables (primitives: int, long, boolean, etc.)
+- Method parameters
+- Object references pointing to objects on the Heap
+  _Note: Objects themselves reside on the Heap; only their references are stored on the Stack._
+
+2. Operand Stack
+   This is where the JVM performs computations.
+   Unlike a CPU that uses registers, the JVM uses the operand stack to:
+
+- push values
+- perform calculations
+- pop results
+
+3. Frame Data (Additional Info)
+   Contains metadata needed for execution:
+
+- Reference to the class’s constant pool
+- Maximum depth of the operand stack
+- Exception handlers
+- Return address
+
+These pieces of information allow the JVM to:
+
+- Know which bytecode to execute
+- Route exceptions correctly
+- Return control to the caller after method completion
+
+Note: This memory area is managed by the JVM and is not the same as the Stack data structure in the Java Collections Framework.
+
+#### Native Method Stack
+
+The Native Method Stack is a less-discussed but critically important component when Java interacts with operating system code or libraries written in C/C++. It is part of the Runtime Data Areas and operates alongside the Java Stack, Heap, Method Area, and PC Register.
+
+The Native Method Stack is where the JVM “branches out” to native execution, handling tasks that Java bytecode cannot or should not perform. These methods are invoked via JNI (Java Native Interface).
+
+It is completely separate from the Java Stack, which contains frames for Java methods.
+
+Key difference compared to the Java Stack:
+
+| Native Method Stack                                                | Java Stack                          |
+| ------------------------------------------------------------------ | ----------------------------------- |
+| Managing and Executing Methods Written in Native Languages (C/C++) | Managing and Executing Java Methods |
+
+**Purpose of the Native Method Stack**
+
+The Native Method Stack is designed for scenarios where Java **cannot operate directly**, such as:
+
+- Interacting with the operating system: Accessing OS-level resources or system APIs (network, devices, drivers, etc.)
+- Performance optimization: Certain computationally intensive or low-level tasks run faster when implemented in C/C++
+- Calling system or third-party libraries: Many libraries exist only in C/C++ (e.g., OpenSSL, graphics libraries, codecs)
+- Native code within the JVM itself: Even the JVM uses native methods internally (e.g., `Object.wait()`, `System.arraycopy()`)
+
+This stack allows Java threads to safely and efficiently execute native code alongside standard Java bytecode execution.
+
+**Structure and Operation of the Native Method Stack**
+
+The Native Method Stack functions similarly to the Java Stack:
+
+- Each thread has its own Native Method Stack (thread-local)
+- Operates on the LIFO (Last-In, First-Out) principle
+- Whenever a native method is invoked, the JVM creates a Native Frame to store:
+  - Parameters passed to the native method
+  - Pointer to the native function in the C/C++ library
+  - Native local variables
+  - JNI execution state
+  - Information to return to the Java Stack after method completion
+
+Key difference from Java Stack Frame:
+
+- Native Frames do not store bytecode
+- They store structures compatible with C/C++ and the operating system, tailored for native execution
+
+# Excution Engine
+
+This is the _brain_ of the JVM. It is the component that directly reads bytecode, translates it into machine code, and manages the lifecycle of objects in memory.
+
+Essentially, this _brain_ consists of three main parts:
+
+- Interpreter – interprets and executes bytecode instruction by instruction
+- JIT Compiler – compiles and optimizes frequently executed (hot) code paths into machine code
+- Garbage Collector – automatically manages memory and reclaims objects that are no longer referenced
+
+## Interpreter
+
+This is the initial startup phase before the Execution Engine executes any code.
+
+Operating Model of the Interpreter:
+![Interpreter Operation](/static/images/blogs/java/jvm-jmm-architect/interpreter-operation-en.png)
+
+In simple terms, the operating principle of the JVM Interpreter can be understood as follows:
+
+- The Interpreter reads bytecode instructions from the PC register
+- Decodes the bytecode it has read
+- Executes the decoded instructions sequentially
+- After executing a set of instructions, the Interpreter loops back to read the next bytecode instruction and repeats the process
+
+Example:
+
+```java
+int sum(int a, int b) {
+    return a + b;
+}
+```
+
+Bytecode will be compiled:
+
+```
+0: iload_1     // load a
+1: iload_2     // load b
+2: iadd        // add them
+3: ireturn     // return result
+```
+
+Interpreter will excutes the following steps:
+
+| PC (Program Counter) | Instuction | Execution                                      |
+| -------------------- | ---------- | ---------------------------------------------- |
+| 0                    | iload_1    | Push `a` onto the operand stack                |
+| 1                    | iload_2    | Push `b` onto the operand stack                |
+| 2                    | iadd       | pop `a` and `b`, plus them and push the result |
+| 3                    | ireturn    | return the result                              |
+
+## JIT Compiler - Just-In-Time compiler
+
+The **JIT (Just-In-Time) Compiler** is an optimizing compiler in the JVM responsible for compiling bytecode into native machine code **at runtime** to improve performance, instead of compiling the entire program ahead of execution.
+
+The JIT identifies frequently executed code paths (**hotspots**) and compiles them into high-performance machine code, storing them in the **Code Cache** for reuse. This allows Java applications to run significantly faster than using the Interpreter alone. This mechanism enables Java to achieve high performance, comparable to or even exceeding traditional compiled languages like C++ in **long-running applications**.
+
+So, how does the JIT know which code is a hotspot?
+
+The JVM uses a mechanism called **HotSpot Profiling**:
+
+- Each method has an **Invocation Counter**
+- Each loop has a **Back-edge Counter**
+- When the number of method calls or loop iterations exceeds a certain **threshold**, the JVM marks that code as a **hotspot**
+
+➡ This means the JIT optimizes only the code that truly matters for performance.
+
+How does the JIT compile bytecode into native code?
+
+When a code segment becomes a hotspot:
+
+- The JVM sends the bytecode to the **JIT**
+- The JIT performs advanced **optimizations**
+- The JIT compiles it into the CPU's **native machine code**
+  (x86_64, ARM64, RISC-V, depending on the platform)
+- The machine code is stored in the **Code Cache**
+
+➡ Subsequent executions run the native code directly, without using the Interpreter.
+
+Why is the JIT compiler more optimized than the traditional Java compiler?
+
+The JIT can optimize better than the traditional compiler because:
+
+- The JIT **knows exactly how the program runs**
+  For example: which methods are called most frequently, the actual types of objects, which branches are always taken, etc.
+
+- Common optimizations include:
+  - **Inlining**: embeds the method body at the call site → reduces call overhead
+  - **Dead Code Elimination**: removes unnecessary code
+  - **Escape Analysis**: determines if an object can be allocated on the stack instead of the heap
+  - **Loop Unrolling**: optimizes loops
+  - **Branch Prediction Optimization**
+    ➡ The JIT generates native code that best fits the actual runtime, making Java performance in **long-running background services** extremely high.
+
+Types of JIT in JVM HotSpot
+
+HotSpot (the default JVM from Oracle/OpenJDK) uses **two main JIT compilers**:
+
+| JIT                      | Characteristics                                  | Use Case                                      |
+| ------------------------ | ------------------------------------------------ | --------------------------------------------- |
+| **C1 (Client Compiler)** | Fast compilation, light optimizations            | Applications requiring fast startup           |
+| **C2 (Server Compiler)** | Deep optimizations, high-performance native code | Backend services, microservices, ML, Big Data |
+
+Java 8+ uses **Tiered Compilation**:
+
+```
+Interpreter ➡ C1 ➡ C2
+```
+
+## Garbage Collector
+
+Garbage Collector (GC) is a crucial component of the Java Execution Engine, responsible for automatically managing Heap memory. The GC detects and frees **unreferenced objects**, preventing memory leaks, reducing pointer errors, and optimizing performance without requiring manual memory management like in C/C++.
+
+Thanks to the GC, Java developers can focus on business logic instead of worrying about memory allocation and deallocation.
+
+**How it works:**
+
+**1. Identifying “garbage” objects:**
+The GC tracks all objects in the Heap. An object is considered garbage when:
+
+- No variable or reference points to it.
+- It cannot be reached from **GC Roots** (Thread stacks, static fields, JNI references, etc.).
+
+This model is called **reachability analysis** — the GC only retains objects reachable from GC Roots.
+
+**2. Memory reclamation:**
+Once an object is identified as garbage, the GC automatically deletes it and reclaims its memory for future allocations. This process occurs entirely within the JVM, without developer intervention.
+
+**Benefits of GC:**
+
+- **Reduces programming burden:** No need for `free()` or `delete`, saving cognitive load.
+- **Prevents critical errors:** Reduces memory leaks and dangling pointers.
+- **Optimizes performance:** Efficient memory management helps maintain smooth application execution.
+
+# Conclusion
+
+JVM and JMM are not just technical details — they are foundational concepts for designing high-performance, safe, and scalable Java applications with effective concurrency.
+Mastering them means understanding the factors that determine how to build and manage concurrency in Java efficiently.
+
+**JVM and Java Memory Model (JMM)**
+
+- JMM defines how threads see and update memory.
+- Crucial for avoiding race conditions and ensuring **visibility** when multiple threads access the same object.
+- Knowledge of JMM underpins correct use of `volatile`, `synchronized`, Atomic classes, and concurrent collections.
+
+**Runtime Data Areas (Heap & Stack)**
+
+- **Heap** is shared memory for all threads, storing objects. Accessing these objects requires synchronization if multiple threads interact.
+- **Stack** and **PC Register** are thread-local, ensuring each thread’s **control flow** is independent, avoiding bytecode-level conflicts.
+- **Metaspace / Method Area** store class metadata, shared across threads; they influence class loading but have less direct impact on data races.
+
+**Class Loader Subsystem**
+
+- Dynamic class loading and lazy loading help JVM manage memory and optimize startup time.
+- Understanding the **ClassLoader hierarchy** (Bootstrap → Platform → Application) clarifies which classes can be shared across threads and which are isolated, which is essential when designing concurrency-safe modules.
+
+**Execution Engine**
+
+- **Interpreter & JIT Compiler**: explain how bytecode is executed and optimized at runtime.
+- Understanding this mechanism supports reasoning about **happens-before relationships** between threads, especially when the JIT may reorder code or optimize memory access.
+
+**Garbage Collector**
+
+- GC manages shared Heap memory; object creation and destruction impact performance in multithreaded environments.
+- Understanding the object lifecycle (Young → Old Gen) helps developers optimize object reuse and minimize stop-the-world GC pauses affecting thread responsiveness.
+
+**Per-thread Data Areas**
+
+- **PC Register, Java Stack, Native Method Stack** are thread-local, allowing each thread to execute independently without locks.
+- Knowing the separation between **thread-local** and **shared memory** is key to deciding when synchronization is necessary.
+
+**Summary:**
+
+- **Shared memory** (Heap, Method Area, Metaspace) → requires synchronization and visibility control.
+- **Thread-local memory** (Stack, PC Register, Native Stack) → naturally thread-safe, no locks needed.
+- **Class loading & execution** → indirectly affects concurrency when multiple threads instantiate or access objects, especially in frameworks like Spring.
+- **Garbage Collection** → understanding its behavior avoids stop-the-world pauses that can affect multithreaded app performance.
+- **JMM fundamentals** → form the basis for reasoning about concurrency correctness.

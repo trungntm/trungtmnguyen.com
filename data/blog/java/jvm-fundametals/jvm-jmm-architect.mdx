@@ -1,0 +1,147 @@
+---
+title: 'JVM Fundamentals — Complete Series'
+date: '2025-12-12'
+tags: ['Java', 'JVM', 'Series', 'Architecture', 'Memory', 'Performance']
+draft: false
+thumbnail: '/static/images/blogs/java/jvm-jmm-architect/jvm.png'
+images: ['/static/images/blogs/java/jvm-jmm-architect/jvm.png']
+summary: 'A comprehensive series covering JVM internals, from class loading architecture to memory management and execution engine optimization. Master the foundations that make Java powerful, performant, and portable across platforms.'
+authors: [trungntm]
+series: 'JVM Fundamentals'
+---
+
+# JVM Fundamentals Series
+
+Understanding the Java Virtual Machine (JVM) is crucial for any serious Java developer. The JVM is not just a "black box that runs Java" — it's a sophisticated runtime system that manages memory, loads classes, executes bytecode, and optimizes performance through advanced compilation techniques.
+
+This comprehensive series breaks down JVM internals into digestible, focused articles that build upon each other to give you a complete understanding of how Java works under the hood.
+
+![JVM Core Architecture](/static/images/blogs/java/jvm-jmm-architect/core-architect.png)
+
+## 📚 Series Overview
+
+The JVM can be understood as three interconnected subsystems working together:
+
+- **Class Loader System** — Dynamic loading and linking
+- **Runtime Data Areas** — Memory organization and management
+- **Execution Engine** — Interpretation, compilation, and optimization
+
+Each article in this series focuses on one core area, providing deep insights while maintaining practical relevance for your daily development work.
+
+---
+
+## Part 1: JVM Architecture & Class Loading
+
+**[📖 Read: JVM Architecture & Class Loading — Understanding Java's Foundation](/blog/java/jvm-class-loading-architecture)**
+
+Discover how the JVM loads and manages classes dynamically. Learn about the three-tier class loader hierarchy and why lazy loading makes Java applications both flexible and efficient.
+
+### What You'll Learn:
+
+- ✅ **Bootstrap Class Loader** — Loading core Java libraries
+- ✅ **Platform/Extension Class Loader** — Managing platform modules
+- ✅ **Application Class Loader** — Handling your application classes
+- ✅ **Delegation Model** — How class loading hierarchy prevents conflicts
+- ✅ **Lazy Loading Strategy** — Why classes load on-demand
+
+### Best For:
+
+Developers who want to understand how Java achieves modularity and dynamic loading capabilities that enable frameworks like Spring and modern microservices architectures.
+
+---
+
+## Part 2: JVM Memory Management
+
+**[📖 Read: JVM Memory Management — Heap, Stack, and Runtime Data Areas](/blog/java/jvm-memory-management)**
+
+Master the JVM's memory architecture. Understand how Heap, Stack, and Metaspace work together to provide both performance and memory safety.
+
+### What You'll Learn:
+
+- ✅ **Heap Structure** — Young Generation (Eden, Survivor spaces) and Old Generation
+- ✅ **Stack Memory** — Method calls, local variables, and stack frames
+- ✅ **Metaspace vs PermGen** — Modern memory management improvements
+- ✅ **Memory Areas** — Method Area, PC Register, and Native Method Stack
+- ✅ **Object Lifecycle** — From allocation to garbage collection
+
+### Best For:
+
+Performance engineers, developers debugging memory issues, and anyone optimizing JVM applications for production environments.
+
+---
+
+## Part 3: JVM Execution Engine
+
+**[📖 Read: JVM Execution Engine — From Bytecode to Native Code](/blog/java/jvm-execution-engine)**
+
+Explore how the JVM executes your code efficiently through interpretation, Just-In-Time compilation, and garbage collection.
+
+### What You'll Learn:
+
+- ✅ **Interpreter** — Direct bytecode execution for startup speed
+- ✅ **JIT Compiler** — C1 and C2 compilers for runtime optimization
+- ✅ **Tiered Compilation** — Balancing startup time with peak performance
+- ✅ **HotSpot Detection** — How the JVM identifies optimization opportunities
+- ✅ **Garbage Collector** — Memory reclamation and application responsiveness
+
+### Best For:
+
+Senior developers, performance specialists, and architects designing high-throughput systems that need to understand JVM optimization strategies.
+
+---
+
+## 🎯 Why This Series Matters
+
+### For Application Performance
+
+Understanding JVM internals helps you:
+
+- Write memory-efficient code that works with the garbage collector
+- Choose appropriate data structures for your memory patterns
+- Debug performance bottlenecks at the JVM level
+- Configure JVM flags for optimal production performance
+
+### For System Design
+
+JVM knowledge enables better:
+
+- Microservice resource planning and memory allocation
+- Container sizing for cloud deployments
+- Monitoring and observability strategy for JVM metrics
+- Architecture decisions for high-throughput systems
+
+### For Career Growth
+
+JVM expertise is valuable for:
+
+- Senior developer and architect roles
+- Performance engineering positions
+- DevOps and platform engineering
+- Technical leadership in Java ecosystems
+
+---
+
+## 🚀 Getting Started
+
+**New to JVM internals?** Start with [Part 1: Class Loading](/blog/java/jvm-class-loading-architecture) to build a solid foundation.
+
+**Focused on performance?** Jump to [Part 2: Memory Management](/blog/java/jvm-memory-management) for immediate practical insights.
+
+**Interested in optimization?** Begin with [Part 3: Execution Engine](/blog/java/jvm-execution-engine) to understand JIT compilation.
+
+Each article is designed to stand alone while building toward a comprehensive understanding of the JVM ecosystem.
+
+---
+
+## 📖 Additional Resources
+
+- **Oracle JVM Specification** — The official technical reference
+- **JVM Performance Tuning Guide** — Production optimization strategies
+- **Garbage Collection Algorithms** — Deep dive into GC implementations
+- **JVM Monitoring Tools** — JProfiler, VisualVM, and production monitoring
+
+---
+
+_This series represents years of production experience, research, and teaching JVM concepts to development teams. Each article combines theoretical understanding with practical insights you can apply immediately._
+
+**Ready to master the JVM?** Choose your starting point above and begin your journey into Java's powerful runtime system.
