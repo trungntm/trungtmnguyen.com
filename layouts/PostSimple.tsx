@@ -8,12 +8,14 @@ import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import type { SeriesInfo } from '@/components/series/types'
 
 interface LayoutProps {
   content: CoreContent<Blog>
   children: ReactNode
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
+  seriesData?: SeriesInfo
 }
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {

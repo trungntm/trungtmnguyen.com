@@ -12,6 +12,7 @@ import tagData from 'app/tag-data.json'
 import Image from '@/components/Image'
 import UnderlineHoverLink from '@/components/UnderlineHoverLink'
 import { ReadingTime } from '@/components/reading-time'
+import { SeriesBadge } from '@/components/series'
 
 interface PaginationProps {
   totalPages: number
@@ -154,11 +155,21 @@ export default function ListLayoutWithTags({
                           />
                         </Link>
                         <div className={'pl-2 xl:col-span-3'}>
-                          <h2 className="text-2xl leading-8 font-bold tracking-tight">
-                            <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
-                              {title}
-                            </Link>
-                          </h2>
+                          <div className="flex flex-col gap-2">
+                            <h2 className="text-2xl leading-8 font-bold tracking-tight">
+                              <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
+                                {title}
+                              </Link>
+                            </h2>
+                            {/* Series Badge */}
+                            {post.seriesInfo && (
+                              <SeriesBadge
+                                seriesSlug={post.seriesInfo.slug}
+                                seriesName={post.seriesInfo.name}
+                                order={post.seriesInfo.order}
+                              />
+                            )}
+                          </div>
                           <dl>
                             <dt className="sr-only">Published on</dt>
                             <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">

@@ -7,6 +7,7 @@ import HeroSection from '@/components/HeroSection'
 import UnderlineHoverLink from '@/components/UnderlineHoverLink'
 import Image from '@/components/Image'
 import { ReadingTime } from '@/components/reading-time'
+import { SeriesBadge } from '@/components/series'
 const MAX_DISPLAY = 5
 
 export default function Home({ posts }) {
@@ -53,6 +54,13 @@ export default function Home({ posts }) {
                             {title}
                           </Link>
                         </h2>
+                        {post.seriesInfo && (
+                          <SeriesBadge
+                            seriesSlug={post.seriesInfo.slug}
+                            seriesName={post.seriesInfo.name}
+                            order={post.seriesInfo.order}
+                          />
+                        )}
                         <dl className={'my-2'}>
                           <dt className="sr-only">Published on</dt>
                           <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">

@@ -7,6 +7,9 @@
 @source '../node_modules/pliny';
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Import series-specific styles */
+@import './series.css';
+
 /* Core theme configuration */
 @theme {
   /* Font families */
