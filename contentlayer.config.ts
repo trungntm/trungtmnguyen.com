@@ -60,6 +60,52 @@ const computedFields: ComputedFields = {
 }
 
 /**
+ * Create series index with all series information
+ */
+function createSeriesIndex(allBlogs) {
+  const seriesIndex = {}
+
+  allBlogs.forEach((post) => {
+    if ((post.series || post.seriesName) && (!isProduction || post.draft !== true)) {
+      const seriesSlug = post.series?.slug || slug(post.seriesName || '')
+      const seriesName = post.series?.name || post.seriesName
+      const seriesOrder = post.series?.order || post.seriesOrder
+
+      if (!seriesIndex[seriesSlug]) {
+        seriesIndex[seriesSlug] = {
+          name: seriesName,
+          slug: seriesSlug,
+          posts: [],
+          totalPosts: 0,
+        }
+      }
+
+      seriesIndex[seriesSlug].posts.push({
+        title: post.title,
+        slug: post.slug,
+        order: seriesOrder,
+        date: post.date,
+        summary: post.summary,
+        readingTime: post.readingTime,
+      })
+      seriesIndex[seriesSlug].totalPosts++
+    }
+  })
+
+  // Sort posts within each series by order
+  Object.keys(seriesIndex).forEach((seriesSlug) => {
+    seriesIndex[seriesSlug].posts.sort((a, b) => (a.order || 0) - (b.order || 0))
+
+    // Add status based on whether all posts are published
+    const allPublished = seriesIndex[seriesSlug].posts.every((post) => !post.draft)
+    seriesIndex[seriesSlug].status = allPublished ? 'completed' : 'ongoing'
+  })
+
+  writeFileSync('./app/series-data.json', JSON.stringify(seriesIndex, null, 2))
+  console.log('Series index generated...')
+}
+
+/**
  * Count the occurrences of all tags across blog posts and write to json file
  */
 function createTagCount(allBlogs) {
@@ -109,9 +155,38 @@ export const Blogs = defineDocumentType(() => ({
     bibliography: { type: 'string' },
     canonicalUrl: { type: 'string' },
     thumbnail: { type: 'string' },
+    // Series fields - using json type for nested object
+    series: { type: 'json' },
+    seriesName: { type: 'string' }, // For backward compatibility
+    seriesOrder: { type: 'number' }, // For backward compatibility
   },
   computedFields: {
     ...computedFields,
+    // Series computed fields
+    seriesSlug: {
+      type: 'string',
+      resolve: (doc) => {
+        if (doc.series?.slug) return doc.series.slug
+        if (doc.seriesName) return slug(doc.seriesName)
+        return null
+      },
+    },
+    seriesInfo: {
+      type: 'json',
+      resolve: (doc) => {
+        if (!doc.series && !doc.seriesName) return null
+        return {
+          name: doc.series?.name || doc.seriesName,
+          slug: doc.series?.slug || slug(doc.seriesName || ''),
+          order: doc.series?.order || doc.seriesOrder,
+          currentPost: doc.title,
+        }
+      },
+    },
+    isPartOfSeries: {
+      type: 'boolean',
+      resolve: (doc) => !!(doc.series || doc.seriesName),
+    },
     structuredData: {
       type: 'json',
       resolve: (doc) => ({
@@ -201,6 +276,7 @@ export default makeSource({
   onSuccess: async (importData) => {
     const { allBlogs } = await importData()
     createTagCount(allBlogs)
+    createSeriesIndex(allBlogs)
     createSearchIndex(allBlogs)
   },
 })

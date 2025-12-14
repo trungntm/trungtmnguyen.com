@@ -1,19 +1,23 @@
 ---
 title: 'JVM Architecture & Class Loading — Understanding Java Fundamentals'
-date: '2025-12-13'
+date: '2025-12-11'
 tags: ['Java', 'JVM', 'Class Loader', 'Architecture', 'Bootstrap ClassLoader']
 draft: false
 thumbnail: '/static/images/blogs/java/jvm-jmm-architect/jvm.png'
 images: ['/static/images/blogs/java/jvm-jmm-architect/jvm.png']
 summary: 'Deep dive into JVM class loading mechanisms. Understand Bootstrap, Platform, and Application ClassLoaders, lazy loading strategy, and how dynamic class loading enables Java flexibility and modularity.'
 authors: [trungntm]
+series:
+  name: 'JVM Fundamentals'
+  slug: 'jvm-fundamentals'
+  order: 2
 ---
 
 > 📚 **JVM Fundamentals Series**
 >
-> 1. **[JVM Architecture & Class Loading](/blog/java/jvm-class-loading-architecture)** ← You are here
-> 2. [JVM Memory Management](/blog/java/jvm-memory-management)
-> 3. [JVM Execution Engine](/blog/java/jvm-execution-engine)
+> 1. **[JVM Architecture & Class Loading](/blog/java/jvm-fundamentals/jvm-class-loading-architecture)** ← You are here
+> 2. [JVM Memory Management](/blog/java/jvm-fundamentals/jvm-memory-management)
+> 3. [JVM Execution Engine](/blog/java/jvm-fundamentals/jvm-execution-engine)
 
 # Overview
 
@@ -83,7 +87,7 @@ The JVM uses a **lazy loading (load-on-demand) model** to optimize resource usag
   - when invoking a static method
   - when accessing a field
   - during reflective lookups
-  - when the [JIT Compiler](/blog/java/jvm-execution-engine#jit-compiler---just-in-time-compiler) optimizes execution paths
+  - when the [JIT Compiler](/blog/java/jvm-fundamentals/jvm-execution-engine#jit-compiler---just-in-time-compiler) optimizes execution paths
 
   If all framework classes and JARs were loaded into the JVM during startup, your RAM would become like an overfilled warehouse—bloated and storing everything at once. In that case, the following issues would occur:
 
@@ -280,7 +284,7 @@ The Application ClassLoader also supports dynamic class loading through techniqu
 - Reflection: `Class.forName("com.example.MyClass")`
 - Proxy classes or bytecode generation: Spring AOP, Hibernate, ByteBuddy
 
-**These classes are loaded into the JVM [Method Area / Metaspace](/blog/java/jvm-memory-management#metaspace); object instances are allocated on the [Heap](/blog/java/jvm-memory-management#heap), and [stack frames](/blog/java/jvm-memory-management#java-stack) are created on thread stacks when methods are invoked.**
+**These classes are loaded into the JVM [Method Area / Metaspace](/blog/java/jvm-fundamentals/jvm-memory-management#metaspace); object instances are allocated on the [Heap](/blog/java/jvm-fundamentals/jvm-memory-management#heap), and [stack frames](/blog/java/jvm-fundamentals/jvm-memory-management#java-stack) are created on thread stacks when methods are invoked.**
 
 As the final loader in the parent delegation model, the Application ClassLoader **can see classes loaded by its parents**, but its own classes are **not visible to parent loaders**. This ensures that **core classes and platform modules cannot be overridden**, while still allowing applications to **load the classes they need without affecting the JVM**.
 
@@ -308,13 +312,13 @@ Now that you understand how the JVM loads and manages classes, you're ready to e
 
 ## 📚 Continue Learning
 
-**Next in Series**: [JVM Memory Management — Heap, Stack, and Runtime Data Areas](/blog/java/jvm-memory-management)
+**Next in Series**: [JVM Memory Management — Heap, Stack, and Runtime Data Areas](/blog/java/jvm-fundamentals/jvm-memory-management)
 
 Learn how the JVM organizes memory, manages object lifecycles, and optimizes performance through sophisticated memory architecture.
 
 **Other Articles in This Series**:
 
-- [JVM Execution Engine — From Bytecode to Native Code](/blog/java/jvm-execution-engine)
+- [JVM Execution Engine — From Bytecode to Native Code](/blog/java/jvm-fundamentals/jvm-execution-engine)
 
 ---
 

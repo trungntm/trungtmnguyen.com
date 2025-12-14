@@ -1,23 +1,27 @@
 ---
 title: 'JVM Memory Management — Heap, Stack, and Runtime Data Areas'
-date: '2025-12-13'
+date: '2025-12-12'
 tags: ['Java', 'JVM', 'Memory', 'Heap', 'Stack', 'Metaspace']
 draft: false
 thumbnail: '/static/images/blogs/java/jvm-jmm-architect/jvm.png'
 images: ['/static/images/blogs/java/jvm-jmm-architect/jvm.png']
 summary: 'Master JVM memory architecture. Learn about Heap structure (Young Gen, Old Gen), Stack frames, Metaspace, and how the JVM manages memory across threads for optimal performance and safety.'
 authors: [trungntm]
+series:
+  name: 'JVM Fundamentals'
+  slug: 'jvm-fundamentals'
+  order: 3
 ---
 
 > 📚 **JVM Fundamentals Series**
 >
-> 1. [JVM Architecture & Class Loading](/blog/java/jvm-class-loading-architecture)
-> 2. **[JVM Memory Management](/blog/java/jvm-memory-management)** ← You are here
-> 3. [JVM Execution Engine](/blog/java/jvm-execution-engine)
+> 1. [JVM Architecture & Class Loading](/blog/java/jvm-fundamentals/jvm-class-loading-architecture)
+> 2. **[JVM Memory Management](/blog/java/jvm-fundamentals/jvm-memory-management)** ← You are here
+> 3. [JVM Execution Engine](/blog/java/jvm-fundamentals/jvm-execution-engine)
 
 # Introduction
 
-In the [previous article](/blog/java/jvm-class-loading-architecture), we explored how the JVM loads and manages classes through the Class Loader Subsystem. We learned about the Bootstrap, Platform, and Application ClassLoaders, and how lazy loading enables Java's dynamic flexibility.
+In the [previous article](/blog/java/jvm-fundamentals/jvm-class-loading-architecture), we explored how the JVM loads and manages classes through the Class Loader Subsystem. We learned about the Bootstrap, Platform, and Application ClassLoaders, and how lazy loading enables Java's dynamic flexibility.
 
 But once classes are loaded, **where do they live in memory?** And when you create objects, invoke methods, or manage threads—**where does all that data go?**
 
@@ -80,7 +84,7 @@ The Heap is the JVM's **shared home**, used to store all objects in the JVM. Eac
 When an object is created using the `new` keyword, a region of memory in the heap is allocated to store that object. The heap stores **instance data** and **reference fields**, but it does not contain method code—method implementations are stored in the **Method Area**.
 
 The heap is initialized when the JVM starts.
-Heap memory is managed by the [Garbage Collector (GC)](/blog/java/jvm-execution-engine#garbage-collector)—an automatic memory management system responsible for reclaiming objects that are no longer in use within the JVM.
+Heap memory is managed by the [Garbage Collector (GC)](/blog/java/jvm-fundamentals/jvm-execution-engine#garbage-collector)—an automatic memory management system responsible for reclaiming objects that are no longer in use within the JVM.
 
 **How is the Heap divided?**
 
@@ -175,7 +179,7 @@ java -XX:MaxPermSize=256m
 
 Because predicting metadata memory requirements was complex and inconvenient, the Permanent Generation was **removed starting with Java 8 and replaced by Metaspace**. From this version onward, most miscellaneous components were moved into the regular Java heap.
 
-**[Class definitions](/blog/java/jvm-class-loading-architecture)** are loaded into **Metaspace**. Metaspace resides in **native memory (off-heap)**, so it does not directly interfere with objects allocated in the Java heap. By default, the size of Metaspace is limited only by the amount of native memory available to the Java process. This design prevents scenarios where adding just a single class would cause the application to fail with:
+**[Class definitions](/blog/java/jvm-fundamentals/jvm-class-loading-architecture)** are loaded into **Metaspace**. Metaspace resides in **native memory (off-heap)**, so it does not directly interfere with objects allocated in the Java heap. By default, the size of Metaspace is limited only by the amount of native memory available to the Java process. This design prevents scenarios where adding just a single class would cause the application to fail with:
 `java.lang.OutOfMemoryError: PermGen space`
 
 **Key points about Metaspace:**
@@ -189,7 +193,7 @@ java -XX:MaxMetaspaceSize=256m
 
 ### Method Area
 
-Similar to the Heap, each JVM has only one Method Area, which is therefore shared across all threads. This design helps save memory and avoids duplicating metadata for the same class loaded by the [Class Loader hierarchy](/blog/java/jvm-class-loading-architecture).
+Similar to the Heap, each JVM has only one Method Area, which is therefore shared across all threads. This design helps save memory and avoids duplicating metadata for the same class loaded by the [Class Loader hierarchy](/blog/java/jvm-fundamentals/jvm-class-loading-architecture).
 
 | Data type             | Description                                                 |
 | --------------------- | ----------------------------------------------------------- |
@@ -425,9 +429,9 @@ Now that you understand where classes live and how memory is organized, you're r
 
 ## 📚 Continue Learning
 
-**Previous in Series**: [JVM Architecture & Class Loading — Understanding Java's Foundation](/blog/java/jvm-class-loading-architecture)
+**Previous in Series**: [JVM Architecture & Class Loading — Understanding Java's Foundation](/blog/java/jvm-fundamentals/jvm-class-loading-architecture)
 
-**Next in Series**: [JVM Execution Engine — From Bytecode to Native Code](/blog/java/jvm-execution-engine)
+**Next in Series**: [JVM Execution Engine — From Bytecode to Native Code](/blog/java/jvm-fundamentals/jvm-execution-engine)
 
 Discover how the JVM transforms bytecode into optimized machine code, manages hotspot detection, and orchestrates garbage collection for peak performance.
 

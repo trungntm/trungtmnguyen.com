@@ -1,0 +1,274 @@
+/* Series-specific CSS styles */
+
+/* Series Container Styles */
+.series-container {
+  @apply relative;
+}
+
+.series-container.series-card {
+  @apply rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800;
+}
+
+.series-container.series-detailed {
+  @apply border-2 border-dashed border-gray-200 bg-gradient-to-br from-gray-50 to-white p-6 dark:border-gray-700 dark:from-gray-800 dark:to-gray-900;
+}
+
+/* Series Navigation Styles */
+.series-navigation {
+  @apply rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50;
+}
+
+.series-navigation-item {
+  @apply rounded-md p-3 transition-all duration-200 hover:bg-white hover:shadow-sm dark:hover:bg-gray-700;
+}
+
+.series-navigation-current {
+  @apply bg-primary-50 border-primary-200 text-primary-800 dark:bg-primary-900/20 dark:border-primary-800 dark:text-primary-200 border;
+}
+
+.series-navigation-button {
+  @apply bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none;
+}
+
+.series-navigation-button:disabled {
+  @apply cursor-not-allowed bg-gray-300 text-gray-500 dark:bg-gray-700 dark:text-gray-400;
+}
+
+/* Series Progress Styles */
+.series-progress-container {
+  @apply w-full;
+}
+
+.series-progress-bar {
+  @apply h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700;
+}
+
+.series-progress-fill {
+  @apply from-primary-500 to-primary-600 h-full rounded-full bg-gradient-to-r transition-all duration-500 ease-out;
+}
+
+.series-progress-pulse {
+  animation: progress-pulse 2s infinite;
+}
+
+@keyframes progress-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.series-progress-dots {
+  @apply flex items-center gap-1;
+}
+
+.series-progress-dot {
+  @apply h-2 w-2 rounded-full transition-all duration-200;
+}
+
+.series-progress-dot.completed {
+  @apply bg-primary-500;
+}
+
+.series-progress-dot.current {
+  @apply bg-primary-400 ring-primary-200 dark:ring-primary-800 ring-2 ring-offset-1;
+  animation: dot-pulse 1.5s infinite;
+}
+
+.series-progress-dot.upcoming {
+  @apply bg-gray-300 dark:bg-gray-600;
+}
+
+@keyframes dot-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* Series Badge Styles */
+.series-badge {
+  @apply inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-medium transition-all duration-200;
+}
+
+.series-badge.series-completed {
+  @apply border-green-200 bg-green-50 text-green-800 dark:border-green-800 dark:bg-green-900/20 dark:text-green-200;
+}
+
+.series-badge.series-ongoing {
+  @apply border-yellow-200 bg-yellow-50 text-yellow-800 dark:border-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200;
+}
+
+.series-badge.series-primary {
+  @apply border-primary-200 bg-primary-50 text-primary-800 dark:border-primary-800 dark:bg-primary-900/20 dark:text-primary-200;
+}
+
+.series-badge:hover {
+  @apply scale-105 shadow-sm;
+}
+
+/* Series Card Animations */
+.series-card-enter {
+  animation: card-fade-in 0.3s ease-out;
+}
+
+.series-card-hover {
+  @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-lg;
+}
+
+@keyframes card-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Series List Animations */
+.series-list-item {
+  animation: list-item-fade-in var(--delay, 0s) ease-out both;
+}
+
+@keyframes list-item-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Series Timeline Styles */
+.series-timeline {
+  @apply relative;
+}
+
+.series-timeline::before {
+  content: '';
+  @apply from-primary-200 via-primary-300 dark:from-primary-800 dark:via-primary-700 absolute top-0 left-5 h-full w-px bg-gradient-to-b to-transparent;
+}
+
+.series-timeline-item {
+  @apply relative flex items-start gap-4 pb-8;
+}
+
+.series-timeline-marker {
+  @apply relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white ring-4 ring-white dark:bg-gray-900 dark:ring-gray-900;
+}
+
+.series-timeline-marker.completed {
+  @apply bg-primary-500 text-white;
+}
+
+.series-timeline-marker.current {
+  @apply bg-primary-100 text-primary-600 ring-primary-200 dark:bg-primary-900/50 dark:text-primary-400 dark:ring-primary-800;
+  animation: marker-glow 2s infinite;
+}
+
+.series-timeline-marker.upcoming {
+  @apply bg-gray-100 text-gray-400 dark:bg-gray-800 dark:text-gray-600;
+}
+
+@keyframes marker-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 theme('colors.primary.400');
+  }
+  50% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+/* Series Search and Filter */
+.series-search-container {
+  @apply relative;
+}
+
+.series-filter-button {
+  @apply rounded-md border border-gray-300 bg-white px-3 py-1 text-sm text-gray-700 transition-all duration-200 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700;
+}
+
+.series-filter-button.active {
+  @apply border-primary-300 bg-primary-50 text-primary-700 dark:border-primary-700 dark:bg-primary-900/20 dark:text-primary-300;
+}
+
+/* Series Stats */
+.series-stats-card {
+  @apply rounded-lg border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-4 shadow-sm dark:border-gray-700 dark:from-gray-800 dark:to-gray-900;
+}
+
+.series-stats-number {
+  @apply text-primary-600 dark:text-primary-400 text-2xl font-bold;
+}
+
+.series-stats-label {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .series-navigation {
+    @apply p-3;
+  }
+
+  .series-navigation-button {
+    @apply px-3 py-2 text-xs;
+  }
+
+  .series-badge {
+    @apply px-2 py-0.5 text-xs;
+  }
+
+  .series-timeline::before {
+    @apply left-4;
+  }
+
+  .series-timeline-marker {
+    @apply h-8 w-8;
+  }
+}
+
+/* Print styles */
+@media print {
+  .series-navigation,
+  .series-progress-container,
+  .series-badge {
+    @apply hidden;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .series-progress-fill {
+    @apply bg-black dark:bg-white;
+  }
+
+  .series-badge {
+    @apply border-2;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .series-progress-fill,
+  .series-navigation-button,
+  .series-badge,
+  .series-card-hover,
+  .series-timeline-marker {
+    transition: none !important;
+    animation: none !important;
+  }
+}

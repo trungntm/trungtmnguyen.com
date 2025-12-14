@@ -1,0 +1,62 @@
+{
+  "jvm-fundamentals": {
+    "name": "JVM Fundamentals",
+    "slug": "jvm-fundamentals",
+    "posts": [
+      {
+        "title": "JVM Fundamentals — Complete Series",
+        "slug": "java/jvm-fundamentals/jvm-jmm-architecture",
+        "order": 1,
+        "date": "2025-12-11T00:00:00.000Z",
+        "summary": "A comprehensive series covering JVM internals, from class loading architecture to memory management and execution engine optimization. Master the foundations that make Java powerful, performant, and portable across platforms.",
+        "readingTime": {
+          "text": "4 min read",
+          "minutes": 3.83,
+          "time": 229800,
+          "words": 766
+        }
+      },
+      {
+        "title": "JVM Architecture & Class Loading — Understanding Java Fundamentals",
+        "slug": "java/jvm-fundamentals/jvm-class-loading-architecture",
+        "order": 2,
+        "date": "2025-12-11T00:00:00.000Z",
+        "summary": "Deep dive into JVM class loading mechanisms. Understand Bootstrap, Platform, and Application ClassLoaders, lazy loading strategy, and how dynamic class loading enables Java flexibility and modularity.",
+        "readingTime": {
+          "text": "14 min read",
+          "minutes": 13.115,
+          "time": 786900,
+          "words": 2623
+        }
+      },
+      {
+        "title": "JVM Memory Management — Heap, Stack, and Runtime Data Areas",
+        "slug": "java/jvm-fundamentals/jvm-memory-management",
+        "order": 3,
+        "date": "2025-12-12T00:00:00.000Z",
+        "summary": "Master JVM memory architecture. Learn about Heap structure (Young Gen, Old Gen), Stack frames, Metaspace, and how the JVM manages memory across threads for optimal performance and safety.",
+        "readingTime": {
+          "text": "17 min read",
+          "minutes": 16.515,
+          "time": 990900,
+          "words": 3303
+        }
+      },
+      {
+        "title": "JVM Execution Engine — From Bytecode to Native Code",
+        "slug": "java/jvm-fundamentals/jvm-execution-engine",
+        "order": 4,
+        "date": "2025-12-13T00:00:00.000Z",
+        "summary": "Understand how JVM executes Java code. Explore the Interpreter, JIT Compiler with hotspot optimization, tiered compilation (C1/C2), and Garbage Collection mechanisms that make Java performant.",
+        "readingTime": {
+          "text": "11 min read",
+          "minutes": 10.755,
+          "time": 645300,
+          "words": 2151
+        }
+      }
+    ],
+    "totalPosts": 4,
+    "status": "completed"
+  }
+}

@@ -7,17 +7,21 @@ thumbnail: '/static/images/blogs/java/jvm-jmm-architect/jvm.png'
 images: ['/static/images/blogs/java/jvm-jmm-architect/jvm.png']
 summary: 'Understand how JVM executes Java code. Explore the Interpreter, JIT Compiler with hotspot optimization, tiered compilation (C1/C2), and Garbage Collection mechanisms that make Java performant.'
 authors: [trungntm]
+series:
+  name: 'JVM Fundamentals'
+  slug: 'jvm-fundamentals'
+  order: 4
 ---
 
 > 📚 **JVM Fundamentals Series**
 >
-> 1. [JVM Architecture & Class Loading](/blog/java/jvm-class-loading-architecture)
-> 2. [JVM Memory Management](/blog/java/jvm-memory-management)
-> 3. **[JVM Execution Engine](/blog/java/jvm-execution-engine)** ← You are here
+> 1. [JVM Architecture & Class Loading](/blog/java/jvm-fundamentals/jvm-class-loading-architecture)
+> 2. [JVM Memory Management](/blog/java/jvm-fundamentals/jvm-memory-management)
+> 3. **[JVM Execution Engine](/blog/java/jvm-fundamentals/jvm-execution-engine)** ← You are here
 
 # Introduction
 
-In our previous articles, we've explored how the JVM [loads classes](/blog/java/jvm-class-loading-architecture) and [organizes memory](/blog/java/jvm-memory-management). We learned about the Class Loader hierarchy, Heap structure, Stack frames, and the separation between shared and thread-local memory areas.
+In our previous articles, we've explored how the JVM [loads classes](/blog/java/jvm-fundamentals/jvm-class-loading-architecture) and [organizes memory](/blog/java/jvm-fundamentals/jvm-memory-management). We learned about the Class Loader hierarchy, Heap structure, Stack frames, and the separation between shared and thread-local memory areas.
 
 But after classes are loaded and memory is allocated, **how does the JVM actually execute your code?** And how does Java achieve performance comparable to—or even exceeding—compiled languages like C++?
 
@@ -198,7 +202,7 @@ This approach provides:
 
 ### Code Cache
 
-The **Code Cache** is a [special memory area](/blog/java/jvm-memory-management) where the JIT stores compiled native code. Once bytecode is compiled to native code, it's cached here for reuse.
+The **Code Cache** is a [special memory area](/blog/java/jvm-fundamentals/jvm-memory-management) where the JIT stores compiled native code. Once bytecode is compiled to native code, it's cached here for reuse.
 
 **Characteristics:**
 
@@ -272,7 +276,7 @@ Understanding GC behavior is essential for:
 - **Debugging memory issues**: Identify memory leaks or excessive object creation
 - **Capacity planning**: Understand heap sizing and GC overhead
 
-For more details on heap structure and object lifecycle, see our article on [JVM Memory Management](/blog/java/jvm-memory-management).
+For more details on heap structure and object lifecycle, see our article on [JVM Memory Management](/blog/java/jvm-fundamentals/jvm-memory-management).
 
 # Conclusion
 
@@ -308,8 +312,8 @@ Understanding how the JVM executes your code is essential for building high-perf
 
 This completes our JVM Fundamentals series! You now understand:
 
-1. **[How classes are loaded](/blog/java/jvm-class-loading-architecture)** through the Bootstrap, Platform, and Application ClassLoader hierarchy
-2. **[How memory is organized](/blog/java/jvm-memory-management)** across Heap, Stack, Metaspace, and thread-local areas
+1. **[How classes are loaded](/blog/java/jvm-fundamentals/jvm-class-loading-architecture)** through the Bootstrap, Platform, and Application ClassLoader hierarchy
+2. **[How memory is organized](/blog/java/jvm-fundamentals/jvm-memory-management)** across Heap, Stack, Metaspace, and thread-local areas
 3. **How code is executed** from bytecode interpretation to JIT compilation and garbage collection
 
 With this foundation, you're equipped to:
@@ -323,11 +327,11 @@ With this foundation, you're equipped to:
 
 ## 📚 Series Navigation
 
-**Previous in Series**: [JVM Memory Management — Heap, Stack, and Runtime Data Areas](/blog/java/jvm-memory-management)
+**Previous in Series**: [JVM Memory Management — Heap, Stack, and Runtime Data Areas](/blog/java/jvm-fundamentals/jvm-memory-management)
 
 Explore how the JVM organizes memory, from generational heap structure to stack frames and thread-local memory areas.
 
-**Start from the Beginning**: [JVM Architecture & Class Loading — Understanding Java's Foundation](/blog/java/jvm-class-loading-architecture)
+**Start from the Beginning**: [JVM Architecture & Class Loading — Understanding Java's Foundation](/blog/java/jvm-fundamentals/jvm-class-loading-architecture)
 
 Learn how the JVM loads classes dynamically and why lazy loading is fundamental to Java's flexibility.
 
