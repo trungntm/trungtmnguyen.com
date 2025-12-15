@@ -1,10 +1,10 @@
-import Image from '@/components/Image'
+import Image from '@/components/images'
 import { BlinkCursor } from '@/components/cursor'
-import { AuroraText } from './text-animation'
+import { AuroraText } from '../text-animation'
 import RainbowButton from '@/components/button/rainbow-button/RainbowButton'
 import Link from 'next/link'
-import { CometCard } from './comet-card'
-import Highlighter from './highlighter'
+import { CometCard } from '../comet-card'
+import Highlighter from '../highlighter'
 
 const HeroSection = () => {
   return (

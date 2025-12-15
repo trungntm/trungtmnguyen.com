@@ -1,5 +1,6 @@
 import { useTheme } from 'next-themes'
 import { calendarThemes } from '../themes'
+import CalendarElement from './CalendarElement'
 
 interface GithubLegendLegendProps {
   totalContributions: string
@@ -25,51 +26,31 @@ const GithubCalendarLegend = ({
       <div className="flex items-center gap-2">
         <span>Less</span>
         <div className="flex items-center gap-1">
-          <div
-            className="rounded-[2px]"
-            style={{
-              height: `${blockSize}px`,
-              width: `${blockSize}px`,
-              backgroundColor: currentTheme.empty,
-              border: `1px solid ${currentTheme.border}`,
-            }}
-          ></div>
-          <div
-            className="rounded-[2px]"
-            style={{
-              height: `${blockSize}px`,
-              width: `${blockSize}px`,
-              backgroundColor: currentTheme.level1,
-              border: `1px solid ${currentTheme.border}`,
-            }}
-          ></div>
-          <div
-            className="rounded-[2px]"
-            style={{
-              height: `${blockSize}px`,
-              width: `${blockSize}px`,
-              backgroundColor: currentTheme.level2,
-              border: `1px solid ${currentTheme.border}`,
-            }}
-          ></div>
-          <div
-            className="rounded-[2px]"
-            style={{
-              height: `${blockSize}px`,
-              width: `${blockSize}px`,
-              backgroundColor: currentTheme.level3,
-              border: `1px solid ${currentTheme.border}`,
-            }}
-          ></div>
-          <div
-            className="rounded-[2px]"
-            style={{
-              height: `${blockSize}px`,
-              width: `${blockSize}px`,
-              backgroundColor: currentTheme.level4,
-              border: `1px solid ${currentTheme.border}`,
-            }}
-          ></div>
+          <CalendarElement
+            blockSize={blockSize}
+            backgroundColor={currentTheme.empty}
+            borderColor={currentTheme.border}
+          />
+          <CalendarElement
+            blockSize={blockSize}
+            backgroundColor={currentTheme.level1}
+            borderColor={currentTheme.border}
+          />
+          <CalendarElement
+            blockSize={blockSize}
+            backgroundColor={currentTheme.level2}
+            borderColor={currentTheme.border}
+          />
+          <CalendarElement
+            blockSize={blockSize}
+            backgroundColor={currentTheme.level3}
+            borderColor={currentTheme.border}
+          />
+          <CalendarElement
+            blockSize={blockSize}
+            backgroundColor={currentTheme.level4}
+            borderColor={currentTheme.border}
+          />
         </div>
         <span>More</span>
       </div>

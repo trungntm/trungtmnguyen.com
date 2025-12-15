@@ -1,6 +1,6 @@
 'use client'
 
-import Link from '@/components/Link'
+import Link from '@/components/custom-link'
 import { SeriesCardProps } from './types'
 import { SeriesProgress } from './SeriesProgress'
 import { cn } from '@/utils/lib/cn'

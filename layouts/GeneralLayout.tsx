@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
-import SectionContainer from '@/components/SectionContainer'
-import PageTitle from '@/components/PageTitle'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import SectionContainer from '@/components/container'
+import PageTitle from '@/components/title/'
+import ScrollTopAndComment from '@/components/scroll-to-top'
 
 interface GeneralLayoutProps {
   children: ReactNode
