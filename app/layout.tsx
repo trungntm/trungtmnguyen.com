@@ -1,4 +1,5 @@
 import 'css/tailwind.css'
+import 'css/holidays.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
@@ -10,6 +11,7 @@ import SectionContainer from '@/components/container'
 import Footer from '@/components/footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
+import { HolidayProvider } from './holiday-provider'
 import { Metadata } from 'next'
 import { SpeedInsights as VercelSpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
@@ -98,18 +100,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
       <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-900 dark:text-white">
         <ThemeProviders>
-          <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
-          <VercelSpeedInsights />
-          <VercelAnalytics />
-          <SectionContainer>
-            <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
-              <Header />
-              <div className={'mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0'}>
-                <main className="relative mb-auto pt-36">{children}</main>
-              </div>
-            </SearchProvider>
-            <Footer />
-          </SectionContainer>
+          <HolidayProvider>
+            <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
+            <VercelSpeedInsights />
+            <VercelAnalytics />
+            <SectionContainer>
+              <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
+                <Header />
+                <div className={'mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0'}>
+                  <main className="relative mb-auto pt-36">{children}</main>
+                </div>
+              </SearchProvider>
+              <Footer />
+            </SectionContainer>
+          </HolidayProvider>
         </ThemeProviders>
       </body>
     </html>
