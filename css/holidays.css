@@ -1,0 +1,136 @@
+/**
+ * Holiday CSS Animations
+ * Custom animations for holiday effects
+ */
+
+/* Animation delays for staggered effects */
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+/* Holiday decoration animations */
+@keyframes holiday-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes holiday-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes holiday-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(-10px) rotate(-2deg);
+  }
+}
+
+/* Christmas theme styles */
+.christmas-theme {
+  --holiday-primary: #dc2626;
+  --holiday-secondary: #22c55e;
+  --holiday-accent: #fbbf24;
+}
+
+.christmas-theme .holiday-glow {
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+}
+
+/* TET theme styles */
+.tet-theme {
+  --holiday-primary: #dc2626;
+  --holiday-secondary: #fbbf24;
+  --holiday-accent: #f59e0b;
+}
+
+.tet-theme .holiday-glow {
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+}
+
+/* New Year theme styles */
+.new-year-theme {
+  --holiday-primary: #a855f7;
+  --holiday-secondary: #ec4899;
+  --holiday-accent: #fbbf24;
+}
+
+.new-year-theme .holiday-glow {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+}
+
+/* Halloween theme styles */
+.halloween-theme {
+  --holiday-primary: #f97316;
+  --holiday-secondary: #8b5cf6;
+  --holiday-accent: #000000;
+}
+
+.halloween-theme .holiday-glow {
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+}
+
+/* Mid-Autumn theme styles */
+.mid-autumn-theme {
+  --holiday-primary: #fbbf24;
+  --holiday-secondary: #f59e0b;
+  --holiday-accent: #fde047;
+}
+
+.mid-autumn-theme .holiday-glow {
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+}
+
+/* Holiday decorations */
+.holiday-decorations {
+  position: relative;
+  z-index: 10;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .holiday-decorations {
+    font-size: 0.875rem;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .holiday-decorations * {
+    animation: none !important;
+  }
+}
+
+/* Print styles - hide holiday effects */
+@media print {
+  .holiday-decorations,
+  canvas[aria-hidden='true'] {
+    display: none !important;
+  }
+}
