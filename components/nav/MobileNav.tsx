@@ -1,7 +1,7 @@
 'use client'
 
 import { Fragment, useState } from 'react'
-import Link from './Link'
+import Link from '@/components/custom-link'
 import headerNavLinks from '@/data/headerNavLinks'
 
 const MobileNav = () => {

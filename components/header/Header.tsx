@@ -2,13 +2,13 @@
 
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
-import Link from './Link'
-import MobileNav from './MobileNav'
-import ThemeSwitch from './ThemeSwitch'
-import SearchButton from './SearchButton'
+import Link from '@/components/custom-link'
+import MobileNav from '@/components/nav'
+import ThemeSwitch from '@/components/switch'
+import SearchButton from '@/components/search-button'
 import ImageLogo from '@/components/logo'
 import { useEffect } from 'react'
-import UnderlineHoverLink from '@/components/UnderlineHoverLink'
+import UnderlineHoverLink from '@/components/underline-hover-link'
 
 const Header = () => {
   useEffect(() => {

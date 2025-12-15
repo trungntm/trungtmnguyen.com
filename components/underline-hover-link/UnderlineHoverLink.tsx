@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from '@/components/Link'
+import Link from '@/components/custom-link'
 import { LinkProps } from 'next/link'
 import { AnchorHTMLAttributes } from 'react'
 

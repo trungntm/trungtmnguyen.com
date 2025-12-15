@@ -2,8 +2,7 @@ import { Metadata } from 'next'
 import { genPageMetadata } from 'app/seo'
 import { getAllSeries } from '@/utils/series'
 import { SeriesCard } from '@/components/series/SeriesCard'
-import PageTitle from '@/components/PageTitle'
-import siteMetadata from '@/data/siteMetadata'
+import PageTitle from '@/components/title'
 
 export const metadata: Metadata = genPageMetadata({
   title: 'Series',

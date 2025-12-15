@@ -1,6 +1,6 @@
 // Series utility functions
 
-import { SeriesInfo, SeriesPostInfo, SeriesNavigationData } from '@/components/series/types'
+import { SeriesInfo, SeriesPostInfo } from '@/components/series/types'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import { Blog } from 'contentlayer/generated'
 import seriesDataJson from '@/app/series-data.json'

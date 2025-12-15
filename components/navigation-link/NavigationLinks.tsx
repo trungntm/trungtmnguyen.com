@@ -1,4 +1,4 @@
-import Link from '@/components/Link'
+import Link from '@/components/custom-link'
 
 interface NavigationItem {
   path: string

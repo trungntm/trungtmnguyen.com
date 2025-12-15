@@ -1,7 +1,7 @@
 import 'css/prism.css'
 import 'katex/dist/katex.css'
 
-import { components } from '@/components/MDXComponents'
+import { components } from '@/components/mdx/MDXComponents'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { sortPosts, coreContent, allCoreContent } from 'pliny/utils/contentlayer'
 import { allBlogs, allAuthors } from 'contentlayer/generated'

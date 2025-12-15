@@ -1,5 +1,6 @@
 import { useTheme } from 'next-themes'
 import { calendarThemes } from '../themes'
+import CalendarElement from './CalendarElement'
 
 interface CalendarSkeletonProps {
   blockSize?: number
@@ -25,15 +26,11 @@ const CalendarSkeleton = ({ blockSize = 12, blockGap = 4 }: CalendarSkeletonProp
         {weeks.map((week, i) => (
           <div key={i} className="flex flex-col" style={{ gap: `${blockGap}px` }}>
             {week.days.map((day, j) => (
-              <div
+              <CalendarElement
                 key={day.key}
-                className="rounded-[2px]"
-                style={{
-                  height: `${blockSize}px`,
-                  width: `${blockSize}px`,
-                  backgroundColor: currentTheme.empty,
-                  border: `1px solid ${currentTheme.border}`,
-                }}
+                blockSize={blockSize}
+                backgroundColor={currentTheme.level2}
+                borderColor={currentTheme.border}
               />
             ))}
           </div>

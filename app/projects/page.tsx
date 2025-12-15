@@ -1,6 +1,6 @@
 import projectsData from '@/data/projectsData'
 import { genPageMetadata } from 'app/seo'
-import { CardImage } from '@/components/card/card-image'
+import { CardImage } from '@/components/card-image/card-image'
 
 export const metadata = genPageMetadata({ title: 'Projects' })
 

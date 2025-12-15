@@ -1,6 +1,6 @@
 'use client'
 import { ReactElement } from 'react'
-import { TimelineElement } from '@/components/Timeline/TimelineElement'
+import { TimelineElement } from '@/components/time-line/TimelineElement'
 import ImageLogo from '@/components/logo'
 import useSWR from 'swr'
 import { fetcher } from '@/utils/fetcher'
