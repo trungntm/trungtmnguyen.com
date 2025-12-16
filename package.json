@@ -1,10 +1,10 @@
 {
   "name": "trungtmnguyen",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "private": true,
   "scripts": {
     "start": "next dev",
-    "dev": "cross-env INIT_CWD=$PWD next dev",
+    "dev": "cross-env INIT_CWD=$PWD contentlayer2 dev --clearCache & cross-env INIT_CWD=$PWD next dev",
     "build": "cross-env INIT_CWD=$PWD contentlayer2 build && next build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",

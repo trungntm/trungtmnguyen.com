@@ -1,9 +1,7 @@
 import { ReactNode } from 'react'
 import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
-import Image from '@/components/Image'
-import Timeline from '@/components/Timeline'
-import { AnchorLink } from '@/components/custom-link'
+import Image from '@/components/images'
 
 interface Props {
   children: ReactNode

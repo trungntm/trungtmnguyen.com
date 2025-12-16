@@ -1,20 +1,22 @@
 import { ReactNode } from 'react'
-import Image from '@/components/Image'
+import Image from '@/components/images'
 import Bleed from 'pliny/ui/Bleed'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
-import Comments from '@/components/Comments'
-import Link from '@/components/Link'
-import PageTitle from '@/components/PageTitle'
-import SectionContainer from '@/components/SectionContainer'
+import Comments from '@/components/comments'
+import Link from '@/components/custom-link'
+import PageTitle from '@/components/title'
+import SectionContainer from '@/components/container'
 import siteMetadata from '@/data/siteMetadata'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import ScrollTopAndComment from '@/components/scroll-to-top'
+import type { SeriesInfo } from '@/components/series/types'
 
 interface LayoutProps {
   content: CoreContent<Blog>
   children: ReactNode
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
+  seriesData?: SeriesInfo
 }
 
 export default function PostMinimal({ content, next, prev, children }: LayoutProps) {

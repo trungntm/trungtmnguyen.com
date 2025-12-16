@@ -1,12 +1,10 @@
-// components/GithubCalendar.tsx
 'use client'
+
 import { fetcher } from '@/utils/fetcher'
 import useSWR from 'swr'
 import GithubCalendarLegend from './components/Legend'
-import LegendSkeleton from './components/LegendSkeleton'
 import { ContributionData } from './types'
 import CalendarGrid from './components/CalendarGrid'
-import CalendarSkeleton from './components/CalendarSkeleton'
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import GithubCalendarSkeleton from './components/GithubCalendarSkeleton'

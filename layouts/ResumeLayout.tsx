@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import type { Resumes } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
-import Image from '@/components/Image'
+import Image from '@/components/images'
 
 interface Props {
   children: ReactNode
