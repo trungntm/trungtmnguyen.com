@@ -20,7 +20,7 @@
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^5.2.2",
     "@next/bundle-analyzer": "16.0.10",
-    "@supabase/ssr": "^0.7.0",
+    "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.86.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/container-queries": "^0.1.1",
