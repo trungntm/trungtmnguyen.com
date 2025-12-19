@@ -18,8 +18,12 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
-  display: 'swap',
+  weight: ['400', '700'],
+  display: 'optional',
   variable: '--font-space-grotesk',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
+  adjustFontFallback: true,
 })
 
 export const metadata: Metadata = {
@@ -101,9 +105,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-900 dark:text-white">
         <ThemeProviders>
           <HolidayProvider>
-            <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
-            <VercelSpeedInsights />
-            <VercelAnalytics />
             <SectionContainer>
               <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
                 <Header />
@@ -113,6 +114,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </SearchProvider>
               <Footer />
             </SectionContainer>
+            <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
+            <VercelSpeedInsights />
+            <VercelAnalytics />
           </HolidayProvider>
         </ThemeProviders>
       </body>

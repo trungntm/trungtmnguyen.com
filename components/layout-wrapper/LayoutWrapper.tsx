@@ -10,6 +10,11 @@ interface Props {
 
 const inter = Inter({
   subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  display: 'optional',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
+  adjustFontFallback: true,
 })
 
 const LayoutWrapper = ({ children }: Props) => {

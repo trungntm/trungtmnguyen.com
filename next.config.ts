@@ -68,6 +68,8 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForDev: true,
     // Optimize bundle splitting
     optimizePackageImports: ['@headlessui/react', '@heroicons/react', 'framer-motion'],
+    // Optimize font loading
+    optimizeCss: true,
   },
   output,
   basePath,
@@ -88,6 +90,8 @@ const nextConfig: NextConfig = {
         hostname: '**.supabase.co',
       },
     ],
+    qualities: [75, 85],
+    formats: ['image/avif', 'image/webp'],
     unoptimized,
   },
   async headers() {
@@ -95,6 +99,15 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: securityHeaders,
+      },
+      {
+        source: '/_next/static/media/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
       },
     ]
   },
