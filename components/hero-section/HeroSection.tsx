@@ -81,11 +81,16 @@ const HeroSection = () => {
               <CometCard rotateDepth={10} translateDepth={5} opacity={0.2}>
                 <Image
                   width={440}
-                  height={660}
-                  priority={true}
+                  height={585}
+                  preload={true}
+                  fetchPriority="high"
+                  quality={85}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwABmQ/9k="
                   src="/static/images/pages/hero.jpg"
                   className="w-full rounded-lg shadow-lg dark:shadow-black/20"
-                  alt=""
+                  alt="Nguyen Ta Minh Trung - Software Engineer"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 440px"
                 />
               </CometCard>
             </div>
