@@ -7,6 +7,7 @@ import MobileNav from '@/components/nav'
 import ThemeSwitch from '@/components/switch'
 import SearchButton from '@/components/search-button'
 import ImageLogo from '@/components/logo'
+import DownloadCV from '@/components/download-cv'
 import { useEffect } from 'react'
 import UnderlineHoverLink from '@/components/underline-hover-link'
 
@@ -73,6 +74,7 @@ const Header = () => {
             <div className={'mt-2 flex items-center space-x-4 pr-2 sm:space-x-6 lg:space-x-4'}>
               <SearchButton />
               <ThemeSwitch />
+              <DownloadCV />
               <MobileNav />
             </div>
           </div>
