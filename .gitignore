@@ -49,3 +49,4 @@ yarn-error.log*
 
 # IDE
 .idea
+.env*.local
