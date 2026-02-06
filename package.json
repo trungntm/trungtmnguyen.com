@@ -34,7 +34,7 @@
     "contentlayer2": "0.5.8",
     "dayjs": "^1.11.19",
     "esbuild": "0.27.2",
-    "framer-motion": "^12.23.24",
+    "framer-motion": "^12.26.2",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.2",
     "hast-util-from-html-isomorphic": "^2.0.0",
