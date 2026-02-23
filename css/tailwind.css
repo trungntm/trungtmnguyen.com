@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@config '../tailwind.config.js';
 @plugin "@tailwindcss/forms";
 @plugin '@tailwindcss/typography';
 @plugin '@tailwindcss/aspect-ratio';
@@ -305,7 +304,129 @@
   --z-60: 60;
   --z-70: 70;
   --z-80: 80;
+  /* Custom series scales */
+  --spacing-series-xs: 0.125rem;
+  --spacing-series-sm: 0.375rem;
+  --spacing-series-md: 0.75rem;
+  --spacing-series-lg: 1.25rem;
+  --spacing-series-xl: 2rem;
+
+  --radius-series: 0.5rem;
+  --radius-series-lg: 0.75rem;
+  --radius-series-xl: 1rem;
+
+  --shadow-series: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-series-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-series-glow: 0 0 0 1px rgba(59, 130, 246, 0.1), 0 1px 3px 0 rgba(59, 130, 246, 0.1);
+
+  /* Animations */
+  --animate-shine: shine var(--duration) ease-in-out infinite;
+  --animate-series-fade-in: series-fade-in 0.5s ease-out;
+  --animate-series-scale: series-scale 0.2s ease-out;
+  --animate-series-progress: series-progress 1s ease-in-out;
+  --animate-series-pulse: series-pulse 2s infinite;
+  --animate-series-glow: series-glow 2s infinite;
+
+  @keyframes shine {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }
+
+  @keyframes series-fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes series-scale {
+    0% {
+      transform: scale(0.95);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes series-progress {
+    0% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes series-pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes series-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
+    }
+  }
 }
+
+/* Typography Overrides */
+@layer base {
+  .prose {
+    --tw-prose-links: var(--color-primary-500);
+    --tw-prose-invert-links: var(--color-primary-500);
+    --tw-prose-headings: var(--color-gray-900);
+    --tw-prose-invert-headings: var(--color-gray-100);
+  }
+
+  .prose a:hover {
+    color: var(--color-primary-600);
+    cursor: pointer;
+  }
+
+  .dark .prose a:hover {
+    color: var(--color-primary-400);
+  }
+
+  .prose a code {
+    color: var(--color-primary-400);
+  }
+
+  .prose :is(h1, h2) {
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .prose h3 {
+    font-weight: 600;
+  }
+
+  .prose code {
+    color: var(--color-indigo-500);
+  }
+}
+
 
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
